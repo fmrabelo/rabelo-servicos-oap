@@ -3,6 +3,7 @@
   
   	<display-name>IntranetOAP</display-name>
 	  
+	<!-- struts 2.0 -->
 	<filter>
 	      <filter-name>struts2</filter-name>
 	      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -13,6 +14,31 @@
 	      <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	  
+	<!-- spring -->
+	<listener>
+	    <description>Carrega o applicationContext.xml do spring na inicializacao</description>
+	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<context-param>
+	    <param-name>contextConfigLocation</param-name>
+	    <param-value>classpath:spring-security-config.xml</param-value>
+	</context-param>
+	<!-- spring -->
+	
+	<!-- spring-security -->
+	<filter>
+	    <description>Filtro de seguranca implementando pelo Spring-Security</description>
+	    <filter-name>springSecurityFilterChain</filter-name>
+	    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	  
+	<filter-mapping>
+	    <filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- spring-security -->
+	
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
