@@ -15,8 +15,7 @@
 		<!-- controle de sessão concorrente - expira a primeira logada -->
 		<concurrent-session-control max-sessions="1" exception-if-maximum-exceeded="false"/>
 		
-		<form-login login-page="/login.jsp"	
-			authentication-failure-url="/login.jsp?login_error=true" default-target-url="/index.jsp" />
+		<form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?login_error=true" default-target-url="/index.jsp" />
 	</http>
 	
 	<!-- configuração para roles via xml -->
