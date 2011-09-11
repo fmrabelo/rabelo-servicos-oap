@@ -2,18 +2,18 @@
 
 <html>
   <head>
-    <title>Spring Security</title>
+    <title>OAP - OFTALMOLOGIA ASSOCIADOS DO PARANÁ</title>
   </head>
   
   <body>
-		<h1>Spring Security</h1><hr/>		
+		<h1>OAP - Oftalmologia Associados do Paraná</h1><hr/>		
 
 		<p>
-			Está página é pública, todos podem vê-la  
+			Está página é pública, todos podem ter acesso!  
 		</p>
 
 		<p>
-			<a href="usuarios/index.jsp">Página dos usuários</a> - apenas para usuários do ROLE_USUARIO<br>
+			<a href="usuarios/index.jsp">Página dos Pacientes e Médicos</a> - apenas para usuários do ROLE_USUARIO<br>
 			<a href="admin/index.jsp">Página dos administradores</a> - apenas para usuários do ROLE_ADMIN<br>
 		</p>
 		
