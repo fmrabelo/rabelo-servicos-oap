@@ -58,3 +58,11 @@ A:hover { text-decoration:none; color: red;}
     padding-right:5px;
 }
 
+.tabela_busca th {
+	background-color: #CFD3A8;
+	font-weight: bold;
+	color: #382E1D; 
+	text-decoration: none; 
+	font-size: 12px;
+	padding: 2px;
+}
