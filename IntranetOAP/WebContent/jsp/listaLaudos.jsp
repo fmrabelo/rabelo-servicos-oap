@@ -29,8 +29,8 @@
 		</tr>
 	</table>
 
-	<table align="center">
-		<tr class="titleDiv" style="text-align: center; text-decoration: underline">
+	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;">
+		<tr class="titleDiv" style="text-align: center;>
 			<p/>
 			<th>Id</th>
 			<th>Descrição de Laudos</th>
