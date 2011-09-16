@@ -5,7 +5,10 @@ package br.com.oappr.infra.action;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -19,16 +22,23 @@ import br.com.oappr.intranet.struts20.LaudoVO;
 // "nroCadastroPaciente", message = "Valor obrigatório")}, stringLengthFields =
 // {@StringLengthFieldValidator(fieldName = "nroCadastroPaciente", minLength =
 // "5", message = "Min. 5 car.")})
+// -----------------------------------------
+// @Results({@Result(name = "success", type = "jasper", params = {"location",
+// "/WEB-INF/jasper/registrations.jasper", "imageServletUrl",
+// "/servlets/image?image=",
+// "dataSource", "users", "reportParameters", "params", "format", "HTML"})})
 public class OlaMundoAction
 {
 	private List<LaudoVO> listaLaudos;
 	// numero do cadastro do paciente
 	private Long nroCadastroPaciente;
+	private Date dataNascimento;
 
 	@Action(value = "olaMundoStruts", results = {@Result(location = "/jsp/olaMundoStruts.jsp", name = "success")})
 	public String execute ()
 	{
 		System.out.println("Executando a lógica com Struts2");
+		this.setDataNascimento(Calendar.getInstance().getTime());
 		// return "ok";
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
@@ -40,6 +50,7 @@ public class OlaMundoAction
 		// pesquisar laudos
 
 		this.setListaLaudos(this.getLaudos());
+		this.setDataNascimento(Calendar.getInstance().getTime());
 		if ((listaLaudos != null) && !listaLaudos.isEmpty())
 		{
 			for (LaudoVO v : listaLaudos)
@@ -55,6 +66,18 @@ public class OlaMundoAction
 	public String gerarLaudoPdf ()
 	{
 		System.out.println("PDF laudos...");
+
+		try
+		{
+			JasperCompileManager.compileReportToFile("/reports/TONOMETRIA.jrxml",
+			    "/reports/TONOMETRIA.jasper");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return com.opensymphony.xwork2.Action.ERROR;
+		}
+
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
@@ -62,7 +85,8 @@ public class OlaMundoAction
 	public String autenticarPaciente ()
 	{
 		System.out.println("Autentiar Pacientes...");
-		System.out.println("Nro Paciente: " + nroCadastroPaciente);
+		System.out.println("Nro Paciente: " + this.getNroCadastroPaciente());
+		System.out.println("Data Nascimento: " + this.getDataNascimento());
 		if (nroCadastroPaciente != null)
 		{
 			this.listarLaudos();
@@ -162,4 +186,19 @@ public class OlaMundoAction
 		this.nroCadastroPaciente = nroCadastroPaciente;
 	}
 
+	/**
+	 * @return the dataNascimento
+	 */
+	public Date getDataNascimento ()
+	{
+		return dataNascimento;
+	}
+
+	/**
+	 * @param dataNascimento the dataNascimento to set
+	 */
+	public void setDataNascimento (Date dataNascimento)
+	{
+		this.dataNascimento = dataNascimento;
+	}
 }
