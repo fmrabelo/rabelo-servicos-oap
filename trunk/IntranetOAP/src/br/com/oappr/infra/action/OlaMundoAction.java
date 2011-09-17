@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
-
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -24,7 +22,7 @@ import br.com.oappr.intranet.struts20.LaudoVO;
 // "5", message = "Min. 5 car.")})
 // -----------------------------------------
 // @Results({@Result(name = "success", type = "jasper", params = {"location",
-// "/WEB-INF/jasper/registrations.jasper", "imageServletUrl",
+// "/WEB-INF/reports/TONOMETRIA.jasper", "imageServletUrl",
 // "/servlets/image?image=",
 // "dataSource", "users", "reportParameters", "params", "format", "HTML"})})
 public class OlaMundoAction
@@ -62,15 +60,24 @@ public class OlaMundoAction
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
-	@Action(value = "gerarLaudoPdf", results = {@Result(location = "/jsp/listaLaudos.jsp", name = "success")})
+	// @Action(value = "gerarLaudoPdf", results = {@Result(location =
+	// "/jsp/listaLaudos.jsp", name = "success")})
 	public String gerarLaudoPdf ()
 	{
 		System.out.println("PDF laudos...");
 
 		try
 		{
-			JasperCompileManager.compileReportToFile("/reports/TONOMETRIA.jrxml",
-			    "/reports/TONOMETRIA.jasper");
+			if ((listaLaudos != null) && !listaLaudos.isEmpty())
+			{
+				System.out.println("Lista Laudos OK. " + listaLaudos.size());
+			}
+			else
+			{
+				this.listarLaudos();
+			}
+			// JasperCompileManager.compileReportToFile("/reports/TONOMETRIA.jrxml",
+			// "/reports/TONOMETRIA.jasper");
 		}
 		catch (Exception e)
 		{
