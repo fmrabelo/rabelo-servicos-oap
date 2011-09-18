@@ -3,11 +3,16 @@
  */
 package br.com.oappr.infra.action;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
@@ -28,9 +33,29 @@ import br.com.oappr.intranet.struts20.LaudoVO;
 public class OlaMundoAction
 {
 	private List<LaudoVO> listaLaudos;
+
+	// parametros para jasper report
+	HashMap<String, String> parameters = new HashMap<String, String>();
+
 	// numero do cadastro do paciente
 	private Long nroCadastroPaciente;
 	private Date dataNascimento;
+
+	/**
+	 * @return the parameters
+	 */
+	public HashMap<String, String> getParameters ()
+	{
+		return parameters;
+	}
+
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters (HashMap<String, String> parameters)
+	{
+		this.parameters = parameters;
+	}
 
 	@Action(value = "olaMundoStruts", results = {@Result(location = "/jsp/olaMundoStruts.jsp", name = "success")})
 	public String execute ()
@@ -60,12 +85,48 @@ public class OlaMundoAction
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
-	// @Action(value = "gerarLaudoPdf", results = {@Result(location =
-	// "/jsp/listaLaudos.jsp", name = "success")})
+	/**
+	 * Gerar relatorio pdf.
+	 * @return
+	 */
 	public String gerarLaudoPdf ()
 	{
 		System.out.println("PDF laudos...");
 
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String imgPath = "";
+
+		if (request != null)
+		{
+			imgPath = request.getSession().getServletContext().getRealPath(
+			    new StringBuilder(File.separator).append("logo").append(File.separator).append(
+			        "logo2.jpg").toString());
+		}
+		final String paciente = "MARIA DA CONCEIÇÃO CRISANTO MALLIN";
+		final String medico = "DRA MARIA ISABEL BORA CASTALDO ANDRADE";
+		String laudo = "LAUDO TESTE.....";
+
+		String id = request.getParameter("id");
+		// recuperar laudo pelo id
+		this.setListaLaudos(this.getLaudos());
+		if ((listaLaudos != null) && !listaLaudos.isEmpty())
+		{
+			for (final LaudoVO v : listaLaudos)
+			{
+				if (v.getId().longValue() == new Long(id).longValue())
+				{
+					laudo = v.getDescricao();
+					break;
+				}
+			}
+		}
+
+		parameters.put("LOGO_PATH", imgPath);
+		parameters.put("PACIENTE", "PACIENTE : " + paciente);
+		parameters.put("DESCR_MEDICO", "A/C : " + medico);
+		parameters.put("DESCR_LAUDO", laudo);
+
+		this.setParameters(parameters);
 		try
 		{
 			if ((listaLaudos != null) && !listaLaudos.isEmpty())
@@ -110,49 +171,49 @@ public class OlaMundoAction
 		List<LaudoVO> list = new ArrayList<LaudoVO>();
 		LaudoVO l1 = new LaudoVO();
 		l1.setId(1098L);
-		l1.setDescricao("TONOMETRIA");
+		l1.setDescricao("LAUDO DE TONOMETRIA");
 		l1.setDataFinalizacao(Calendar.getInstance().getTime());
 		l1.setFinalizado(true);
 		list.add(l1);
 
 		LaudoVO l2 = new LaudoVO();
 		l2.setId(3356L);
-		l2.setDescricao("ACUIDADE VISUAL (PAM)");
+		l2.setDescricao("LAUDO DE ACUIDADE VISUAL (PAM)");
 		l2.setDataFinalizacao(Calendar.getInstance().getTime());
 		l2.setFinalizado(true);
 		list.add(l2);
 
 		LaudoVO l3 = new LaudoVO();
 		l3.setId(1584L);
-		l3.setDescricao("BIOMETRIA ULTRASSONICA");
+		l3.setDescricao("LAUDO DE BIOMETRIA ULTRASSONICA");
 		l3.setDataFinalizacao(Calendar.getInstance().getTime());
 		l3.setFinalizado(false);
 		list.add(l3);
 
 		LaudoVO l4 = new LaudoVO();
 		l4.setId(1123L);
-		l4.setDescricao("MICROSCOPIA ESPECULAR DE CORNEA");
+		l4.setDescricao("LAUDO DE MICROSCOPIA ESPECULAR DE CORNEA");
 		l4.setDataFinalizacao(Calendar.getInstance().getTime());
 		l4.setFinalizado(false);
 		list.add(l4);
 
 		LaudoVO L5 = new LaudoVO();
 		L5.setId(7454L);
-		L5.setDescricao("CERATOSCOPIA COMPUTADORIZADA");
+		L5.setDescricao("LAUDO DE CERATOSCOPIA COMPUTADORIZADA");
 		L5.setDataFinalizacao(Calendar.getInstance().getTime());
 		L5.setFinalizado(true);
 		list.add(L5);
 
 		LaudoVO L6 = new LaudoVO();
 		L6.setId(9652L);
-		L6.setDescricao("MAPEAMENTO DE RETINA");
+		L6.setDescricao("LAUDO DE MAPEAMENTO DE RETINA");
 		L6.setDataFinalizacao(Calendar.getInstance().getTime());
 		L6.setFinalizado(false);
 		list.add(L6);
 
 		LaudoVO L7 = new LaudoVO();
 		L7.setId(3625L);
-		L7.setDescricao("RETINOGRAFIA FLUORESCENTE");
+		L7.setDescricao("LAUDO DE RETINOGRAFIA FLUORESCENTE");
 		L7.setDataFinalizacao(Calendar.getInstance().getTime());
 		L7.setFinalizado(true);
 		list.add(L7);
