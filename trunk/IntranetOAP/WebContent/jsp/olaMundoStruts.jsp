@@ -16,29 +16,50 @@
 
 <s:form action="autenticarPaciente" method="post">
 
-	<h2><center>OAP - Oftalmologistas Associados do Paraná</center></h2>
+	<table style="border-collapse:collapse;background-color: #D8D8D8;" width="800px" align="center" cellpadding="1" cellspacing="1">
+		<tr>
+			<td style="font-family: sans-serif;color: blue;font-size: 18px;">
+				<h2><center><br>OAP - Oftalmologistas Associados do Paraná</center></h2>
+			</td>
+		</tr>
+	</table>
 
-	<table style="border-collapse:collapse;background-color: #CFD3A8;" width="400px" align="center" cellpadding="1" cellspacing="1">
+	<table style="border-collapse:collapse;background-color: #D8D8D8;" width="400px" align="center" cellpadding="1" cellspacing="1">
 		    <tr> 
 		    	<td colspan="2" valign="top" align="center">
-					<h1>Autenticar Paciente</h1>
+					<h1>Autenticação para Acesso</h1><br><br>
 				</td>
 			</tr>
 			<br>
 			<tr>
-				<td class="tdLabel" colspan="2" valign="top" align="center">					
-						<s:textfield name="nroCadastroPaciente" label="Nº. Matricula Paciente"/>
+				<td class="tdLabel" colspan="2" valign="top" align="left">
+						<s:textfield name="nroCadastroPaciente" label="Número da Matrícula"/> 
 						<s:fielderror fieldName="nroCadastroPaciente"/>
-						<sx:datetimepicker name="dataNascimento" label="Data Nascimento" displayFormat="dd/MM/yyyy"/>
+						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy"/>
 				</td>
 			</tr>
+			<tr><td colspan="2" align="left"><br></td></tr>
+			<tr>
+				<td colspan="2" valign="top" align="left" style="font-family: sans-serif;color: blue;font-size: 14px;">
+					<pre>
+					- Utilize o <u>Número da Matrícula</u> e a <u>Data de Nascimento</u> do Titular 
+					  para ter acesso aos serviços disponibilizados para resultados de exames.
+					  					
+					- O campo <u>Número da Matrícula</u> deve ser somente números.
+										
+					- A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Exemplo: 01/05/1989)
+					</pre>
+				</td>
+			</tr>
+			
 			<br>	
 			<tr align="center">
 				<br><br>
 				<table width="200px" align="center" border="0" cellpadding="1" cellspacing="1">
 					<tr>
+						<br>	
 						<td width="100%" align="left" style="text-align: center; border-bottom-color: buttonface;">
-							<s:submit value="Validar Paciente"/>
+							<s:submit value="Validar Dados"/>
 						</td>
 					</tr>
 				</table>
