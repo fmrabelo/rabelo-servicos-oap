@@ -18,6 +18,8 @@ import org.apache.struts2.convention.annotation.Result;
 
 import br.com.oappr.intranet.struts20.LaudoVO;
 
+import com.opensymphony.xwork2.ActionSupport;
+
 /**
  * @author rabelo
  */
@@ -25,13 +27,14 @@ import br.com.oappr.intranet.struts20.LaudoVO;
 // "nroCadastroPaciente", message = "Valor obrigatório")}, stringLengthFields =
 // {@StringLengthFieldValidator(fieldName = "nroCadastroPaciente", minLength =
 // "5", message = "Min. 5 car.")})
-// -----------------------------------------
-// @Results({@Result(name = "success", type = "jasper", params = {"location",
-// "/WEB-INF/reports/TONOMETRIA.jasper", "imageServletUrl",
-// "/servlets/image?image=",
-// "dataSource", "users", "reportParameters", "params", "format", "HTML"})})
 public class OlaMundoAction
+    extends ActionSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 13102010197645454L;
+
 	private List<LaudoVO> listaLaudos;
 
 	// parametros para jasper report
@@ -57,6 +60,7 @@ public class OlaMundoAction
 		this.parameters = parameters;
 	}
 
+	@Override
 	@Action(value = "olaMundoStruts", results = {@Result(location = "/jsp/olaMundoStruts.jsp", name = "success")})
 	public String execute ()
 	{
@@ -149,16 +153,30 @@ public class OlaMundoAction
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
-	@Action(value = "autenticarPaciente", results = {@Result(location = "/jsp/listaLaudos.jsp", name = "success")})
+	@Action(value = "autenticarPaciente", results = {
+	    @Result(location = "/jsp/listaLaudos.jsp", name = "success"),
+	    @Result(location = "/jsp/olaMundoStruts.jsp", name = "error")})
 	public String autenticarPaciente ()
 	{
-		System.out.println("Autentiar Pacientes...");
-		System.out.println("Nro Paciente: " + this.getNroCadastroPaciente());
-		System.out.println("Data Nascimento: " + this.getDataNascimento());
-		if (nroCadastroPaciente != null)
+		// final Long nro = this.getNroCadastroPaciente();
+		if (this.getNroCadastroPaciente() == null)
 		{
-			this.listarLaudos();
+			this.addFieldError("nroCadastroPaciente", "* Campo Obrigatório. (Usar apenas Números)");
+			return com.opensymphony.xwork2.Action.ERROR;
 		}
+		// else
+		// {
+		// this.setNroCadastroPaciente(nro);
+		// }
+
+		if (this.getDataNascimento() == null)
+		{
+			this.addFieldError("dataNascimento",
+			    "* Campo Obrigatório. Preencher com uma Data Válida no formato dd/mm/aaaa (Exemplo: 01/05/1989)");
+			return com.opensymphony.xwork2.Action.ERROR;
+		}
+
+		this.listarLaudos();
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
