@@ -73,7 +73,7 @@
 	<table border="0" align="center">
 		<tr class="titleDiv">
 			<p/><p/>
-    		<s:url id="show" action="olaMundoStruts"/>
+    		<s:url id="show" action="autenticacaoLaudoOnline"/>
 	        <td align="center" style="text-align: center;">
 	         	<s:a href="%{show}">Voltar</s:a>
 	        </td>		
