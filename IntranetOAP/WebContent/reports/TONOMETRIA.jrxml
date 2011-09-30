@@ -8,12 +8,12 @@
 		 orientation="Portrait"
 		 pageWidth="595"
 		 pageHeight="842"
-		 columnWidth="535"
+		 columnWidth="557"
 		 columnSpacing="0"
-		 leftMargin="30"
-		 rightMargin="30"
+		 leftMargin="19"
+		 rightMargin="19"
 		 topMargin="20"
-		 bottomMargin="20"
+		 bottomMargin="14"
 		 whenNoDataType="NoPages"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
@@ -44,9 +44,9 @@
 			<band height="147"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="93"
-						y="13"
-						width="442"
+						x="127"
+						y="16"
+						width="430"
 						height="24"
 						key="textField-1"/>
 					<box leftPadding="5">					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#333333"/>
@@ -60,12 +60,12 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{PACIENTE}]]></textFieldExpression>
 				</textField>
-				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<image  scaleImage="FillFrame" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="0"
-						y="0"
-						width="93"
-						height="79"
+						x="-5"
+						y="-8"
+						width="131"
+						height="112"
 						key="image-1"
 						isRemoveLineWhenBlank="true"/>
 					<box></box>
@@ -74,9 +74,9 @@
 				</image>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="93"
-						y="47"
-						width="442"
+						x="127"
+						y="60"
+						width="430"
 						height="24"
 						key="textField-3"/>
 					<box leftPadding="5">					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#333333"/>
@@ -86,15 +86,15 @@
 					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Courier New" pdfFontName="Courier-Bold" size="12" isBold="true"/>
+						<font fontName="Courier New" pdfFontName="Courier" size="12" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DESCR_MEDICO}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="104"
-						width="535"
+						y="106"
+						width="557"
 						height="24"
 						key="textField-4"/>
 					<box leftPadding="5">					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#333333"/>
@@ -209,7 +209,7 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="535"
+						width="557"
 						height="37"
 						key="staticText-5"/>
 					<box leftPadding="5" topPadding="4" bottomPadding="1">					<topPen lineWidth="0.25" lineStyle="Solid"/>
