@@ -85,7 +85,6 @@ public class AutenticacaoLaudoOnlineAction
 				System.out.printf("ID: %s Laudo: %s %n", v.getId(), v.getDescricao());
 			}
 		}
-
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
