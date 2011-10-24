@@ -16,7 +16,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
-import br.com.oappr.intranet.struts20.LaudoVO;
+import br.com.oappr.intranet.vo.LaudoVO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
