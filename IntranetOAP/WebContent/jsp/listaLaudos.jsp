@@ -24,7 +24,7 @@
 	        	  
 	       	<p/><p/>      
 	        <td align="left" style="text-align: center;color: blue;">
-	        <p> [ MARIA DA CONCEIÇÃO CRISANTO MALLIN ] <p>
+	        <b><p> [ ${pessoaVo.cdPessoa}   ${pessoaVo.nomePessoa} ] <p>
 	        </td>	   
 		</tr>
 	</table>
@@ -38,24 +38,16 @@
 			<th>Data</th>
 			<th>Relatório</th>
 		</tr>		
-		<s:iterator value="listaLaudos" status="songStatus">
+		<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
 			<tr class="<s:if test="#songStatus.odd == true ">odd</s:if><s:else>even</s:else>" >
 			
-				<td><s:property value="id"/></td>
+				<td><s:property value="nrrequisicao"/></td>
 				<td>
-					${descricao}
+					${dsexamecompl}
 					<!-- Assim tambem funciona...JSTL -->
 				</td> 
-				<td style="text-align: center;">
-					<s:if test="finalizado == false">
-						NAO
-					</s:if>
-					<s:if test="finalizado == true">
-						SIM
-					</s:if>
-				</td>
 				<td>
-					<s:date name="dataFinalizacao" format="dd/MM/yyyy"/>
+					<s:date name="dtconsulta" format="dd/MM/yyyy"/>
 				</td>
 				
 				<td style="text-align: center;">
