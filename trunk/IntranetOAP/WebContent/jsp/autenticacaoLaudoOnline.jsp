@@ -17,55 +17,80 @@
 
 <s:form action="autenticarPaciente" method="post" validate="true">
 
-	<table style="border-collapse:collapse;background-color: #D8D8D8;" width="800px" align="center" cellpadding="1" cellspacing="1">
+	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
+		<tr> 
+		  	<td rowspan="2">
+				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="150" border="0" style="background-color:transparent;"/>
+			</td>
+		</tr>
 		<tr>
-			<td style="font-family: sans-serif;color: blue;font-size: 18px;">
-				<h2><center><br>OAP - Oftalmologistas Associados do Paraná</center></h2>
+			<td>
+				<br> 
+				<span class="texto_TNR_Azul_26px">OFTALMOLOGISTAS ASSOCIADOS DO PARANÁ</span>					
 			</td>
 		</tr>
 	</table>
-
-	<table style="border-collapse:collapse;background-color: #D8D8D8;" width="400px" align="center" cellpadding="1" cellspacing="1">
+	<table style="border-collapse:collapse;background-color: #EAF4FF;" width="400px" height="300px" align="center" cellpadding="1" cellspacing="1" border="0px">
 		    <tr> 
-		    	<td colspan="2" valign="top" align="center">
-					<h1>Autenticação para Acesso</h1><br><br>
+		    	<td colspan="2" valign="top" align="center" bordercolor="#EAF4FF;">		    		
+					<span class="texto_Azul_Negrito_20px">
+					<img src="images/usuario.gif" alt="Segurança" style="background-color: transparent;" align="bottom"/>
+					Autenticação para Acesso
+					</span>
+					<br>
 				</td>
 			</tr>
-			<br>
-
-			
-			<tr>
-				<td class="tdLabel" colspan="2" valign="top" align="left">
-						<s:textfield name="nroCadastroPaciente" id="nroCadastroPacienteId" label="Número da Matrícula"/>				
-						
-						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy"/>
+			<tr>				
+				<td colspan="2"><span class="titulo_azul_negrito_grande"/></td>
+			</tr>					
+			<!--tr>
+				<td colspan="2" style="font-family: sans-serif;color: blue;font-size: 10px;">
+					<img src="images/linhaHorizPaisagem.gif" style="background-color: transparent;" align="bottom"/>
 				</td>
-			</tr>
-			<tr><td colspan="2" align="left"><br></td></tr>
+			</tr-->
 			<tr>
-				<td colspan="2" valign="top" align="left" style="font-family: sans-serif;color: blue;font-size: 14px;">
-					<pre>
-					- Utilize o <u>Número da Matrícula</u> e a <u>Data de Nascimento</u> do Titular 
-					  para ter acesso aos serviços disponibilizados para resultados de exames.
-					  					
-					- O campo <u>Número da Matrícula</u> deve ser somente números.
-										
-					- A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Exemplo: 01/05/1989)
+				<td colspan="2" class="texto_Azul_14px">
+					<pre class="texto_Azul_14px">
+						&bull; Utilize o <u>Número da Matrícula</u> e a <u>Data de Nascimento</u> do Titular 
+						     para ter acesso aos serviços disponibilizados para resultados de exames.
+							  					
+						&bull; O campo <u>Número da Matrícula</u> deve ser somente números.
+												
+						&bull; A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Ex.: 01/05/1989)
 					</pre>
 				</td>
 			</tr>
+			<!-- tr>
+				<td colspan="2" style="font-family: sans-serif;color: blue;font-size: 10px;">
+					<img src="images/linhaHorizPaisagem.gif" hspace="2px" background-color: transparent;" align="ceter"/>
+				</td>
+			</tr-->
+			<tr>
+				<td colspan="2">
+					<!-- span class="titulo_azul_negrito_grande"> </span -->
+				</td>
+			</tr>			
+			<tr>
+				<td colspan="2">
+						<s:textfield name="nroCadastroPaciente" id="nroCadastroPacienteId" label="Número da Matrícula" cssClass="inputText_16px"/>
+						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
+				</td>
+			</tr>
+			<tr><td colspan="2" align="left"><br></td></tr>
 			
 			<br>	
 			<tr align="center">
-				<br><br>
-				<table width="200px" align="center" border="0" cellpadding="1" cellspacing="1">
-					<tr>
-						<br>	
-						<td width="100%" align="left" style="text-align: center; border-bottom-color: buttonface;">
-							<s:submit value="Validar Dados" onclick="javascrit:validar();"/>
-						</td>
-					</tr>
-				</table>
+				<br>
+				<td colspan="2" align="left">
+					<table width="200px" align="center" cellpadding="1" cellspacing="1" border="0">
+						<tr>
+							<br>	
+							<td width="100%" align="left" class="submit_bt">
+								<s:submit value="Validar Dados" onclick="javascrit:validar();"/>
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 	</table>
 	<br/>
