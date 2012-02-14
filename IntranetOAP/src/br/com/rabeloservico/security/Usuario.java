@@ -3,6 +3,9 @@ package br.com.rabeloservico.security;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
+/**
+ * @author desenvolvimento
+ */
 public class Usuario
     implements UserDetails
 {

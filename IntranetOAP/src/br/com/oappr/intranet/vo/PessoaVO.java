@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author rabelo
+ * @author desenvolvimento
  */
 public final class PessoaVO
     implements java.io.Serializable

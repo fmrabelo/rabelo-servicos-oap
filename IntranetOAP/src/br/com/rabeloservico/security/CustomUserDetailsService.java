@@ -8,6 +8,9 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.jdbc.JdbcDaoImpl;
 
+/**
+ * @author desenvolvimento
+ */
 public class CustomUserDetailsService
     extends JdbcDaoImpl
 {
@@ -32,7 +35,7 @@ public class CustomUserDetailsService
 	{
 		String sql = "select email, tentativas_login from Usuario where login = ?";
 
-		getJdbcTemplate().query(sql, new Object[]{usuario.getUsername()}, new RowMapper() {
+		this.getJdbcTemplate().query(sql, new Object[]{usuario.getUsername()}, new RowMapper() {
 			public Object mapRow (ResultSet rs, int rowNum) throws SQLException
 			{
 				usuario.setEmail(rs.getString("email"));

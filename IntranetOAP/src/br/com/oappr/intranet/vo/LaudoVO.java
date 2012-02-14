@@ -3,12 +3,11 @@
  */
 package br.com.oappr.intranet.vo;
 
+import java.sql.Blob;
 import java.util.Date;
 
-import oracle.sql.BLOB;
-
 /**
- * @author rabelo
+ * @author desenvolvimento
  */
 public final class LaudoVO
     implements java.io.Serializable
@@ -23,7 +22,7 @@ public final class LaudoVO
 	// private String descricao;
 	// private boolean finalizado;
 	// private Date dataFinalizacao;
-	//	
+
 	private Long nrrequisicao;
 	private Long nrseqresultado;
 	private Date dtconsulta;
@@ -39,7 +38,7 @@ public final class LaudoVO
 	private Date dhalteracao;
 	private Long cdconvenio;
 	private Long nrususolic;
-	private BLOB dsrtf;
+	private Blob dsrtf;
 
 	/**
 	 * 
@@ -301,7 +300,7 @@ public final class LaudoVO
 	/**
 	 * @return the dsrtf
 	 */
-	public BLOB getDsrtf ()
+	public Blob getDsrtf ()
 	{
 		return dsrtf;
 	}
@@ -309,7 +308,7 @@ public final class LaudoVO
 	/**
 	 * @param dsrtf the dsrtf to set
 	 */
-	public void setDsrtf (BLOB dsrtf)
+	public void setDsrtf (Blob dsrtf)
 	{
 		this.dsrtf = dsrtf;
 	}
