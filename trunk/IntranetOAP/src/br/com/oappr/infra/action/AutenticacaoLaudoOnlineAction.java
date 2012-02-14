@@ -20,7 +20,7 @@ import br.com.oappr.intranet.vo.PessoaVO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * @author rabelo
+ * @author desenvolvimento
  */
 // @Validations(requiredStrings = {@RequiredStringValidator(fieldName =
 // "nroCadastroPaciente", message = "Valor obrigatório")}, stringLengthFields =
@@ -42,6 +42,8 @@ public class AutenticacaoLaudoOnlineAction
 	// numero do cadastro do paciente
 	private Long nroCadastroPaciente;
 	private Date dataNascimento;
+	// numero de laudo especifico.
+	private Long nroLaudo;
 
 	/**
 	 * @return the parameters
@@ -59,6 +61,9 @@ public class AutenticacaoLaudoOnlineAction
 		this.parameters = parameters;
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	@Action(value = "autenticacaoLaudoOnline", results = {@Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "success")})
 	public String execute ()
@@ -69,13 +74,18 @@ public class AutenticacaoLaudoOnlineAction
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
+	/**
+	 * @return
+	 * @throws Exception
+	 */
 	@Action(value = "listarLaudos", results = {@Result(location = "/jsp/listaLaudos.jsp", name = "success")})
 	public String listarLaudos () throws Exception
 	{
 		// pesquisar laudos
 		try
 		{
-			this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente()));
+			this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
+			    null));
 			System.out.println("listar laudos. Quantidade-> "
 			    + (this.getListaLaudos() != null ? this.getListaLaudos().size() : 0));
 			if ((this.getListaLaudos() != null) && !this.getListaLaudos().isEmpty())
@@ -83,6 +93,12 @@ public class AutenticacaoLaudoOnlineAction
 				for (LaudoVO v : this.getListaLaudos())
 				{
 					System.out.printf("ID: %s Laudo: %s %n", v.getNrlaudo(), v.getDsexamecompl());
+					System.out.println(" laudo: ");
+					long blobLength = v.getDsrtf().length();
+					final byte[] bt = v.getDsrtf().getBytes(1, (int)blobLength);
+					final String text = new String(bt);
+					System.out.println(text);
+
 				}
 			}
 			else
@@ -104,7 +120,35 @@ public class AutenticacaoLaudoOnlineAction
 	 */
 	public String gerarLaudoPdf ()
 	{
-		System.out.println("PDF laudos...");
+		System.out.println("Print PDF laudo especifico...");
+		// pesquisar laudos
+		// try
+		// {
+		// this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
+		// this.getNroLaudo()));
+		// System.out.println("listar laudo. Quantidade-> "
+		// + (this.getListaLaudos() != null ? this.getListaLaudos().size() :
+		// 0));
+		// if ((this.getListaLaudos() != null) &&
+		// !this.getListaLaudos().isEmpty())
+		// {
+		// for (LaudoVO v : this.getListaLaudos())
+		// {
+		// System.out.printf("ID: %s Laudo: %s %n", v.getNrlaudo(),
+		// v.getDsexamecompl());
+		// }
+		// }
+		// else
+		// {
+		// this.addFieldError("nroCadastroPaciente", "Nenhum registro de Laudo
+		// localizado!!");
+		// return com.opensymphony.xwork2.Action.ERROR;
+		// }
+		// }
+		// catch (Exception ex)
+		// {
+		// ex.printStackTrace();
+		// }
 
 		// HttpServletRequest request = ServletActionContext.getRequest();
 		// String imgPath = "";
@@ -162,6 +206,9 @@ public class AutenticacaoLaudoOnlineAction
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
+	/**
+	 * @return
+	 */
 	@Action(value = "autenticarPaciente", results = {
 	    @Result(location = "/jsp/listaLaudos.jsp", name = "success"),
 	    @Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "error")})
@@ -191,6 +238,12 @@ public class AutenticacaoLaudoOnlineAction
 				return com.opensymphony.xwork2.Action.ERROR;
 			}
 			// pessoa localizada, validar a data nascimento.
+			System.out.println("pessoa.dtnasc: " + this.getPessoaVo().getDataNascimento() + " ( "
+			    + DateUtils.formatDateDDMMYYYY(this.getPessoaVo().getDataNascimento()) + " ) ");
+
+			System.out.println("dtnasc field: " + this.getDataNascimento() + " ( "
+			    + DateUtils.formatDateDDMMYYYY(this.getDataNascimento()) + " ) ");
+
 			if (this.getPessoaVo().getDataNascimento().compareTo(this.getDataNascimento()) == 0)
 			{
 				this.addFieldError(
@@ -200,9 +253,6 @@ public class AutenticacaoLaudoOnlineAction
 				            + " Dt.Nasc. Informada: " + DateUtils.formatDate(this.getDataNascimento())));
 				return com.opensymphony.xwork2.Action.ERROR;
 			}
-
-			System.out.println("pessoa.dtnasc: " + this.getPessoaVo().getDataNascimento());
-			System.out.println("dtnasc field: " + this.getDataNascimento());
 
 			// Pessoa localizada e data nascimento conferida. pesquisar os
 			// laudos.
@@ -349,6 +399,22 @@ public class AutenticacaoLaudoOnlineAction
 	public void setPessoaVo (PessoaVO pessoaVo)
 	{
 		this.pessoaVo = pessoaVo;
+	}
+
+	/**
+	 * @return the nroLaudo
+	 */
+	public Long getNroLaudo ()
+	{
+		return nroLaudo;
+	}
+
+	/**
+	 * @param nroLaudo the nroLaudo to set
+	 */
+	public void setNroLaudo (Long nroLaudo)
+	{
+		this.nroLaudo = nroLaudo;
 	}
 
 }

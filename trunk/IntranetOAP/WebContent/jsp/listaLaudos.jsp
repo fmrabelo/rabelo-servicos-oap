@@ -32,15 +32,15 @@
 	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;">
 		<tr class="titleDiv" style="text-align: center;>
 			<p/>
-			<th>Id</th>
-			<th>Descrição de Laudos</th>
-			<th>Finalizado</th>
-			<th>Data</th>
+			<th>Nro Resultado</th>
+			<th>Nro Requisição</th>
+			<th>Descrição Exame</th>
+			<th>Data Exame</th>
 			<th>Relatório</th>
 		</tr>		
 		<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
 			<tr class="<s:if test="#songStatus.odd == true ">odd</s:if><s:else>even</s:else>" >
-			
+				<td><s:property value="nrseqresultado"/></td>
 				<td><s:property value="nrrequisicao"/></td>
 				<td>
 					${dsexamecompl}
