@@ -3,7 +3,8 @@ package br.com.oappr.infra.util;
 import java.io.Serializable;
 
 /**
- * classe que contém as constantes utilizadas na camada de apresentação.
+ * classe que contém as constantes utilizadas na camada de apresentação. *
+ * @author desenvolvimento
  */
 public abstract class Constants
     implements Serializable
