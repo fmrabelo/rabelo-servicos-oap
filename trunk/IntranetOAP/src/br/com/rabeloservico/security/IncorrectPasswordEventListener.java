@@ -7,6 +7,9 @@ import org.springframework.security.event.authentication.AbstractAuthenticationE
 import org.springframework.security.event.authentication.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.event.authentication.AuthenticationSuccessEvent;
 
+/**
+ * @author desenvolvimento
+ */
 public class IncorrectPasswordEventListener
     extends JdbcDaoSupport
     implements ApplicationListener
@@ -32,7 +35,7 @@ public class IncorrectPasswordEventListener
 
 	private void executeSql (AbstractAuthenticationEvent event, String sql)
 	{
-		getJdbcTemplate().update(sql, new Object[]{event.getAuthentication().getName()});
+		this.getJdbcTemplate().update(sql, new Object[]{event.getAuthentication().getName()});
 	}
 
 }
