@@ -41,7 +41,7 @@
 	
   <!-- conexao Oracle -->
   <resource-ref>
-		 <description>Oracle Datasource config</description>
+		 <description>Oracle Datasource - Conexão DataBase</description>
 		 <res-ref-name>jdbc/ADCON</res-ref-name>
 		 <res-type>javax.sql.DataSource</res-type>
 		 <res-auth>Container</res-auth>
