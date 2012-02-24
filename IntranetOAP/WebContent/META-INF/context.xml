@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<Context path="/IntranetOAP">  
+      <Resource  
+      name="jdbc/ADCON"  
+      type="javax.sql.DataSource"  
+      maxActive="4"  
+      maxIdle="2"  
+      maxWait="5000"  
+      username="oap"  
+      password="oap123"  
+      driverClassName="oracle.jdbc.driver.OracleDriver"  
+      url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON"  
+      auth="Container"  
+      />        
+</Context>
