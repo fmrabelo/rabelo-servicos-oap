@@ -74,10 +74,10 @@ final class LaudoDAO
 				str.append(" 	 AND T1.CDPESSOA = ").append(nroCadastroPaciente);
 				str.append(" ORDER BY T1.DTCONSULTA DESC ");
 
-				System.out.println();
-				System.out.println("Query: ");
-				System.out.println(str.toString());
-				System.out.println();
+				// System.out.println();
+				// System.out.println("Query: ");
+				// System.out.println(str.toString());
+				// System.out.println();
 
 				rs = stm.executeQuery(str.toString());
 

@@ -247,11 +247,11 @@ public class AutenticacaoLaudoOnlineAction
 
 			if (dataNascPessoa.compareTo(dataNascField) != 0)
 			{
-				this.addFieldError(
-				    "dataNascimento",
-				    "Data de Nascimento Incorreta para a Matrícula Informada!! Dt.Nasc. Matr: "
-				        + (DateUtils.formatDateDDMMYYYY(this.getPessoaVo().getDataNascimento())
-				            + " Dt.Nasc. Informada: " + DateUtils.formatDate(this.getDataNascimento())));
+				this.addFieldError("dataNascimento",
+				    "Data de Nascimento Incorreta para a Matrícula Informada!!");
+				// Dt.Nasc. Matr: " +
+				// (DateUtils.formatDateDDMMYYYY(dataNascPessoa) + " Dt.Nasc.
+				// Informada: " + DateUtils.formatDate(dataNascField)));
 				return com.opensymphony.xwork2.Action.ERROR;
 			}
 
