@@ -237,14 +237,15 @@ public class AutenticacaoLaudoOnlineAction
 				this.addFieldError("nroCadastroPaciente", "* Este Nº de Matricula está Incorreto!!");
 				return com.opensymphony.xwork2.Action.ERROR;
 			}
-			// pessoa localizada, validar a data nascimento.
-			System.out.println("pessoa.dtnasc: " + this.getPessoaVo().getDataNascimento() + " ( "
-			    + DateUtils.formatDateDDMMYYYY(this.getPessoaVo().getDataNascimento()) + " ) ");
+			// pessoa localizada, validar a data nascimento. Adicionar +1h nas
+			// datas para garantir distorção no horário de verão em algumas
+			// regioes.
+			final Date dataNascPessoa = DateUtils.addAmountDate(
+			    this.getPessoaVo().getDataNascimento(), +1, Calendar.HOUR_OF_DAY);
+			final Date dataNascField = DateUtils.addAmountDate(this.getDataNascimento(), +1,
+			    Calendar.HOUR_OF_DAY);
 
-			System.out.println("dtnasc field: " + this.getDataNascimento() + " ( "
-			    + DateUtils.formatDateDDMMYYYY(this.getDataNascimento()) + " ) ");
-
-			if (this.getPessoaVo().getDataNascimento().compareTo(this.getDataNascimento()) == 0)
+			if (dataNascPessoa.compareTo(dataNascField) != 0)
 			{
 				this.addFieldError(
 				    "dataNascimento",
