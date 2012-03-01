@@ -39,6 +39,7 @@ public final class LaudoVO
 	private Long cdconvenio;
 	private Long nrususolic;
 	private Blob dsrtf;
+	private String dsrtf_str;
 
 	/**
 	 * 
@@ -382,6 +383,22 @@ public final class LaudoVO
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * @return the dsrtf_str
+	 */
+	public String getDsrtf_str ()
+	{
+		return dsrtf_str;
+	}
+
+	/**
+	 * @param dsrtf_str the dsrtf_str to set
+	 */
+	public void setDsrtf_str (String dsrtf_str)
+	{
+		this.dsrtf_str = dsrtf_str;
 	}
 
 }
