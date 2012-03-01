@@ -5,9 +5,10 @@
 <struts>
   
    <include file="struts-default.xml"/>
-   <include file="jasperreports-default.xml"/>
+   <include file="jasperreports-default.xml"/>   
+   <constant name="struts.action.excludePattern" value="/servletReport"/>
 	
-	<package name="default" extends="jasperreports-default, struts-default">
+   <package name="default" extends="jasperreports-default, struts-default">
 		<action name="gerarLaudoPdf" method="gerarLaudoPdf" class="br.com.oappr.infra.action.AutenticacaoLaudoOnlineAction">
 			<result name="success" type="jasper">
 				<param name="location">reports/TONOMETRIA.jasper</param>
@@ -18,6 +19,6 @@
             	<param name="reportParameters">parameters</param>			
 			</result>
 		</action>
-	</package>
+   </package>
 	
 </struts>
