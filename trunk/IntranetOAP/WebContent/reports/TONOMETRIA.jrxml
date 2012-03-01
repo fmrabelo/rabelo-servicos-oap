@@ -27,10 +27,12 @@
 	<parameter name="LOGO_PATH" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="DESCR_LAUDO" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="DESCR_MEDICO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LAUDO_RTF" isForPrompting="false" class="java.io.InputStream"/>
 
 	<field name="id" class="java.lang.Long"/>
 	<field name="descricao" class="java.lang.String"/>
 	<field name="dataFinalizacao" class="java.util.Date"/>
+	<field name="RTF" class="java.io.InputStream"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -41,7 +43,7 @@
 			</band>
 		</title>
 		<pageHeader>
-			<band height="147"  isSplitAllowed="true" >
+			<band height="191"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
@@ -106,7 +108,20 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="Arial" pdfFontName="Times-Bold" size="13" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{DESCR_LAUDO}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[""+$P{DESCR_LAUDO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="142"
+						width="557"
+						height="25"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font isPdfEmbedded ="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Boolean"><![CDATA[$P{LAUDO_RTF}]]></textFieldExpression>
 				</textField>
 			</band>
 		</pageHeader>

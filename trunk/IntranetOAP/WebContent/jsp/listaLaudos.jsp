@@ -12,24 +12,33 @@
 </head>
 
 <body>
-	
+
+<s:form action="#" method="get" validate="false">
+
 	<h2><center>OAP - Oftalmologistas Associados do Paraná</center></h2>
 	
 	<table border="0" align="center">
 		<tr>
 			<p/>
-	        <td align="left" style="text-align: left; text-decoration: underline">
+	        <td align="left" style="text-align: left; text-decoration: none">
 	        <b><p>PACIENTE:<p>
 	        </td>	
 	        	  
 	       	<p/><p/>      
 	        <td align="left" style="text-align: center;color: blue;">
-	        <b><p> [ ${pessoaVo.cdPessoa}   ${pessoaVo.nomePessoa} ] <p>
+	        <b><p>  ${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}  <p>
 	        </td>	   
 		</tr>
 	</table>
 
 	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;">
+		
+		<tr class="titleDiv" style="text-align: center;>
+			<th style="text-align: center;" colspan="5">
+				Lista de Laudos<br>
+			</th>
+		</tr>
+		
 		<tr class="titleDiv" style="text-align: center;>
 			<p/>
 			<th>Nro Resultado</th>
@@ -51,12 +60,21 @@
 				</td>
 				
 				<td style="text-align: center;">
-					<s:url id="gerarPDF" action="gerarLaudoPdf">
-						<s:param name="id" value="id" />
+					<!--s:url id="gerarPDF" action="gerarLaudoPdf"-->
+						<!-- s:param name="id" value="id" /-->
+					<!-- /s:url-->
+					<!-- s:a id="a_%{id}" href="%{gerarPDF}"-->
+						<!-- <b>PDF -->
+					<!-- /s:a -->
+
+					<s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf">
+						<s:param name="nrseqresultado" value="nrseqresultado" />
 					</s:url>
-					<s:a id="a_%{id}" href="%{gerarPDF}">
-						<b>PDF
+					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}">
+						<b>
+						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
 					</s:a>					
+
 				</td>
 			</tr>
 		</s:iterator>
@@ -71,5 +89,20 @@
 	        </td>		
 		</tr>
 	</table>
+
+</s:form>
 </body>
 </html>
+
+<script type="text/javascript">
+
+	var form = document.forms[0];
+	
+	function gerarRelatorio(id)
+	{
+		var _action = '/IntranetOAP/servletReport?Text1=rtf&nroResultado='+id;
+		alert( _action );
+		form.action = _action;
+		form.submit();
+	}
+</script>
