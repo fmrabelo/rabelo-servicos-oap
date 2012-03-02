@@ -57,7 +57,7 @@ public final class ServletReport
 				final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
 				    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado));
 
-				byte[] blobBuffer = listaLaudos.get(0).getDsrtf().getBytes(1,
+				final byte[] blobBuffer = listaLaudos.get(0).getDsrtf().getBytes(1,
 				    (int)listaLaudos.get(0).getDsrtf().length());
 
 				final String fileName = "relatorio.rtf";
