@@ -108,7 +108,6 @@ final class LaudoDAO
 					p.setDhalteracao(rs.getDate("DHALTERACAO"));
 					// blob para o laudo.
 					p.setDsrtf(rs.getBlob("DSRTF"));
-					// p.setDsrtf_str(rs.getString("DSRTF_STR"));
 					lista.add(p);
 				}
 			}

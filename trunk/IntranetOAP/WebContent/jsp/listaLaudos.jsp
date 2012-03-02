@@ -29,15 +29,16 @@
 	        <b><p>  ${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}  <p>
 	        </td>	   
 		</tr>
+		<tr><td><p></td></tr>
+		<tr>
+			<th align="center" style="text-align: center;" colspan="5">
+				Laudos<br>
+			</th>
+		</tr>
+		
 	</table>
 
 	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;">
-		
-		<tr class="titleDiv" style="text-align: center;>
-			<th style="text-align: center;" colspan="5">
-				Lista de Laudos<br>
-			</th>
-		</tr>
 		
 		<tr class="titleDiv" style="text-align: center;>
 			<p/>
@@ -70,7 +71,7 @@
 					<s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf">
 						<s:param name="nrseqresultado" value="nrseqresultado" />
 					</s:url>
-					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}">
+					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="alert('Esse processo pode demorar alguns segundos!! Clique no OK para continuar!!');">
 						<b>
 						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
 					</s:a>					
