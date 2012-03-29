@@ -3,44 +3,35 @@
  */
 package br.com.oappr.infra.action;
 
-import java.awt.Dialog;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
-import net.sourceforge.rtf.RTFTemplate;
-import net.sourceforge.rtf.helper.RTFTemplateBuilder;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import br.com.oappr.infra.DAO.DaoFactory;
+import br.com.oappr.infra.report.GenericReport;
+import br.com.oappr.infra.report.ReportParameters;
+import br.com.oappr.infra.report.laudo.LaudoReport;
 import br.com.oappr.infra.util.DateUtils;
 import br.com.oappr.intranet.vo.LaudoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.HeaderFooter;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.rtf.RtfWriter2;
-import com.lowagie.text.rtf.parser.RtfParser;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -52,6 +43,7 @@ import com.opensymphony.xwork2.ActionSupport;
 // "5", message = "Min. 5 car.")})
 public class AutenticacaoLaudoOnlineAction
     extends ActionSupport
+    implements ReportParameters
 {
 	/**
 	 * 
@@ -61,7 +53,7 @@ public class AutenticacaoLaudoOnlineAction
 	private PessoaVO pessoaVo;
 
 	// parametros para jasper report
-	HashMap<String, Object> parameters = new HashMap<String, Object>();
+	HashMap<String, String> parameters = new HashMap<String, String>();
 
 	// numero do cadastro do paciente
 	private Long nroCadastroPaciente;
@@ -72,7 +64,7 @@ public class AutenticacaoLaudoOnlineAction
 	/**
 	 * @return the parameters
 	 */
-	public HashMap<String, Object> getParameters ()
+	public HashMap<String, String> getParameters ()
 	{
 		return parameters;
 	}
@@ -80,7 +72,7 @@ public class AutenticacaoLaudoOnlineAction
 	/**
 	 * @param parameters the parameters to set
 	 */
-	public void setParameters (HashMap<String, Object> parameters)
+	public void setParameters (HashMap<String, String> parameters)
 	{
 		this.parameters = parameters;
 	}
@@ -200,32 +192,33 @@ public class AutenticacaoLaudoOnlineAction
 	 * @param caminhoRel
 	 * @throws Exception
 	 */
-	public void gerarRelPdf (List lista, String caminhoRel, String caminhoLogo) throws Exception
+	public void gerarRelPdf (String caminhoRel) throws Exception
 	{
 		try
 		{
 			// passar o rtf como relatorio....
-			caminhoRel = "C:\\downloads\\text_375688.rtf";
+			// caminhoRel = "C:\\downloads\\text_375688.rtf";
 
 			// InputStream relatorio =
 			// this.getClass().getResourceAsStream(caminhoRel);
-			HashMap<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("LOGO", caminhoLogo);
+			// HashMap<String, Object> parametros = new HashMap<String,
+			// Object>();
+			// parametros.put("LOGO", caminhoLogo);
 			// JRBeanCollectionDataSource colection = new
 			// JRBeanCollectionDataSource(lista);
-			// JREmptyDataSource colection = new JREmptyDataSource();
-			// JasperPrint impressao = JasperFillManager.fillReport(relatorio,
-			// parametros, colection);
-			JasperPrint impressao = JasperFillManager.fillReport(caminhoRel, parametros);
+			JREmptyDataSource colection = new JREmptyDataSource();
+			JasperPrint impressao = JasperFillManager.fillReport(caminhoRel, parameters, colection);
+			// JasperPrint impressao = JasperFillManager.fillReport(caminhoRel,
+			// parameters);
 			JasperExportManager.exportReportToPdf(impressao);
 
 			// JasperReport report = JasperCompileManager.compileReport(jrxml);
 			// JasperPrint impressao = JasperFillManager.fillReport(report,
 			// parameters);
 
-			final JasperViewer jv = new JasperViewer(impressao, false);
-			jv.setVisible(true);
-			jv.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+			// final JasperViewer jv = new JasperViewer(impressao, false);
+			// jv.setVisible(true);
+			// jv.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 
 		}
 		catch (Exception ex)
@@ -233,111 +226,6 @@ public class AutenticacaoLaudoOnlineAction
 			ex.printStackTrace();
 			// JOptionPane.showMessageDialog(null, "Não foi possivel abrir o
 			// relatório");
-		}
-	}
-
-	public static void itextTemplate ()
-	{
-		String rtfSource = "C:\\downloads\\text_rtf.rtf";
-		String rtfTarget = "C:\\downloads\\DocumentoFinal.rtf";
-		try
-		{
-			// 1. Get default RTFtemplateBuilder
-			RTFTemplateBuilder builder = RTFTemplateBuilder.newRTFTemplateBuilder();
-
-			// 2. Get RTFtemplate with default Implementation of template engine
-			// (Velocity)
-			RTFTemplate rtfTemplate = builder.newRTFTemplate();
-
-			// 3. Set the RTF model source
-			rtfTemplate.setTemplate(new File(rtfSource));
-
-			// 4. AKI ALTERA AS VARIAVEIS
-			rtfTemplate.put("project", "Jakarta Velocity project");
-
-			// 5. AKI GRAVA O DOCUMENTO FINAL
-			rtfTemplate.merge(rtfTarget);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * @throws Exception
-	 */
-	public static void addInRtf () throws Exception
-	{
-		// step 1: creation of a document-object
-		Document document = new Document();
-
-		// step 2:
-		// we create a writer that listens to the document
-		// and directs a RTF-stream to a file
-		RtfWriter2.getInstance(document, new FileOutputStream("C:\\downloads\\text_rtf.rtf"));
-		// step 3: we open the document
-		document.open();
-		// header
-		Phrase phrase = new Phrase("This is the first chapter");
-		HeaderFooter header1 = new HeaderFooter(phrase, true);
-		document.setHeader(header1);
-
-		Font titleFont = new Font(Font.TIMES_ROMAN, 14, Font.BOLD);
-		document.add(new Paragraph("Title1", titleFont));
-		// step 4: we add a paragraph to the document
-		Paragraph p = new Paragraph("Hello", titleFont);
-		String args[] = new String[]{
-		    "O exame de Microscopia Especular de Córnea foi realizado no Konan Specular Microscope Robo Pachy SP-9000.",
-		    "ANÁLISE MORFO-CELULARES",
-		    "- Predomínio de células hexagonais (6ª) em 00% na área analisada."};
-		for (int i = 0; i < args.length; i++)
-		{
-			p.add("\n");
-			p.add(args[i]);
-		}
-		document.add(p);
-
-		// step 5: we close the document
-		document.close();
-	}
-
-	/**
-	 * 
-	 */
-	public static void convertRTFToPDF ()
-	{
-		String inputFile = "C:\\downloads\\text_375688.rtf";
-		String outputFile = "C:\\downloads\\text_375688__itext.pdf";
-		// create a new document
-		Document document = new Document();
-		try
-		{
-			// create a PDF writer to save the new document to disk
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(outputFile));
-			// open the document for modifications
-			document.open();
-			Font titleFont = new Font(Font.TIMES_ROMAN, 14, Font.BOLD);
-			document.add(new Paragraph("Title1", titleFont));
-			// create a new parser to load the RTF file
-			RtfParser parser = new RtfParser();
-			// read the rtf file into a compatible document
-			parser.convertRtfDocument(new FileInputStream(inputFile), document);
-			// save the pdf to disk
-			document.close();
-			System.out.println("Finished");
-		}
-		catch (DocumentException e)
-		{
-			e.printStackTrace();
-		}
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
 		}
 	}
 
@@ -373,21 +261,16 @@ public class AutenticacaoLaudoOnlineAction
 				return com.opensymphony.xwork2.Action.ERROR;
 			}
 
-			// HttpServletRequest request = ServletActionContext.getRequest();
-			// String imgPath = "";
-			//
-			// if (request != null)
-			// {
-			// imgPath = request.getSession().getServletContext().getRealPath(
-			// new
-			// StringBuilder(File.separator).append("images").append(File.separator).append(
-			// "logo").append(File.separator).append("logo2.jpg").toString());
-			// }
-			// String id = request.getParameter("id");
+			final HttpServletRequest request = ServletActionContext.getRequest();
+			final HttpServletResponse response = ServletActionContext.getResponse();
+
+			String id = request.getParameter("id");
+			if (id == null)
+			{
+				id = "114863";
+			}
 
 			// recuperar laudo pelo id
-
-			// this.setListaLaudos(this.getLaudos());
 			// if ((this.getListaLaudos() != null) &&
 			// !this.getListaLaudos().isEmpty())
 			// {
@@ -400,7 +283,7 @@ public class AutenticacaoLaudoOnlineAction
 			// }
 			// }
 			// }
-
+			//
 			// if ((this.getListaLaudos() != null) &&
 			// !this.getListaLaudos().isEmpty())
 			// {
@@ -412,10 +295,6 @@ public class AutenticacaoLaudoOnlineAction
 			// this.listarLaudos();
 			// }
 
-			// teste RTF to PDF
-			// convertRTFToPDF();
-			addInRtf();
-			//
 			// byte[] allBytesInBlob =
 			// this.getListaLaudos().get(0).getDsrtf().getBytes(1,
 			// (int)this.getListaLaudos().get(0).getDsrtf().length());
@@ -430,20 +309,29 @@ public class AutenticacaoLaudoOnlineAction
 			// "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1046{\\fonttbl{\\f0\fswiss\\fprq2\\fcharset0
 			// Arial;}}");
 			//
-			// parameters.put("LOGO_PATH", imgPath);
-			// parameters.put("PACIENTE", "PACIENTE : " +
-			// this.getPessoaVo().getNomePessoa());
-			// parameters.put("DESCR_MEDICO", "A/C : " + " XING LING PING ");
-			// parameters.put("DESCR_LAUDO",
-			// this.getListaLaudos().get(0).getDsexamecompl());
-			// this.setParameters(parameters);
+
+			// Parametros do cabeçalho
+			parameters.put(PACIENTE, "PACIENTE : " + this.getPessoaVo().getNomePessoa());
+			parameters.put(DESCR_MEDICO, "A/C : " + " DRA MARIA ISABEL BORA CASTALDO ANDRADE ");
+
+			// Parametros para responsável pelo Exame
+			parameters.put(MEDICO_RESPONSAVEL_EXAME,
+			    "Exame realizado pela Dra Maria Isabel Bora Castaldo Andrade ");
+			parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, "CRM-14831 PR");
+			parameters.put(CIDADE_DATA_EXAME, "Curitiba, 01 de setembro de 2011");
+
+			// TODO: ADICIONAR parametros FOOTER
+			// ..............
+
+			// Parametro Nome do Laudo
+			parameters.put(NOME_LAUDO, this.getListaLaudos().get(0).getDsexamecompl());
+			this.setParameters(parameters);
 			//
-			// String jrxml =
-			// request.getSession().getServletContext().getRealPath(
-			// new
-			// StringBuilder(File.separator).append("reports").append(File.separator).append(
-			// "TONOMETRIA").append(".jrxml").toString());
-			//
+
+			final String fileName = "TONOMETRIA";
+			final LaudoReport report = new LaudoReport();
+			report.viewReport(request, response, fileName, null, parameters, GenericReport.PDF_TYPE);
+
 			// String jasper =
 			// request.getSession().getServletContext().getRealPath(
 			// new
@@ -453,17 +341,7 @@ public class AutenticacaoLaudoOnlineAction
 			// abrir relatorio
 			// JasperCompileManager.compileReportToFile(jrxml, jasper);
 
-			// this.gerarRelPdf(new ArrayList<Object>(), jrxml, imgPath);
-
-			// JasperReport report = JasperCompileManager.compileReport(jrxml);
-			// JasperPrint impressao = JasperFillManager.fillReport(report,
-			// parameters);
-			//
-			// JRPdfExporter pdf = new JRPdfExporter();
-			// pdf.setParameter(JRExporterParameter.JASPER_PRINT, impressao);
-			// pdf.setParameter(JRExporterParameter.INPUT_STREAM,
-			// this.getListaLaudos().get(0).getDsrtf().getBinaryStream());
-			// pdf.exportReport();
+			// this.gerarRelPdf(jrxml);
 
 		}
 		catch (Exception e)
@@ -542,66 +420,6 @@ public class AutenticacaoLaudoOnlineAction
 		}
 
 		return com.opensymphony.xwork2.Action.SUCCESS;
-	}
-
-	/**
-	 * Monta lista de laudos.
-	 * @return
-	 */
-	private final List<LaudoVO> getLaudos ()
-	{
-		List<LaudoVO> list = new ArrayList<LaudoVO>();
-		LaudoVO l1 = new LaudoVO();
-		// l1.setId(1098L);
-		// l1.setDescricao("LAUDO DE TONOMETRIA");
-		// l1.setDataFinalizacao(Calendar.getInstance().getTime());
-		// l1.setFinalizado(true);
-		// list.add(l1);
-		//
-		// LaudoVO l2 = new LaudoVO();
-		// l2.setId(3356L);
-		// l2.setDescricao("LAUDO DE ACUIDADE VISUAL (PAM)");
-		// l2.setDataFinalizacao(Calendar.getInstance().getTime());
-		// l2.setFinalizado(true);
-		// list.add(l2);
-		//
-		// LaudoVO l3 = new LaudoVO();
-		// l3.setId(1584L);
-		// l3.setDescricao("LAUDO DE BIOMETRIA ULTRASSONICA");
-		// l3.setDataFinalizacao(Calendar.getInstance().getTime());
-		// l3.setFinalizado(false);
-		// list.add(l3);
-		//
-		// LaudoVO l4 = new LaudoVO();
-		// l4.setId(1123L);
-		// l4.setDescricao("LAUDO DE MICROSCOPIA ESPECULAR DE CORNEA");
-		// l4.setDataFinalizacao(Calendar.getInstance().getTime());
-		// l4.setFinalizado(false);
-		// list.add(l4);
-		//
-		// LaudoVO L5 = new LaudoVO();
-		// L5.setId(7454L);
-		// L5.setDescricao("LAUDO DE CERATOSCOPIA COMPUTADORIZADA");
-		// L5.setDataFinalizacao(Calendar.getInstance().getTime());
-		// L5.setFinalizado(true);
-		// list.add(L5);
-		//
-		// LaudoVO L6 = new LaudoVO();
-		// L6.setId(9652L);
-		// L6.setDescricao("LAUDO DE MAPEAMENTO DE RETINA");
-		// L6.setDataFinalizacao(Calendar.getInstance().getTime());
-		// L6.setFinalizado(false);
-		// list.add(L6);
-		//
-		// LaudoVO L7 = new LaudoVO();
-		// L7.setId(3625L);
-		// L7.setDescricao("LAUDO DE RETINOGRAFIA FLUORESCENTE");
-		// L7.setDataFinalizacao(Calendar.getInstance().getTime());
-		// L7.setFinalizado(true);
-		// list.add(L7);
-
-		// l1 = l2 = l3 = l4 = L5 = L6 = null;
-		return list;
 	}
 
 	/**

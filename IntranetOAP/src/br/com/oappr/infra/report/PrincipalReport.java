@@ -230,12 +230,11 @@ public abstract class PrincipalReport<V extends Object>
 	 * @return
 	 * @throws Exception
 	 */
-	public String jasperFilePath (HttpServletRequest request, String fileName, String modulo)
-	    throws Exception
+	public String jasperFilePath (HttpServletRequest request, String fileName) throws Exception
 	{
 		return request.getSession().getServletContext().getRealPath(
 		    new StringBuilder(File.separator).append("reports").append(File.separator).append(
-		        modulo).append(File.separator).append(fileName).append(".jasper").toString());
+		        fileName).append(".jasper").toString());
 	}
 
 	/**
@@ -246,12 +245,11 @@ public abstract class PrincipalReport<V extends Object>
 	 * @return
 	 * @throws Exception
 	 */
-	public String jrxmlFilePath (HttpServletRequest request, String fileName, String modulo)
-	    throws Exception
+	public String jrxmlFilePath (HttpServletRequest request, String fileName) throws Exception
 	{
 		return request.getSession().getServletContext().getRealPath(
 		    new StringBuilder(File.separator).append("reports").append(File.separator).append(
-		        modulo).append(File.separator).append(fileName).append(".jrxml").toString());
+		        fileName).append(".jrxml").toString());
 	}
 
 	/**
@@ -271,8 +269,8 @@ public abstract class PrincipalReport<V extends Object>
 			// codFilial = null;// getCodFilialDefault(request);
 			// }
 			return request.getSession().getServletContext().getRealPath(
-			    new StringBuilder(File.separator).append("logo").append(File.separator).append(
-			        "logo2.jpg").toString());
+			    new StringBuilder(File.separator).append("images").append(File.separator).append(
+			        "logo").append(File.separator).append("logo2.jpg").toString());
 		}
 		return null;
 	}
