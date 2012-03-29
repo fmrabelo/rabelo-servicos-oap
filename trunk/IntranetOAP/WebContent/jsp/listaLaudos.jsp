@@ -15,10 +15,17 @@
 
 <s:form action="#" method="get" validate="false">
 
-	<h2><center>OAP - Oftalmologistas Associados do Paraná</center></h2>
+	<h2>
+		<center>OAP - Oftalmologistas Associados do Paraná</center>
+		<!--center>
+			O arquivo está em formato pdf, que requer o software Adobe Acrobat Reader. 
+			Caso não o tenha instalado, clique no seguinte endereço http://get.adobe.com/br/reader/
+		</center-->
+	</h2>
 	
 	<table border="0" align="center">
 		<tr>
+		
 			<p/>
 	        <td align="left" style="text-align: left; text-decoration: none">
 	        <b><p>PACIENTE:<p>
@@ -61,12 +68,15 @@
 				</td>
 				
 				<td style="text-align: center;">
-					<!--s:url id="gerarPDF" action="gerarLaudoPdf"-->
-						<!-- s:param name="id" value="id" /-->
-					<!-- /s:url-->
-					<!-- s:a id="a_%{id}" href="%{gerarPDF}"-->
-						<!-- <b>PDF -->
-					<!-- /s:a -->
+					<s:url id="gerarPDF" action="gerarLaudoPdf">
+						<s:param name="id" value="id" />
+					</s:url>
+					<s:a id="a_%{id}" href="%{gerarPDF}">
+						<b>
+						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
+					</s:a>
+					
+					<b>
 
 					<s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf">
 						<s:param name="nrseqresultado" value="nrseqresultado" />
