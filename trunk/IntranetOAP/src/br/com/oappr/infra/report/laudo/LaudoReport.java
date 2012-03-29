@@ -30,7 +30,7 @@ public final class LaudoReport
 	}
 
 	/**
-	 * Monta relatório e todo conteúdo é passado via parametros.
+	 * Monta e gera o relatório e todo conteúdo é passado via parametros.
 	 */
 	@SuppressWarnings("unused")
 	public void viewReport (HttpServletRequest request, HttpServletResponse response,
@@ -64,4 +64,39 @@ public final class LaudoReport
 		}
 	}
 
+	/**
+	 * Cria o relatório PDF e retorna o array de bytes com conteúdo.
+	 */
+	@SuppressWarnings("unused")
+	public byte[] getByteArrayPDF (HttpServletRequest request, HttpServletResponse response,
+	    String fileName, List<Object> lista, HashMap<String, String> parameters, String reportType)
+	    throws Exception
+	{
+		File reportFile = null;
+		try
+		{
+			this.setDefaultParams(request, parameters);
+			reportFile = new File(this.jasperFilePath(request, fileName));
+			final JREmptyDataSource dataSource = new JREmptyDataSource();
+			return this.getByteArrayReport(response, fileName, parameters, reportType, reportFile,
+			    dataSource);
+		}
+		catch (Exception je)
+		{
+			je.printStackTrace();
+			throw new Exception(je);
+		}
+		catch (Throwable e)
+		{
+			throw new Exception(e);
+		}
+		finally
+		{
+			reportFile = null;
+			lista = null;
+			parameters = null;
+			fileName = null;
+			request = null;
+		}
+	}
 }

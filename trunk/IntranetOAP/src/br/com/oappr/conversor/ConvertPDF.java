@@ -29,10 +29,7 @@ public final class ConvertPDF
 		try
 		{
 			final ConversorPDF algoritmo = new ConversorFromTextOffice();
-			// byte[] arquivo = null;//
-			// obterArquivosEmBytes("/br/com/jm/conversor/pdf/laudo_375688.rtf");
-			byte[] pdf = algoritmo.converterDocumento(arquivoRTF);
-			// escreverArquivosEmBytes(pdf, "laudo_pdf_office.pdf");
+			final byte[] pdf = algoritmo.converterDocumento(arquivoRTF);
 			return pdf;
 		}
 		catch (Exception ex)
