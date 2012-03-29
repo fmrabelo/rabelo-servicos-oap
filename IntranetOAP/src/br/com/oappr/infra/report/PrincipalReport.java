@@ -352,6 +352,37 @@ public abstract class PrincipalReport<V extends Object>
 	}
 
 	/**
+	 * Método responsável por invocar o jasper e gerar o arquivo no formato
+	 * especifico: PDF, HTML ou EXCEL.
+	 * @param response HTTP Response
+	 * @param fileName Nome do Arquivo
+	 * @param parameters Parametros do Relatorio
+	 * @param reportType Tipo do Relatorio
+	 * @param jasperFile Arquivo Jasper
+	 * @param dataSource Fonte dos dados
+	 * @throws Exception
+	 */
+	public byte[] getByteArrayReport (HttpServletResponse response, String fileName,
+	    HashMap<String, String> parameters, String reportType, File jasperFile,
+	    JRDataSource dataSource) throws Exception
+	{
+		byte[] buffer = null;
+		if (PDF_TYPE.equals(reportType))
+		{
+			buffer = this.getBufferPdf(jasperFile, parameters, dataSource);
+		}
+		// else if (XLS_TYPE.equals(reportType))
+		// {
+		// this.viewExcelReport(response, fileName, jasperFile, parameters,
+		// dataSource);
+		// }
+		// else if (HTML_TYPE.equalsIgnoreCase(reportType))
+		// {
+		// }
+		return buffer;
+	}
+
+	/**
 	 * Método que faz a chamada da versão de impressão do relatório em PDF, HTML
 	 * ou EXCEL sem uso de fonte de dados DS.
 	 * @param response HTTP Response
