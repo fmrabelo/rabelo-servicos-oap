@@ -22,8 +22,7 @@ public interface GenericReport<V extends Object>
 	public void report (HttpServletResponse response, String fileName, String reportType,
 	    byte[] relatorio) throws Exception;
 
-	public String jasperFilePath (HttpServletRequest request, String fileName, String modulo)
-	    throws Exception;
+	public String jasperFilePath (HttpServletRequest request, String fileName) throws Exception;
 
 	/**
 	 * Interface de método que deve gerar a vizualização do relatório

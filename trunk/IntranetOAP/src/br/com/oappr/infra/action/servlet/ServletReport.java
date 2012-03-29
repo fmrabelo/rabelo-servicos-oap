@@ -79,11 +79,6 @@ public final class ServletReport
 			// document.open();
 			// document.add(new Paragraph("Hello World"));
 		}
-		// catch (DocumentException de)
-		// {
-		// de.printStackTrace();
-		// System.err.println("document: " + de.getMessage());
-		// }
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
