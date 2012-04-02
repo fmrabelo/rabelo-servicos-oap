@@ -24,7 +24,7 @@ public final class ConvertPDF
 	 * @param arquivoRTF
 	 * @return byte[]
 	 */
-	public final byte[] convertPDF (final byte[] arquivoRTF)
+	public final byte[] convertPDF (final byte[] arquivoRTF) throws Exception
 	{
 		try
 		{
@@ -35,7 +35,7 @@ public final class ConvertPDF
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
+			throw ex;
 		}
-		return null;
 	}
 }
