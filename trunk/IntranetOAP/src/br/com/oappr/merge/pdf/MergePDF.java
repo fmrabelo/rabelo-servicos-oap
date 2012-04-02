@@ -41,21 +41,23 @@ public final class MergePDF
 	 * @param outputStream
 	 * @param paginate
 	 */
-	public final void concatPDFs (final List<InputStream> streamOfPDFFiles, byte[] byteArrayMerge)
+	public final byte[] concatPDFs (final List<InputStream> streamOfPDFFiles) throws Exception
 	{
 		Document document = null;
 		PdfImportedPage page = null;
-		final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(byteArrayMerge.length);
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		boolean paginate = true;
+		byte[] mergedByte = null;
 		try
 		{
 			final BaseFont bf_courier = BaseFont.createFont(BaseFont.HELVETICA, "Cp1252", false);
 			final List<InputStream> pdfs = streamOfPDFFiles;
 			final List<PdfReader> readers = new ArrayList<PdfReader>();
-			int totalPages = -1; // descontar o cabeçalho.
+			// descontar a primeira página que contém o cabeçalho.
+			int totalPages = -1;
 			final Iterator<InputStream> iteratorPDFs = pdfs.iterator();
 
-			// Create Readers for the pdfs.
+			// Create Readers for pdfs.
 			while (iteratorPDFs.hasNext())
 			{
 				final InputStream pdf = iteratorPDFs.next();
@@ -63,12 +65,7 @@ public final class MergePDF
 				readers.add(pdfReader);
 				totalPages += pdfReader.getNumberOfPages();
 			}
-
-			// calculo para altura.
-			// Rectangle psize = readers.get(1).getPageSize(1);
-			// float width = psize.getHeight();
-			// float height = psize.getWidth();
-			// document = new Document(new Rectangle(width, height));
+			// Create document itext.
 			document = new Document();
 			// Create a writer for the outputstream
 			final PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -77,7 +74,7 @@ public final class MergePDF
 			final HeaderFooter footer = new HeaderFooter(
 			    new Phrase(
 			        "Rua Emiliano Perneta, 297  2º andar  cj 22 / 24 - Centro - Curitiba - PR - CEP: 80010-050 \n Fone: (41) 3225-7303          oap@oappr.com.br           www.oappr.com.br",
-			        new Font(bf_courier, 10)), false);
+			        new Font(bf_courier, 9)), false);
 
 			// Rua Emiliano Perneta, 297 2º andar cj 22 / 24 - Centro - Curitiba
 			// - PR - CEP:
@@ -87,8 +84,10 @@ public final class MergePDF
 			footer.setBorder(Rectangle.NO_BORDER);
 			footer.setAlignment(Element.ALIGN_CENTER);
 			document.setFooter(footer);
+
 			// open document.
 			document.open();
+			// fonte
 			final BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252,
 			    BaseFont.NOT_EMBEDDED);
 			// Holds the PDF data
@@ -105,6 +104,7 @@ public final class MergePDF
 				// Create a new page in the target for each source page.
 				while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages())
 				{
+					// new page for content
 					if (currentPageNumber > 1)
 					{
 						document.newPage();
@@ -112,9 +112,14 @@ public final class MergePDF
 					pageOfCurrentReaderPDF++;
 					currentPageNumber++;
 					page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
+					// diminuir a largura esquerda e aumentar a largura superior
+					// para segunda página em diante.
 					if (currentPageNumber >= 2)
 					{
+						// teste para 2 páginas por folha.
 						// cb.addTemplate(page, 1, 0, 0, .5f, 0, 0);
+
+						// controle de espaçamento superior e esquerdo.
 						cb.addTemplate(page, 1, 0, 0, 1, -40, -50);
 					}
 					else
@@ -133,15 +138,14 @@ public final class MergePDF
 				}
 				pageOfCurrentReaderPDF = 0;
 			}
-			outputStream.flush();
-			outputStream.write(byteArrayMerge, 0, outputStream.size());
 			document.close();
-			outputStream.close();
-
+			outputStream.flush();
+			mergedByte = outputStream.toByteArray();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			throw e;
 		}
 		finally
 		{
@@ -162,6 +166,8 @@ public final class MergePDF
 			}
 			document = null;
 			page = null;
+			outputStream = null;
 		}
+		return mergedByte;
 	}
 }

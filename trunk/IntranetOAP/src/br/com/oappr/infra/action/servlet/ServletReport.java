@@ -24,7 +24,9 @@ import br.com.oappr.infra.report.GenericReport;
 import br.com.oappr.infra.report.ReportParameters;
 import br.com.oappr.infra.report.laudo.LaudoReport;
 import br.com.oappr.infra.util.GenericUtils;
+import br.com.oappr.infra.util.Validator;
 import br.com.oappr.intranet.vo.LaudoVO;
+import br.com.oappr.intranet.vo.PessoaVO;
 import br.com.oappr.merge.pdf.MergePDF;
 
 public final class ServletReport
@@ -55,32 +57,42 @@ public final class ServletReport
 				final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
 				    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado));
 
-				final byte[] relatorioRTF = listaLaudos.get(0).getDsrtf().getBytes(1,
-				    (int)listaLaudos.get(0).getDsrtf().length());
+				if (!Validator.notEmptyCollection(listaLaudos))
+				{
+					return;
+				}
 
-				// converter o laudo RTF CLINITOOLS para PDF.
+				// Recuperar Laudo Original do Clinitools gravado na base
+				// Oracle.
+				final LaudoVO laudo = listaLaudos.get(0);
+
+				// converter blob para byte[]
+				final byte[] relatorioRTF = laudo.getDsrtf().getBytes(1,
+				    (int)laudo.getDsrtf().length());
+
+				// converter o laudo CLINITOOLS de RTF para PDF.
 				final byte[] relatorioPDF = new ConvertPDF().convertPDF(relatorioRTF);
 
 				// gerar arquivo pdf contendo o cabeçalho padrão com
 				// JasperReport.
-				final byte[] cabecalho = this.gerarCabecalhoPDF();
+				final byte[] cabecalho = this.gerarCabecalhoPDF(laudo);
 
 				// merge entre o cabeçalho e o conteudo do laudo.
 				final List<InputStream> pdfs = new ArrayList<InputStream>();
 				pdfs.add(new ByteArrayInputStream(cabecalho));
 				pdfs.add(new ByteArrayInputStream(relatorioPDF));
 				final MergePDF mergePDF = new MergePDF();
-				final byte[] byteArrayMerge = new byte[cabecalho.length + relatorioPDF.length];
-				mergePDF.concatPDFs(pdfs, byteArrayMerge);
+				final byte[] byteArrayMerge = mergePDF.concatPDFs(pdfs);
 
 				// apresentar o pdf final.
-				final String fileName = "testePDF";
+				final String fileName = "laudoOnlinePDF";
 				this.report(res, fileName, GenericReport.PDF_TYPE, byteArrayMerge);
 			}
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
+			throw new ServletException(ex);
 		}
 	}
 
@@ -138,29 +150,22 @@ public final class ServletReport
 	/**
 	 * 
 	 */
-	private final byte[] gerarCabecalhoPDF ()
+	private final byte[] gerarCabecalhoPDF (final LaudoVO laudo) throws Exception
 	{
-		System.out.println("Print PDF laudo especifico...");
-		// pesquisar laudos
 		try
 		{
-			Long nroCadastroPaciente2 = null;
-			if (nroCadastroPaciente2 == null)
-			{
-				nroCadastroPaciente2 = 114863L;
-			}
 
 			final HttpServletRequest request = ServletActionContext.getRequest();
 			final HttpServletResponse response = ServletActionContext.getResponse();
 
-			String id = request.getParameter("id");
-			if (id == null)
-			{
-				id = "114863";
-			}
+			// dados do paciente
+			final PessoaVO paciente = DaoFactory.getInstance().getAcPacienteByMatricula(
+			    laudo.getCdpessoa());
 
 			// Parametros do cabeçalho
-			parameters.put(PACIENTE, "PACIENTE : " + "MARIA DA CONCEIÇÃO CRISANTO MALLIN");
+			parameters.put(PACIENTE, "PACIENTE : ".concat(paciente.getNomePessoa() != null
+			    ? paciente.getNomePessoa().toUpperCase()
+			    : ""));
 			parameters.put(DESCR_MEDICO, "A/C : " + " DRA MARIA ISABEL BORA CASTALDO ANDRADE ");
 
 			// Parametros para responsável pelo Exame
@@ -173,7 +178,7 @@ public final class ServletReport
 			// ..............
 
 			// Parametro Nome do Laudo
-			parameters.put(NOME_LAUDO, "LAUDO DE CERATOSCOPIA COMPUTADORIZADA");
+			parameters.put(NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
 			//
 
@@ -185,8 +190,8 @@ public final class ServletReport
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			throw e;
 		}
-		return null;
 	}
 
 	/**

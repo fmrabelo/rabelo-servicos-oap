@@ -378,7 +378,7 @@ public class AutenticacaoLaudoOnlineAction
 
 		try
 		{
-			this.setPessoaVo(DaoFactory.getInstance().getAcPessoaByMatricula(cdPessoa));
+			this.setPessoaVo(DaoFactory.getInstance().getAcPacienteByMatricula(cdPessoa));
 			if ((this.getPessoaVo() == null) || (this.getPessoaVo().getDataNascimento() == null))
 			{
 				this.addFieldError("nroCadastroPaciente", "* Este Nº de Matricula está Incorreto!!");

@@ -33,6 +33,7 @@ public final class LaudoReport
 	 * Monta e gera o relatório e todo conteúdo é passado via parametros.
 	 */
 	@SuppressWarnings("unused")
+	@Deprecated
 	public void viewReport (HttpServletRequest request, HttpServletResponse response,
 	    String fileName, List<Object> lista, HashMap<String, String> parameters, String reportType)
 	    throws Exception
