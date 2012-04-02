@@ -66,12 +66,13 @@ public final class LaudoReport
 	}
 
 	/**
-	 * Cria o relatório PDF e retorna o array de bytes com conteúdo.
+	 * Cria o cabeçalho do relatório PDF e retorna o array de bytes com
+	 * conteúdo.
 	 */
 	@SuppressWarnings("unused")
-	public byte[] getByteArrayPDF (HttpServletRequest request, HttpServletResponse response,
-	    String fileName, List<Object> lista, HashMap<String, String> parameters, String reportType)
-	    throws Exception
+	public final byte[] getByteArrayCabecalhoPDF (HttpServletRequest request,
+	    HttpServletResponse response, String fileName, List<Object> lista,
+	    HashMap<String, String> parameters, String reportType) throws Exception
 	{
 		File reportFile = null;
 		try

@@ -23,12 +23,18 @@ import br.com.oappr.infra.DAO.DaoFactory;
 import br.com.oappr.infra.report.GenericReport;
 import br.com.oappr.infra.report.ReportParameters;
 import br.com.oappr.infra.report.laudo.LaudoReport;
+import br.com.oappr.infra.util.DateUtils;
 import br.com.oappr.infra.util.GenericUtils;
 import br.com.oappr.infra.util.Validator;
 import br.com.oappr.intranet.vo.LaudoVO;
+import br.com.oappr.intranet.vo.MedicoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
 import br.com.oappr.merge.pdf.MergePDF;
 
+/**
+ * Servlet responsável pelas regras para gerar o laudo online em pdf.
+ * @author rabelo
+ */
 public final class ServletReport
     extends HttpServlet
     implements ReportParameters, Serializable
@@ -41,6 +47,9 @@ public final class ServletReport
 	// parametros para jasper report
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
+	/**
+	 * doget
+	 */
 	@Override
 	public void doGet (HttpServletRequest req, HttpServletResponse res) throws IOException,
 	    ServletException
@@ -50,44 +59,7 @@ public final class ServletReport
 		final String nroCadastroPaciente = req.getParameter("nroCadastroPaciente");
 		try
 		{
-			System.out.println("nrseqresultado: " + nrseqresultado);
-			System.out.println("nroCadastroPaciente: " + nroCadastroPaciente);
-			if ("rtf".equals(str))
-			{
-				final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
-				    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado));
-
-				if (!Validator.notEmptyCollection(listaLaudos))
-				{
-					return;
-				}
-
-				// Recuperar Laudo Original do Clinitools gravado na base
-				// Oracle.
-				final LaudoVO laudo = listaLaudos.get(0);
-
-				// converter blob para byte[]
-				final byte[] relatorioRTF = laudo.getDsrtf().getBytes(1,
-				    (int)laudo.getDsrtf().length());
-
-				// converter o laudo CLINITOOLS de RTF para PDF.
-				final byte[] relatorioPDF = new ConvertPDF().convertPDF(relatorioRTF);
-
-				// gerar arquivo pdf contendo o cabeçalho padrão com
-				// JasperReport.
-				final byte[] cabecalho = this.gerarCabecalhoPDF(laudo);
-
-				// merge entre o cabeçalho e o conteudo do laudo.
-				final List<InputStream> pdfs = new ArrayList<InputStream>();
-				pdfs.add(new ByteArrayInputStream(cabecalho));
-				pdfs.add(new ByteArrayInputStream(relatorioPDF));
-				final MergePDF mergePDF = new MergePDF();
-				final byte[] byteArrayMerge = mergePDF.concatPDFs(pdfs);
-
-				// apresentar o pdf final.
-				final String fileName = "laudoOnlinePDF";
-				this.report(res, fileName, GenericReport.PDF_TYPE, byteArrayMerge);
-			}
+			this.gerarRelatorio(str, nrseqresultado, nroCadastroPaciente, res);
 		}
 		catch (Exception ex)
 		{
@@ -109,82 +81,105 @@ public final class ServletReport
 	}
 
 	/**
-	 * @param response
-	 * @param fileName
-	 * @param reportType
-	 * @param relatorio
-	 * @throws Exception
+	 * Método responsavel por montar estrutra e gerar o relatio pdf.
+	 * @param str
+	 * @param nrseqresultado
+	 * @param nroCadastroPaciente
 	 */
-	public void report (HttpServletResponse response, String fileName, String reportType,
-	    byte[] relatorio) throws Exception
+	private final void gerarRelatorio (final String str, final String nrseqresultado,
+	    final String nroCadastroPaciente, final HttpServletResponse res) throws Exception
 	{
-		if ((relatorio != null) && (relatorio.length > 0))
+		if ("rtf".equals(str))
 		{
-			response.setContentType(new StringBuilder("application/").append(reportType).toString());
-			response.setHeader("Content-disposition",
-			    new StringBuilder("inline; filename=\"").append(fileName).append(".").append(
-			        reportType).append("\";").toString());
+			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
+			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado));
 
-			this.setResponseHeader(response);
-			response.setContentLength(relatorio.length);
-			response.getOutputStream().write(relatorio, 0, relatorio.length);
-			response.getOutputStream().flush();
-			response.flushBuffer();
-			response.getOutputStream().close();
+			if (!Validator.notEmptyCollection(listaLaudos))
+			{
+				throw new Exception("Laudo não localizado!!");
+			}
+
+			// Recuperar Laudo Original do Clinitools gravado na base
+			// Oracle.
+			final LaudoVO laudo = listaLaudos.get(0);
+
+			// converter blob rtf para byte[]
+			final byte[] relatorioRTF = laudo.getDsrtf().getBytes(1, (int)laudo.getDsrtf().length());
+
+			// converter o conteúdo laudo RTF para PDF.
+			final byte[] relatorioPDF = new ConvertPDF().convertPDF(relatorioRTF);
+
+			// gerar array de bytes via JasperReport contendo o cabeçalho pdf
+			// para o relatório.
+			final byte[] cabecalho = this.gerarCabecalhoPDF(laudo);
+
+			// merge entre pdf com o cabeçalho e o conteudo do laudo.
+			final List<InputStream> pdfs = new ArrayList<InputStream>();
+			pdfs.add(new ByteArrayInputStream(cabecalho));
+			pdfs.add(new ByteArrayInputStream(relatorioPDF));
+			final MergePDF mergePDF = new MergePDF();
+			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs);
+
+			// apresentar o pdf final.
+			final String fileName = "laudoOnlinePDF";
+			final LaudoReport report = new LaudoReport();
+			report.showReport(res, fileName, byteArrayMerged, GenericReport.PDF_TYPE);
 		}
-		relatorio = null;
+
 	}
 
 	/**
-	 * Seta parametros comuns no header do response
-	 * @param response
-	 */
-	private void setResponseHeader (HttpServletResponse response)
-	{
-		response.setHeader("Expires", "0");
-		response.setHeader("Pragma", "public");
-		response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-		response.setHeader("Content-Encoding:", " gzip");
-	}
-
-	/**
-	 * 
+	 * Gerar o cabeçalho do relatório.
 	 */
 	private final byte[] gerarCabecalhoPDF (final LaudoVO laudo) throws Exception
 	{
 		try
 		{
-
 			final HttpServletRequest request = ServletActionContext.getRequest();
 			final HttpServletResponse response = ServletActionContext.getResponse();
 
 			// dados do paciente
 			final PessoaVO paciente = DaoFactory.getInstance().getAcPacienteByMatricula(
 			    laudo.getCdpessoa());
+			if (paciente == null)
+			{
+				throw new Exception("Paciente não localizado!!");
+			}
 
 			// Parametros do cabeçalho
 			parameters.put(PACIENTE, "PACIENTE : ".concat(paciente.getNomePessoa() != null
 			    ? paciente.getNomePessoa().toUpperCase()
 			    : ""));
-			parameters.put(DESCR_MEDICO, "A/C : " + " DRA MARIA ISABEL BORA CASTALDO ANDRADE ");
+			// Médico solicitante do exame.
+			parameters.put(DESCR_MEDICO, "A/C : "
+			    + DaoFactory.getInstance().getMedicoSolicitante(laudo.getCdpessoa()));
 
-			// Parametros para responsável pelo Exame
-			parameters.put(MEDICO_RESPONSAVEL_EXAME,
-			    "Exame realizado pela Dra Maria Isabel Bora Castaldo Andrade ");
-			parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, "CRM-14831 PR");
-			parameters.put(CIDADE_DATA_EXAME, "Curitiba, 01 de setembro de 2011");
+			// Parametros para o médico responsável pelo Exame.
+			final MedicoVO medRespExam = DaoFactory.getInstance().getMedicoResponsavelPorExame(
+			    laudo.getNrrequisicao(), laudo.getCdproced(), laudo.getNrlaudo());
+			if (medRespExam == null)
+			{
+				throw new Exception("Médico responsável pelo Exame não localizado!!");
+			}
 
-			// TODO: ADICIONAR parametros FOOTER
-			// ..............
+			final StringBuilder buffer = new StringBuilder("Exame realizado pel");
+			buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ? "a " : "o "));
+			buffer.append(medRespExam.getSiglaTratamento()).append(" ").append(
+			    medRespExam.getNomePessoa());
+
+			parameters.put(MEDICO_RESPONSAVEL_EXAME, buffer.toString());
+			parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, medRespExam.getDescrCRM());
+			parameters.put(CIDADE_DATA_EXAME, medRespExam.getCidade().concat(", ").concat(
+			    DateUtils.formatDateDDMMYYYY(laudo.getDtconsulta())));
 
 			// Parametro Nome do Laudo
 			parameters.put(NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
 			//
 
-			final String fileName = "TONOMETRIA";
+			final String fileName = "cabecalhoPDF";
 			final LaudoReport report = new LaudoReport();
-			return report.getByteArrayPDF(request, response, fileName, null, parameters,
+			return report.getByteArrayCabecalhoPDF(request, response, fileName, null, parameters,
 			    GenericReport.PDF_TYPE);
 		}
 		catch (Exception e)

@@ -235,7 +235,6 @@ public class AutenticacaoLaudoOnlineAction
 	 */
 	public String gerarLaudoPdf ()
 	{
-		System.out.println("Print PDF laudo especifico...");
 		// pesquisar laudos
 		try
 		{

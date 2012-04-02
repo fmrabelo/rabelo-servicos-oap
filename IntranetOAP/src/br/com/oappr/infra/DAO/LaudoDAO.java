@@ -76,7 +76,6 @@ final class LaudoDAO
 
 				rs = stm.executeQuery(str.toString());
 
-				System.out.println("Query executada com sucesso... impressao de resultado: ");
 				lista = new ArrayList<LaudoVO>();
 				while ((rs != null) && rs.next())
 				{
@@ -101,8 +100,11 @@ final class LaudoDAO
 					p.setDtconsulta(rs.getDate("DTCONSULTA"));
 					p.setHragenda(rs.getDate("HRAGENDA"));
 					p.setDhalteracao(rs.getDate("DHALTERACAO"));
-					// blob para o laudo.
-					p.setDsrtf(rs.getBlob("DSRTF"));
+					// blob para o laudo especifico.
+					if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
+					{
+						p.setDsrtf(rs.getBlob("DSRTF"));
+					}
 					lista.add(p);
 				}
 			}
@@ -124,27 +126,7 @@ final class LaudoDAO
 		}
 		finally
 		{
-			try
-			{
-				if (rs != null)
-				{
-					rs.close();
-				}
-				if (stm != null)
-				{
-					stm.close();
-				}
-				if (conn != null)
-				{
-					conn.close();
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-			}
-			rs = null;
-			stm = null;
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return lista;
 	}

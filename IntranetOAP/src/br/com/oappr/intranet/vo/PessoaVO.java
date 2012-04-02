@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author desenvolvimento
  */
-public final class PessoaVO
+public class PessoaVO
     implements java.io.Serializable
 {
 
@@ -21,6 +21,16 @@ public final class PessoaVO
 	private Long cdPessoa;
 	private String nomePessoa;
 	private Date dataNascimento;
+	private String endereco;
+	private String bairro;
+	private String complEndereco;
+	private String cidade;
+	private String uf;
+	private String cep;
+	private String email;
+	private String urlSite;
+	private String sexo;
+	private List<FoneVO> listaFone;
 
 	private List<LaudoVO> listaLaudos;
 
@@ -44,15 +54,6 @@ public final class PessoaVO
 	 * 
 	 */
 	public PessoaVO ()
-	{
-		super();
-	}
-
-	/**
-	 * @param id
-	 * @param descricao
-	 */
-	public PessoaVO (Long id, String descricao)
 	{
 		super();
 	}
@@ -103,6 +104,166 @@ public final class PessoaVO
 	public void setDataNascimento (Date dataNascimento)
 	{
 		this.dataNascimento = dataNascimento;
+	}
+
+	/**
+	 * @return the endereco
+	 */
+	public String getEndereco ()
+	{
+		return endereco;
+	}
+
+	/**
+	 * @param endereco the endereco to set
+	 */
+	public void setEndereco (String endereco)
+	{
+		this.endereco = endereco;
+	}
+
+	/**
+	 * @return the complEndereco
+	 */
+	public String getComplEndereco ()
+	{
+		return complEndereco;
+	}
+
+	/**
+	 * @param complEndereco the complEndereco to set
+	 */
+	public void setComplEndereco (String complEndereco)
+	{
+		this.complEndereco = complEndereco;
+	}
+
+	/**
+	 * @return the cidade
+	 */
+	public String getCidade ()
+	{
+		return cidade;
+	}
+
+	/**
+	 * @param cidade the cidade to set
+	 */
+	public void setCidade (String cidade)
+	{
+		this.cidade = cidade;
+	}
+
+	/**
+	 * @return the uf
+	 */
+	public String getUf ()
+	{
+		return uf;
+	}
+
+	/**
+	 * @param uf the uf to set
+	 */
+	public void setUf (String uf)
+	{
+		this.uf = uf;
+	}
+
+	/**
+	 * @return the cep
+	 */
+	public String getCep ()
+	{
+		return cep;
+	}
+
+	/**
+	 * @param cep the cep to set
+	 */
+	public void setCep (String cep)
+	{
+		this.cep = cep;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail ()
+	{
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail (String email)
+	{
+		this.email = email;
+	}
+
+	/**
+	 * @return the urlSite
+	 */
+	public String getUrlSite ()
+	{
+		return urlSite;
+	}
+
+	/**
+	 * @param urlSite the urlSite to set
+	 */
+	public void setUrlSite (String urlSite)
+	{
+		this.urlSite = urlSite;
+	}
+
+	/**
+	 * @return the listaFone
+	 */
+	public List<FoneVO> getListaFone ()
+	{
+		return listaFone;
+	}
+
+	/**
+	 * @param listaFone the listaFone to set
+	 */
+	public void setListaFone (List<FoneVO> listaFone)
+	{
+		this.listaFone = listaFone;
+	}
+
+	/**
+	 * @return the bairro
+	 */
+	public String getBairro ()
+	{
+		return bairro;
+	}
+
+	/**
+	 * @param bairro the bairro to set
+	 */
+	public void setBairro (String bairro)
+	{
+		this.bairro = bairro;
+	}
+
+	/**
+	 * @return the sexo
+	 */
+	public String getSexo ()
+	{
+		return sexo;
+	}
+
+	/**
+	 * @param sexo the sexo to set
+	 */
+	public void setSexo (String sexo)
+	{
+		this.sexo = sexo;
 	}
 
 	/*
