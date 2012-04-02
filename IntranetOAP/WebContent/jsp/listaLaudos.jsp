@@ -68,20 +68,21 @@
 				</td>
 				
 				<td style="text-align: center;">
-					<s:url id="gerarPDF" action="gerarLaudoPdf">
-						<s:param name="id" value="id" />
-					</s:url>
-					<s:a id="a_%{id}" href="%{gerarPDF}">
-						<b>
-						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
-					</s:a>
+					<!--s:url id="gerarPDF" action="gerarLaudoPdf"-->
+						<!--s:param name="id" value="id" /-->
+					<!--/s:url-->
+					<!--s:a id="a_%{id}" href="%{gerarPDF}"-->
+						<!--b-->
+						<!--img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/-->
+					<!--/s:a-->
 					
 					<b>
 
 					<s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf">
 						<s:param name="nrseqresultado" value="nrseqresultado" />
 					</s:url>
-					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="alert('Esse processo pode demorar alguns segundos!! Clique no OK para continuar!!');">
+					<!-- s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="alert('Esse processo pode demorar alguns segundos!! Clique no OK para continuar!!');" -->
+					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="javascript:window.open(this.href,'resizable,scrollbars').focus();">
 						<b>
 						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
 					</s:a>					
@@ -116,4 +117,5 @@
 		form.action = _action;
 		form.submit();
 	}
+	
 </script>
