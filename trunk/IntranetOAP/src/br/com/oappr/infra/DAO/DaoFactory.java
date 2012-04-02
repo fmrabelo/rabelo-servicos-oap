@@ -56,14 +56,14 @@ public final class DaoFactory
 	}
 
 	/**
-	 * Pesquisa e retorna pessoa caso exista.
+	 * Pesquisa e retorna pessoa do tipo Paciente caso exista.
 	 * @param codPessoa
 	 * @return PessoaVO
 	 * @throws Exception
 	 */
-	public final PessoaVO getAcPessoaByMatricula (final Long codPessoa) throws Exception
+	public final PessoaVO getAcPacienteByMatricula (final Long codPessoa) throws Exception
 	{
-		final AutenticacaoDAO aut = new AutenticacaoDAO();
+		final PessoaDAO aut = new PessoaDAO();
 		return aut.getAcPessoaByMatricula(codPessoa);
 	}
 

@@ -13,10 +13,11 @@ import br.com.oappr.intranet.vo.PessoaVO;
 
 /**
  * Classe Login DAO responsável pela comunicação com base de dados para
- * processos de Autenticação.
+ * processos de Autenticação e recuperar dados de pessoa física
+ * (médico/paciente) e Juridica (empresa).
  * @author desenvolvimento
  */
-final class AutenticacaoDAO
+final class PessoaDAO
     implements Serializable
 {
 
@@ -28,13 +29,13 @@ final class AutenticacaoDAO
 	/**
 	 * 
 	 */
-	public AutenticacaoDAO ()
+	public PessoaDAO ()
 	{
 		super();
 	}
 
 	/**
-	 * Pesquisa e retorna pessoa caso exista.
+	 * Pesquisa e retorna Paciente caso exista.
 	 * @param codPessoa
 	 * @return
 	 * @throws Exception

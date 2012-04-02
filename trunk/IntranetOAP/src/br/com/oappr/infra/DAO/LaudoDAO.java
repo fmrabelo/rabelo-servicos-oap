@@ -68,16 +68,11 @@ final class LaudoDAO
 				{
 					str.append(" AND T2.NRSEQRESULTADO = ").append(codigoLaudo);
 				}
-				str.append(" 	 AND T2.TPLAUDO = 2 ");// Laudo tipo RTF.
-				str.append(" 	 AND T2.FLLIBERADO = 1 ");
+				str.append(" 	 AND T2.TPLAUDO = 2 ");// 2=Laudo tipo RTF.
+				str.append(" 	 AND T2.FLLIBERADO = 1 ");// laudo liberado
 				str.append(" 	 AND T2.CDPESSOA IS NULL ");
 				str.append(" 	 AND T1.CDPESSOA = ").append(nroCadastroPaciente);
 				str.append(" ORDER BY T1.DTCONSULTA DESC ");
-
-				// System.out.println();
-				// System.out.println("Query: ");
-				// System.out.println(str.toString());
-				// System.out.println();
 
 				rs = stm.executeQuery(str.toString());
 
