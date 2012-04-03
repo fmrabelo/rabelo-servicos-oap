@@ -3,32 +3,17 @@
  */
 package br.com.oappr.infra.action;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import br.com.oappr.infra.DAO.DaoFactory;
-import br.com.oappr.infra.report.GenericReport;
 import br.com.oappr.infra.report.ReportParameters;
-import br.com.oappr.infra.report.laudo.LaudoReport;
 import br.com.oappr.infra.util.DateUtils;
+import br.com.oappr.infra.util.Validator;
 import br.com.oappr.intranet.vo.LaudoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
 
@@ -52,30 +37,11 @@ public class AutenticacaoLaudoOnlineAction
 
 	private PessoaVO pessoaVo;
 
-	// parametros para jasper report
-	HashMap<String, String> parameters = new HashMap<String, String>();
-
 	// numero do cadastro do paciente
 	private Long nroCadastroPaciente;
 	private Date dataNascimento;
 	// numero de laudo especifico.
 	private Long nroLaudo;
-
-	/**
-	 * @return the parameters
-	 */
-	public HashMap<String, String> getParameters ()
-	{
-		return parameters;
-	}
-
-	/**
-	 * @param parameters the parameters to set
-	 */
-	public void setParameters (HashMap<String, String> parameters)
-	{
-		this.parameters = parameters;
-	}
 
 	/**
 	 * 
@@ -84,9 +50,7 @@ public class AutenticacaoLaudoOnlineAction
 	@Action(value = "autenticacaoLaudoOnline", results = {@Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "success")})
 	public String execute ()
 	{
-		System.out.println("Executando a lógica com Struts2");
 		this.setDataNascimento(Calendar.getInstance().getTime());
-		// return "ok";
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
@@ -101,17 +65,8 @@ public class AutenticacaoLaudoOnlineAction
 		try
 		{
 			this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
-			    null));
-			System.out.println("listar laudos. Quantidade-> "
-			    + (this.getListaLaudos() != null ? this.getListaLaudos().size() : 0));
-			if ((this.getListaLaudos() != null) && !this.getListaLaudos().isEmpty())
-			{
-				for (LaudoVO v : this.getListaLaudos())
-				{
-					System.out.printf("ID: %s Laudo: %s %n", v.getNrlaudo(), v.getDsexamecompl());
-				}
-			}
-			else
+			    null, null));
+			if (!Validator.notEmptyCollection(this.getListaLaudos()))
 			{
 				this.addFieldError("nroCadastroPaciente", "Nenhum registro de Laudo localizado!!");
 				return com.opensymphony.xwork2.Action.ERROR;
@@ -121,234 +76,6 @@ public class AutenticacaoLaudoOnlineAction
 		{
 			throw new Exception(ex);
 		}
-		return com.opensymphony.xwork2.Action.SUCCESS;
-	}
-
-	/**
-	 * @param filename
-	 * @param blob
-	 * @return
-	 */
-	public static boolean blobToFile2 (String filename, Blob blob)
-	{
-		boolean success = true;
-		try
-		{
-			// Get as a BLOB and put in a byte array.
-			byte[] allBytesInBlob = blob.getBytes(1, (int)blob.length());
-			final FileOutputStream outStream = new FileOutputStream(new File(filename));
-			outStream.write(allBytesInBlob);
-			outStream.flush();
-			outStream.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("ERROR(djv_exportBlob) Unable to export:" + filename);
-			success = false;
-		}
-		finally
-		{
-			return success;
-		}
-	}
-
-	/**
-	 * @param filename
-	 * @param blob
-	 * @return
-	 */
-	public static boolean blobToFile (String filename, Blob blob)
-	{
-		boolean success = true;
-		try
-		{
-			final FileOutputStream outStream = new FileOutputStream(new File(filename));
-			byte[] blobBuffer = new byte[(int)blob.length()];
-			final InputStream inStream = blob.getBinaryStream();
-			int length = -1;
-			while ((length = inStream.read(blobBuffer)) != -1)
-			{
-				outStream.write(blobBuffer, 0, length);
-				outStream.flush();
-			}
-			inStream.close();
-			outStream.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.out.println("ERROR(djv_exportBlob) Unable to export:" + filename);
-			success = false;
-		}
-		finally
-		{
-			return success;
-		}
-	}
-
-	/**
-	 * @param lista
-	 * @param caminhoRel
-	 * @throws Exception
-	 */
-	public void gerarRelPdf (String caminhoRel) throws Exception
-	{
-		try
-		{
-			// passar o rtf como relatorio....
-			// caminhoRel = "C:\\downloads\\text_375688.rtf";
-
-			// InputStream relatorio =
-			// this.getClass().getResourceAsStream(caminhoRel);
-			// HashMap<String, Object> parametros = new HashMap<String,
-			// Object>();
-			// parametros.put("LOGO", caminhoLogo);
-			// JRBeanCollectionDataSource colection = new
-			// JRBeanCollectionDataSource(lista);
-			JREmptyDataSource colection = new JREmptyDataSource();
-			JasperPrint impressao = JasperFillManager.fillReport(caminhoRel, parameters, colection);
-			// JasperPrint impressao = JasperFillManager.fillReport(caminhoRel,
-			// parameters);
-			JasperExportManager.exportReportToPdf(impressao);
-
-			// JasperReport report = JasperCompileManager.compileReport(jrxml);
-			// JasperPrint impressao = JasperFillManager.fillReport(report,
-			// parameters);
-
-			// final JasperViewer jv = new JasperViewer(impressao, false);
-			// jv.setVisible(true);
-			// jv.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
-
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-			// JOptionPane.showMessageDialog(null, "Não foi possivel abrir o
-			// relatório");
-		}
-	}
-
-	/**
-	 * Gerar relatorio pdf.
-	 * @return
-	 */
-	public String gerarLaudoPdf ()
-	{
-		// pesquisar laudos
-		try
-		{
-			Long nroCadastroPaciente2 = this.getNroCadastroPaciente();
-			if (nroCadastroPaciente2 == null)
-			{
-				nroCadastroPaciente2 = 114863L;
-			}
-			this.setListaLaudos(DaoFactory.getInstance().getLaudos(nroCadastroPaciente2,
-			    this.getNroLaudo()));
-			System.out.println("listar laudo. Quantidade-> "
-			    + (this.getListaLaudos() != null ? this.getListaLaudos().size() : 0));
-			if ((this.getListaLaudos() != null) && !this.getListaLaudos().isEmpty())
-			{
-				for (LaudoVO v : this.getListaLaudos())
-				{
-					System.out.printf("ID: %s Laudo: %s %n", v.getNrlaudo(), v.getDsexamecompl());
-				}
-			}
-			else
-			{
-				this.addFieldError("nroCadastroPaciente", "Nenhum registro de Laudo localizado!!");
-				return com.opensymphony.xwork2.Action.ERROR;
-			}
-
-			final HttpServletRequest request = ServletActionContext.getRequest();
-			final HttpServletResponse response = ServletActionContext.getResponse();
-
-			String id = request.getParameter("id");
-			if (id == null)
-			{
-				id = "114863";
-			}
-
-			// recuperar laudo pelo id
-			// if ((this.getListaLaudos() != null) &&
-			// !this.getListaLaudos().isEmpty())
-			// {
-			// for (final LaudoVO v : this.getListaLaudos())
-			// {
-			// if (v.getCdpessoa().longValue() == new Long(id).longValue())
-			// {
-			// // laudo = v.getDescricao();
-			// break;
-			// }
-			// }
-			// }
-			//
-			// if ((this.getListaLaudos() != null) &&
-			// !this.getListaLaudos().isEmpty())
-			// {
-			// System.out.println("Lista Laudos OK. " +
-			// this.getListaLaudos().size());
-			// }
-			// else
-			// {
-			// this.listarLaudos();
-			// }
-
-			// byte[] allBytesInBlob =
-			// this.getListaLaudos().get(0).getDsrtf().getBytes(1,
-			// (int)this.getListaLaudos().get(0).getDsrtf().length());
-			// System.out.println(new String(allBytesInBlob));
-			//
-			// // parameters.put("LAUDO_RTF", new String(allBytesInBlob));
-			//
-			// // parameters.put("LAUDO_RTF",
-			// // this.getListaLaudos().get(0).getDsrtf().getBinaryStream());
-			//
-			// parameters.put("LAUDO_RTF",
-			// "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang1046{\\fonttbl{\\f0\fswiss\\fprq2\\fcharset0
-			// Arial;}}");
-			//
-
-			// Parametros do cabeçalho
-			parameters.put(PACIENTE, "PACIENTE : " + this.getPessoaVo().getNomePessoa());
-			parameters.put(DESCR_MEDICO, "A/C : " + " DRA MARIA ISABEL BORA CASTALDO ANDRADE ");
-
-			// Parametros para responsável pelo Exame
-			parameters.put(MEDICO_RESPONSAVEL_EXAME,
-			    "Exame realizado pela Dra Maria Isabel Bora Castaldo Andrade ");
-			parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, "CRM-14831 PR");
-			parameters.put(CIDADE_DATA_EXAME, "Curitiba, 01 de setembro de 2011");
-
-			// TODO: ADICIONAR parametros FOOTER
-			// ..............
-
-			// Parametro Nome do Laudo
-			parameters.put(NOME_LAUDO, this.getListaLaudos().get(0).getDsexamecompl());
-			this.setParameters(parameters);
-			//
-
-			final String fileName = "TONOMETRIA";
-			final LaudoReport report = new LaudoReport();
-			report.viewReport(request, response, fileName, null, parameters, GenericReport.PDF_TYPE);
-
-			// String jasper =
-			// request.getSession().getServletContext().getRealPath(
-			// new
-			// StringBuilder(File.separator).append("reports").append(File.separator).append(
-			// "TONOMETRIA").append(".jasper").toString());
-
-			// abrir relatorio
-			// JasperCompileManager.compileReportToFile(jrxml, jasper);
-
-			// this.gerarRelPdf(jrxml);
-
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return com.opensymphony.xwork2.Action.ERROR;
-		}
-
 		return com.opensymphony.xwork2.Action.SUCCESS;
 	}
 
@@ -377,7 +104,7 @@ public class AutenticacaoLaudoOnlineAction
 
 		try
 		{
-			this.setPessoaVo(DaoFactory.getInstance().getAcPacienteByMatricula(cdPessoa));
+			this.setPessoaVo(DaoFactory.getInstance().getPacienteByMatricula(cdPessoa));
 			if ((this.getPessoaVo() == null) || (this.getPessoaVo().getDataNascimento() == null))
 			{
 				this.addFieldError("nroCadastroPaciente", "* Este Nº de Matricula está Incorreto!!");
@@ -434,15 +161,11 @@ public class AutenticacaoLaudoOnlineAction
 	 */
 	public void setListaLaudos (List<LaudoVO> listaLaudos)
 	{
-		if (this.getPessoaVo() != null)
-		{
-			this.getPessoaVo().setListaLaudos(listaLaudos);
-		}
-		else
+		if (this.getPessoaVo() == null)
 		{
 			this.setPessoaVo(new PessoaVO());
-			this.getPessoaVo().setListaLaudos(listaLaudos);
 		}
+		this.getPessoaVo().setListaLaudos(listaLaudos);
 	}
 
 	/**

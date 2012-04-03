@@ -29,6 +29,8 @@ public final class DateUtils
 	    Constants.Default.formatTimeHHMM);
 	protected static final SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat(
 	    Constants.Default.formatDateTime);
+	protected static final SimpleDateFormat simpleDateExtensoBr = new SimpleDateFormat(
+	    Constants.Default.formatDateExtensoBR, GenericUtils.getLocale());
 
 	public DateUtils ()
 	{
@@ -102,6 +104,16 @@ public final class DateUtils
 		newDate.setTime(calendar.getTime().getTime());
 
 		return newDate;
+	}
+
+	public static String formatDateExtenso (java.util.Date dateTime)
+	{
+		if (dateTime == null)
+		{
+			return null;
+		}
+		simpleDateExtensoBr.setTimeZone(TIME_ZONE);
+		return simpleDateExtensoBr.format(dateTime);
 	}
 
 	public static String formatDateDDMMYYYY (java.util.Date dateTime)

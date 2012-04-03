@@ -56,10 +56,11 @@ public final class ServletReport
 	{
 		final String str = req.getParameter("Text1");
 		final String nrseqresultado = req.getParameter("nrseqresultado");
+		final String nrrequisicao = req.getParameter("nrrequisicao");
 		final String nroCadastroPaciente = req.getParameter("nroCadastroPaciente");
 		try
 		{
-			this.gerarRelatorio(str, nrseqresultado, nroCadastroPaciente, res);
+			this.gerarRelatorio(str, nrseqresultado, nroCadastroPaciente, nrrequisicao, res);
 		}
 		catch (Exception ex)
 		{
@@ -81,20 +82,25 @@ public final class ServletReport
 	}
 
 	/**
-	 * Método responsavel por montar estrutra e gerar o relatio pdf.
+	 * Método responsavel por montar estrutra do laudo e gerar o relatio pdf.
 	 * @param str
 	 * @param nrseqresultado
 	 * @param nroCadastroPaciente
+	 * @param nrrequisicao
+	 * @param res
+	 * @throws Exception
 	 */
 	private final void gerarRelatorio (final String str, final String nrseqresultado,
-	    final String nroCadastroPaciente, final HttpServletResponse res) throws Exception
+	    final String nroCadastroPaciente, final String nrrequisicao, final HttpServletResponse res)
+	    throws Exception
 	{
 		if ("rtf".equals(str))
 		{
 			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
-			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado));
+			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado),
+			    GenericUtils.toLong(nrrequisicao));
 
-			if (!Validator.notEmptyCollection(listaLaudos))
+			if (!Validator.notEmptyCollection(listaLaudos) || (listaLaudos.get(0) == null))
 			{
 				throw new Exception("Laudo não localizado!!");
 			}
@@ -109,16 +115,22 @@ public final class ServletReport
 			// converter o conteúdo laudo RTF para PDF.
 			final byte[] relatorioPDF = new ConvertPDF().convertPDF(relatorioRTF);
 
+			// Recuperar os dados da empresa.
+			final PessoaVO empresa = DaoFactory.getInstance().getDadosEmpresa();
+			if (empresa == null)
+			{
+				throw new Exception("Não foi possível localizar os dados da Clínica!!");
+			}
 			// gerar array de bytes via JasperReport contendo o cabeçalho pdf
 			// para o relatório.
-			final byte[] cabecalho = this.gerarCabecalhoPDF(laudo);
+			final byte[] cabecalho = this.gerarCabecalhoPDF(laudo, empresa);
 
 			// merge entre pdf com o cabeçalho e o conteudo do laudo.
 			final List<InputStream> pdfs = new ArrayList<InputStream>();
 			pdfs.add(new ByteArrayInputStream(cabecalho));
 			pdfs.add(new ByteArrayInputStream(relatorioPDF));
 			final MergePDF mergePDF = new MergePDF();
-			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs);
+			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs, empresa);
 
 			// apresentar o pdf final.
 			final String fileName = "laudoOnlinePDF";
@@ -130,54 +142,65 @@ public final class ServletReport
 
 	/**
 	 * Gerar o cabeçalho do relatório.
+	 * @param laudo
+	 * @param empresa
+	 * @return byte[]
+	 * @throws Exception
 	 */
-	private final byte[] gerarCabecalhoPDF (final LaudoVO laudo) throws Exception
+	private final byte[] gerarCabecalhoPDF (final LaudoVO laudo, final PessoaVO empresa)
+	    throws Exception
 	{
 		try
 		{
 			final HttpServletRequest request = ServletActionContext.getRequest();
 			final HttpServletResponse response = ServletActionContext.getResponse();
 
-			// dados do paciente
-			final PessoaVO paciente = DaoFactory.getInstance().getAcPacienteByMatricula(
+			// Parametros do cabeçalho
+			final PessoaVO paciente = DaoFactory.getInstance().getPacienteByMatricula(
 			    laudo.getCdpessoa());
-			if (paciente == null)
+			// dados do paciente
+			if (paciente != null)
 			{
-				throw new Exception("Paciente não localizado!!");
+				parameters.put(PACIENTE, "PACIENTE : ".concat(paciente.getNomePessoa() != null
+				    ? paciente.getNomePessoa().toUpperCase()
+				    : ""));
 			}
 
-			// Parametros do cabeçalho
-			parameters.put(PACIENTE, "PACIENTE : ".concat(paciente.getNomePessoa() != null
-			    ? paciente.getNomePessoa().toUpperCase()
-			    : ""));
 			// Médico solicitante do exame.
-			parameters.put(DESCR_MEDICO, "A/C : "
-			    + DaoFactory.getInstance().getMedicoSolicitante(laudo.getCdpessoa()));
-
+			final PessoaVO medicoSolicitante = DaoFactory.getInstance().getMedicoSolicitante(
+			    laudo.getNrseqresultado());
+			if ((medicoSolicitante != null)
+			    && !Validator.isBlankOrNull(medicoSolicitante.getNomePessoa()))
+			{
+				parameters.put(DESCR_MEDICO,
+				    "A/C : ".concat(GenericUtils.nullToBlank(medicoSolicitante.getNomePessoa())));
+			}
 			// Parametros para o médico responsável pelo Exame.
 			final MedicoVO medRespExam = DaoFactory.getInstance().getMedicoResponsavelPorExame(
-			    laudo.getNrrequisicao(), laudo.getCdproced(), laudo.getNrlaudo());
-			if (medRespExam == null)
+			    laudo.getNrrequisicao(), laudo.getNrseqresultado());
+			if (medRespExam != null)
 			{
-				throw new Exception("Médico responsável pelo Exame não localizado!!");
+				final StringBuilder buffer = new StringBuilder("Exame realizado pel");
+				buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ? "a " : "o "));
+				buffer.append(GenericUtils.nullToBlank(medRespExam.getSiglaTratamento())).append(
+				    " ").append(GenericUtils.nullToBlank(medRespExam.getNomePessoa()));
+
+				parameters.put(MEDICO_RESPONSAVEL_EXAME, buffer.toString());
+				parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, medRespExam.getDescrCRM());
+				if (empresa != null)
+				{
+					parameters.put(
+					    CIDADE_DATA_EXAME,
+					    GenericUtils.nullToBlank(empresa.getCidade()).concat(", ").concat(
+					        GenericUtils.nullToBlank(DateUtils.formatDateExtenso(laudo.getDtconsulta()))));
+				}
 			}
-
-			final StringBuilder buffer = new StringBuilder("Exame realizado pel");
-			buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ? "a " : "o "));
-			buffer.append(medRespExam.getSiglaTratamento()).append(" ").append(
-			    medRespExam.getNomePessoa());
-
-			parameters.put(MEDICO_RESPONSAVEL_EXAME, buffer.toString());
-			parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, medRespExam.getDescrCRM());
-			parameters.put(CIDADE_DATA_EXAME, medRespExam.getCidade().concat(", ").concat(
-			    DateUtils.formatDateDDMMYYYY(laudo.getDtconsulta())));
 
 			// Parametro Nome do Laudo
 			parameters.put(NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
-			//
 
-			final String fileName = "cabecalhoPDF";
+			final String fileName = "TONOMETRIA";// nome do jasper
 			final LaudoReport report = new LaudoReport();
 			return report.getByteArrayCabecalhoPDF(request, response, fileName, null, parameters,
 			    GenericReport.PDF_TYPE);

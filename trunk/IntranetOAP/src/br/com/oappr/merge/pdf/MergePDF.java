@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import br.com.oappr.infra.util.GenericUtils;
+import br.com.oappr.infra.util.Validator;
+import br.com.oappr.intranet.vo.FoneVO;
+import br.com.oappr.intranet.vo.PessoaVO;
+
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
 import com.lowagie.text.Font;
@@ -37,11 +42,15 @@ public final class MergePDF
 	private static final long serialVersionUID = 1986565212142125521L;
 
 	/**
+	 * Método responsavel por concatenar os InputStream pdf, gerando apenas 1
+	 * único array de bytes contendo todo conteúdo dos pdf´s iniciais.
 	 * @param streamOfPDFFiles
-	 * @param outputStream
-	 * @param paginate
+	 * @param empresa
+	 * @return byte[]
+	 * @throws Exception
 	 */
-	public final byte[] concatPDFs (final List<InputStream> streamOfPDFFiles) throws Exception
+	public final byte[] concatPDFs (final List<InputStream> streamOfPDFFiles, final PessoaVO empresa)
+	    throws Exception
 	{
 		Document document = null;
 		PdfImportedPage page = null;
@@ -70,16 +79,23 @@ public final class MergePDF
 			// Create a writer for the outputstream
 			final PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
+			// montar dados do endereço da empresa.
+			final String TR = " - ";
+			final String SPC = "          ";
+			final StringBuilder endereco = new StringBuilder(
+			    GenericUtils.nullToBlank(empresa.getEndereco()));
+			endereco.append(TR).append(GenericUtils.nullToBlank(empresa.getComplEndereco()));
+			endereco.append(TR).append(GenericUtils.nullToBlank(empresa.getBairro()));
+			endereco.append(TR).append(GenericUtils.nullToBlank(empresa.getCidade()));
+			endereco.append(TR).append(GenericUtils.nullToBlank(empresa.getUf()));
+			endereco.append(TR).append(" CEP: ").append(GenericUtils.nullToBlank(empresa.getCep()));
+			endereco.append("\n");
+			endereco.append(this.formatFone(empresa.getListaFone()));
+			endereco.append(SPC).append(GenericUtils.nullToBlank(empresa.getEmail()));
+			endereco.append(SPC).append(GenericUtils.nullToBlank(empresa.getUrlSite()));
 			// headers and footers must be added before the document is opened
-			final HeaderFooter footer = new HeaderFooter(
-			    new Phrase(
-			        "Rua Emiliano Perneta, 297  2º andar  cj 22 / 24 - Centro - Curitiba - PR - CEP: 80010-050 \n Fone: (41) 3225-7303          oap@oappr.com.br           www.oappr.com.br",
-			        new Font(bf_courier, 9)), false);
-
-			// Rua Emiliano Perneta, 297 2º andar cj 22 / 24 - Centro - Curitiba
-			// - PR - CEP:
-			// 80010-050
-			// Fone: (41) 3225-7303 oap@oappr.com.br www.oappr.com.br
+			final HeaderFooter footer = new HeaderFooter(new Phrase(endereco.toString(), new Font(
+			    bf_courier, 9)), false);
 
 			footer.setBorder(Rectangle.NO_BORDER);
 			footer.setAlignment(Element.ALIGN_CENTER);
@@ -169,5 +185,31 @@ public final class MergePDF
 			outputStream = null;
 		}
 		return mergedByte;
+	}
+
+	/**
+	 * Formata lista de telefone/fax
+	 * @param listaFone
+	 * @return String
+	 */
+	private final String formatFone (final List<FoneVO> listaFone) throws Exception
+	{
+		if (Validator.notEmptyCollection(listaFone))
+		{
+			final StringBuilder b = new StringBuilder("Tel.: ");
+			for (final FoneVO f : listaFone)
+			{
+				if (!Validator.isBlankOrNull(f.getDdd()))
+				{
+					b.append(GenericUtils.nullToBlank(f.getDdd())).append("  ");
+				}
+				if (!Validator.isBlankOrNull(f.getNro()))
+				{
+					b.append(GenericUtils.nullToBlank(f.getNro()));
+				}
+			}
+			return b.toString();
+		}
+		return null;
 	}
 }
