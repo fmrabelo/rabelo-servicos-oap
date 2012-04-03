@@ -100,35 +100,34 @@ public final class DaoFactory
 	 */
 	public final PessoaVO getDadosEmpresa () throws Exception
 	{
-		final PessoaDAO medico = new PessoaDAO();
-		return medico.getDadosEmpresa();
+		final PessoaDAO empresa = new PessoaDAO();
+		return empresa.getDadosEmpresa();
 	}
 
 	/**
 	 * Pesquisa e retorna Medico responsável pela execução do exame.
 	 * @param nroRequisicao
-	 * @param codProcedimento
-	 * @param nroLaudo
+	 * @param nroResultado
 	 * @return MedicoVO
 	 * @throws Exception
 	 */
 	public final MedicoVO getMedicoResponsavelPorExame (final Long nroRequisicao,
-	    final Long codProcedimento, final Long nroLaudo) throws Exception
+	    final Long nroResultado) throws Exception
 	{
 		final PessoaDAO medico = new PessoaDAO();
-		return medico.getMedicoResponsavelPorExame(nroRequisicao, codProcedimento, nroLaudo);
+		return medico.getMedicoResponsavelPorLaudo(nroRequisicao, nroResultado);
 	}
 
 	/**
 	 * Pesquisa e retorna pessoa do tipo Medico solicitante do exame.
-	 * @param codPessoa
+	 * @param nroResultado
 	 * @return PessoaVO
 	 * @throws Exception
 	 */
-	public final PessoaVO getMedicoSolicitante (final Long codPessoa) throws Exception
+	public final PessoaVO getMedicoSolicitante (final Long nroResultado) throws Exception
 	{
 		final PessoaDAO medico = new PessoaDAO();
-		return medico.getMedicoSolicitante(codPessoa);
+		return medico.getMedicoSolicitante(nroResultado);
 	}
 
 	/**
@@ -137,23 +136,26 @@ public final class DaoFactory
 	 * @return PessoaVO
 	 * @throws Exception
 	 */
-	public final PessoaVO getAcPacienteByMatricula (final Long codPessoa) throws Exception
+	public final PessoaVO getPacienteByMatricula (final Long codPessoa) throws Exception
 	{
 		final PessoaDAO paciente = new PessoaDAO();
-		return paciente.getAcPessoaByMatricula(codPessoa);
+		return paciente.getPessoaByMatricula(codPessoa);
 	}
 
 	/**
 	 * Método responsável por listar todos Laudos pelo nro da matricula do
-	 * paciente ou retornar um laudo especifico pelo parametro codigo do laudo.
+	 * paciente ou retornar um laudo especifico adicionando os parametros:
+	 * codigo do laudo e número da requisição.
 	 * @param nroCadastroPaciente
+	 * @param codigoLaudo
+	 * @param nroRequisicao
 	 * @return List<LaudoVO>
 	 * @throws Exception
 	 */
-	public final List<LaudoVO> getLaudos (final Long nroCadastroPaciente, final Long codigoLaudo)
-	    throws Exception
+	public final List<LaudoVO> getLaudos (final Long nroCadastroPaciente, final Long codigoLaudo,
+	    final Long nroRequisicao) throws Exception
 	{
 		final LaudoDAO laudo = new LaudoDAO();
-		return laudo.getLaudos(nroCadastroPaciente, codigoLaudo);
+		return laudo.getLaudos(nroCadastroPaciente, codigoLaudo, nroRequisicao);
 	}
 }

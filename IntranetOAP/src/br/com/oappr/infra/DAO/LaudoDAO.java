@@ -37,13 +37,16 @@ final class LaudoDAO
 
 	/**
 	 * Método responsável por listar todos Laudos pelo nro da matricula do
-	 * paciente ou retornar um laudo especifico pelo parametro codigo do laudo.
+	 * paciente ou retornar um laudo especifico adicionando os parametros:
+	 * codigo do laudo e número da requisição.
 	 * @param nroCadastroPaciente
+	 * @param codigoLaudo
+	 * @param nroRequisicao
 	 * @return List<LaudoVO>
 	 * @throws Exception
 	 */
-	final List<LaudoVO> getLaudos (final Long nroCadastroPaciente, final Long codigoLaudo)
-	    throws Exception
+	final List<LaudoVO> getLaudos (final Long nroCadastroPaciente, final Long codigoLaudo,
+	    final Long nroRequisicao) throws Exception
 	{
 		Statement stm = null;
 		ResultSet rs = null;
@@ -56,6 +59,7 @@ final class LaudoDAO
 			conn = DaoFactory.getInstance().getConection();
 			if (conn != null)
 			{
+
 				stm = conn.createStatement();
 				str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO, T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
 				str.append(" 	T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL, T2.NRLAUDO, T2.NRUSUARIOINC, T2.DHINCLUSAO, ");
@@ -66,12 +70,13 @@ final class LaudoDAO
 				str.append(" 	 AND T2.NRSEQRESULTADO IS NOT NULL ");
 				if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
 				{
+					// --pesquisar laudo específico
 					str.append(" AND T2.NRSEQRESULTADO = ").append(codigoLaudo);
+					str.append(" AND T2.NRREQUISICAO = ").append(nroRequisicao);
 				}
 				str.append(" 	 AND T2.TPLAUDO = 2 ");// 2=Laudo tipo RTF.
 				str.append(" 	 AND T2.FLLIBERADO = 1 ");// laudo liberado
-				str.append(" 	 AND T2.CDPESSOA IS NULL ");
-				str.append(" 	 AND T1.CDPESSOA = ").append(nroCadastroPaciente);
+				str.append(" 	 AND T1.CDPESSOA = ").append(nroCadastroPaciente);// paciente
 				str.append(" ORDER BY T1.DTCONSULTA DESC ");
 
 				rs = stm.executeQuery(str.toString());

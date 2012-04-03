@@ -6,24 +6,37 @@
 <html>
 
 <head>
+	<s:head/>
+	<sx:head/>
 	<link href="<s:url value="/resources/main.css"/>" rel="stylesheet" type="text/css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Lista de Laudos Cadastrados</title>
+	<title>Lista de Laudos Cadastrados - OAP - Oftalmologistas Associados do Paraná</title>
 </head>
+
 
 <body>
 
-<s:form action="#" method="get" validate="false">
+<s:form action="#" method="get" validate="false" target="_blank">
 
-	<h2>
-		<center>OAP - Oftalmologistas Associados do Paraná</center>
-		<!--center>
-			O arquivo está em formato pdf, que requer o software Adobe Acrobat Reader. 
-			Caso não o tenha instalado, clique no seguinte endereço http://get.adobe.com/br/reader/
-		</center-->
-	</h2>
-	
-	<table border="0" align="center">
+	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
+		<tr> 
+		  	<td rowspan="2">
+				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="150" border="0" style="background-color:transparent;"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<br> 
+				<span class="texto_TNR_Azul_26px">OFTALMOLOGISTAS ASSOCIADOS DO PARANÁ</span>					
+			</td>
+			<!--center>
+				O arquivo está em formato pdf, que requer o software Adobe Acrobat Reader. 
+				Caso não o tenha instalado, clique no seguinte endereço http://get.adobe.com/br/reader/
+			</center-->
+		</tr>
+	</table>
+
+	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr>
 		
 			<p/>
@@ -39,26 +52,15 @@
 		<tr><td><p></td></tr>
 		<tr>
 			<th align="center" style="text-align: center;" colspan="5">
-				Laudos<br>
+				<span class="texto_azul_negrito_22px">Laudos</span> 
 			</th>
 		</tr>
 		
 	</table>
 
-	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;">
-		
-		<tr class="titleDiv" style="text-align: center;>
-			<p/>
-			<th>Nro Resultado</th>
-			<th>Nro Requisição</th>
-			<th>Descrição Exame</th>
-			<th>Data Exame</th>
-			<th>Relatório</th>
-		</tr>		
+	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;" border="0" cellpadding="1" >
 		<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
 			<tr class="<s:if test="#songStatus.odd == true ">odd</s:if><s:else>even</s:else>" >
-				<td><s:property value="nrseqresultado"/></td>
-				<td><s:property value="nrrequisicao"/></td>
 				<td>
 					${dsexamecompl}
 					<!-- Assim tambem funciona...JSTL -->
@@ -78,14 +80,19 @@
 					
 					<b>
 
-					<s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf">
-						<s:param name="nrseqresultado" value="nrseqresultado" />
-					</s:url>
+					<!-- s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf"-->
+						<!-- s:param name="nrseqresultado" value="nrseqresultado" /-->
+						<!-- s:param name="nrrequisicao" value="nrrequisicao" /-->
+					<!-- /s:url-->
 					<!-- s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="alert('Esse processo pode demorar alguns segundos!! Clique no OK para continuar!!');" -->
-					<s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="javascript:window.open(this.href,'resizable,scrollbars').focus();">
-						<b>
+					<!-- s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="javascript:openLaudo(this.href);"-->
+						<!-- b-->
+						<!-- img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/-->
+					<!-- /s:a-->		
+					
+					<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
 						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
-					</s:a>					
+					</a>			
 
 				</td>
 			</tr>
@@ -108,14 +115,11 @@
 
 <script type="text/javascript">
 
-	var form = document.forms[0];
-	
-	function gerarRelatorio(id)
+	//abrir laudo pdf em nova guia.
+	function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
 	{
-		var _action = '/IntranetOAP/servletReport?Text1=rtf&nroResultado='+id;
-		alert( _action );
-		form.action = _action;
-		form.submit();
+		var _action = '/IntranetOAP/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
+		window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
 	}
 	
 </script>

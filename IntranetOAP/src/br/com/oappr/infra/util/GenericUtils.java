@@ -511,6 +511,16 @@ public final class GenericUtils
 	}
 
 	/**
+	 * Método que recebe um parametro String e se for null, retorna vazio.
+	 * @param vlr
+	 * @return
+	 */
+	public static final String nullToBlank (String vlr)
+	{
+		return (vlr == null) ? "" : vlr;
+	}
+
+	/**
 	 * Método que recebe um parametro String e se for vazio, retorna null.
 	 * @param vlr
 	 * @return
