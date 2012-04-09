@@ -68,29 +68,8 @@ public final class DaoFactory
 	public final void closeConection (Statement stm, ResultSet rs, Connection conn)
 	    throws Exception
 	{
-		try
-		{
-			if (rs != null)
-			{
-				rs.close();
-				rs = null;
-			}
-			if (stm != null)
-			{
-				stm.close();
-				stm = null;
-			}
-			if (conn != null)
-			{
-				conn.close();
-				conn = null;
-			}
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-			throw ex;
-		}
+		final ConnectionDAO con = new ConnectionDAO();
+		con.closeConection(stm, rs, conn);
 	}
 
 	/**
