@@ -58,6 +58,9 @@ public final class ServletReport
 		final String nrseqresultado = req.getParameter("nrseqresultado");
 		final String nrrequisicao = req.getParameter("nrrequisicao");
 		final String nroCadastroPaciente = req.getParameter("nroCadastroPaciente");
+		System.out.printf(
+		    "%n-> Gerando laudo PDF [Resulado: %s] [Requisição: %s] [Paciente: %s]%n",
+		    nrseqresultado, nrrequisicao, nroCadastroPaciente);
 		try
 		{
 			this.gerarRelatorio(str, nrseqresultado, nroCadastroPaciente, nrrequisicao, res);
@@ -66,6 +69,9 @@ public final class ServletReport
 		{
 			ex.printStackTrace();
 			throw new ServletException(ex);
+		}
+		finally
+		{
 		}
 	}
 

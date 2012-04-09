@@ -74,6 +74,7 @@ public class AutenticacaoLaudoOnlineAction
 		}
 		catch (Exception ex)
 		{
+			ex.printStackTrace();
 			throw new Exception(ex);
 		}
 		return com.opensymphony.xwork2.Action.SUCCESS;
