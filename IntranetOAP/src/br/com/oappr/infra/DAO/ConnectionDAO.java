@@ -41,7 +41,7 @@ final class ConnectionDAO
 	 * @return
 	 * @throws Exception
 	 */
-	public final Connection getConection () throws Exception
+	final Connection getConection () throws Exception
 	{
 		Connection conn = null;
 		try
@@ -83,6 +83,41 @@ final class ConnectionDAO
 		{
 		}
 		return conn;
+	}
+
+	/**
+	 * Fecha fluxo e conexão com base de dados.
+	 * @param stm
+	 * @param rs
+	 * @param conn
+	 * @throws Exception
+	 */
+	final void closeConection (Statement stm, ResultSet rs, Connection conn) throws Exception
+	{
+		try
+		{
+			if (rs != null)
+			{
+				rs.close();
+				rs = null;
+			}
+			if (stm != null)
+			{
+				stm.close();
+				stm = null;
+			}
+			if (conn != null)
+			{
+				conn.close();
+				conn = null;
+			}
+			System.err.println("[ OK ] Conexao fechada com sucesso...");
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw ex;
+		}
 	}
 
 	/**
