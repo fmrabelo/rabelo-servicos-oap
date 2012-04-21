@@ -3,8 +3,8 @@ package br.com.oappr.infra.util;
 import java.io.Serializable;
 
 /**
- * classe que contém as constantes utilizadas na camada de apresentação. *
- * @author desenvolvimento
+ * classe que contém as constantes utilizadas na camada de apresentação web.
+ * @author Rabelo Serviços.
  */
 public abstract class Constants
     implements Serializable
@@ -62,12 +62,6 @@ public abstract class Constants
 
 	public static final class StatusOptions
 	{
-
-		// Descrição das telas locadas
-		public static final byte TELA_CARTEIRA = 1;
-		public static final byte TELA_PEDIDOS_VENDA = 2;
-		public static final byte TELA_COMISSOES = 3;
-
 		// status locados
 		public static final byte EDIT_STATUS = 10;
 		public static final byte REMOVE_STATUS = 20;

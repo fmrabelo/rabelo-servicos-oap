@@ -7,7 +7,8 @@ import java.sql.Blob;
 import java.util.Date;
 
 /**
- * @author desenvolvimento
+ * Pojo para dados do Laudo.
+ * @author Rabelo Serviços.
  */
 public final class LaudoVO
     implements java.io.Serializable

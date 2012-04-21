@@ -10,7 +10,8 @@ import java.util.TimeZone;
 import javax.naming.InitialContext;
 
 /**
- * @author desenvolvimento
+ * Classe utilitaria para tratamento de datas e horarios.
+ * @author Rabelo Serviços.
  */
 public final class DateUtils
     implements Serializable

@@ -4,7 +4,8 @@
 package br.com.oappr.intranet.vo;
 
 /**
- * @author desenvolvimento
+ * Pojo para dados do Fone.
+ * @author Rabelo Serviços.
  */
 public final class FoneVO
     implements java.io.Serializable

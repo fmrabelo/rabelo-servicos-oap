@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Classe generica para gerar relatórios jasper.
+ * @author Rabelo Serviços.
  */
 public interface GenericReport<V extends Object>
     extends java.io.Serializable
