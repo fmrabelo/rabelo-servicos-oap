@@ -28,7 +28,7 @@ import br.com.oappr.infra.util.Validator;
  * Classe abstrata que encapsula detalhes de lógica para geração dos relatórios
  * no jasper report. Esta classe deve ser extendida pelas classes especialistas
  * que terão a lógica dos relatórios.
- * @author Desenvolvimento
+ * @author Rabelo Serviços.
  */
 public abstract class PrincipalReport<V extends Object>
     extends Object

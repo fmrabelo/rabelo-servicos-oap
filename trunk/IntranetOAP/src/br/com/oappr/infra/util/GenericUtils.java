@@ -10,7 +10,9 @@ import java.util.Locale;
 import javax.swing.text.MaskFormatter;
 
 /**
- * @author desenvolvimento
+ * Classe Generica para tratar configurações de localização, conversões e
+ * formatações de valores numéricos.
+ * @author Rabelo Serviços.
  */
 @SuppressWarnings("unchecked")
 public final class GenericUtils
@@ -24,10 +26,6 @@ public final class GenericUtils
 
 	private static final Locale[] locales = {new Locale("en", "US"), new Locale("de", "DE"),
 	    new Locale("fr", "FR"), new Locale("pt", "BR")};
-
-	/** mascaras utilizadas no sisfer */
-	// Máscara para Número da Di.
-	public static final String mascaraNroDi = "##/#######-#";
 
 	/**
 	 * @return

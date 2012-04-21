@@ -13,7 +13,7 @@ import br.com.oappr.infra.report.PrincipalReport;
 
 /**
  * Relatório de Laudos.
- * @author Fertipar
+ * @author Rabelo Serviços.
  */
 public final class LaudoReport
     extends PrincipalReport<Object>

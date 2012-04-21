@@ -3,9 +3,9 @@
  */
 package br.com.oappr.intranet.vo;
 
-
 /**
- * @author rabelo
+ * Pojo para dados do Medico.
+ * @author Rabelo Serviços.
  */
 public class MedicoVO
     extends PessoaVO

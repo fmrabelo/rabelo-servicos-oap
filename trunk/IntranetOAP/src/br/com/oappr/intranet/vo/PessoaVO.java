@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author desenvolvimento
+ * Pojo para dados do tipo pessoa.
+ * @author Rabelo Serviços.
  */
 public class PessoaVO
     implements java.io.Serializable

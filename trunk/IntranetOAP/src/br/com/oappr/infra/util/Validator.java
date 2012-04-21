@@ -6,7 +6,7 @@ import org.apache.commons.validator.GenericValidator;
 
 /**
  * Classe para validação de formulário de dados.
- * @author desenvolvimento
+ * @author Rabelo Serviços.
  */
 public final class Validator
 {
