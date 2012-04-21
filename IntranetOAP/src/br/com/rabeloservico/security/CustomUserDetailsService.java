@@ -9,7 +9,8 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.jdbc.JdbcDaoImpl;
 
 /**
- * @author desenvolvimento
+ * Classe para criar usuario com o spring.
+ * @author Rabelo Serviços.
  */
 public class CustomUserDetailsService
     extends JdbcDaoImpl

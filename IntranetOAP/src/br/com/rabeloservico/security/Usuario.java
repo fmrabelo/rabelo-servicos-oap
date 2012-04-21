@@ -4,7 +4,8 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 
 /**
- * @author desenvolvimento
+ * Classe Usuario.
+ * @author Rabelo Serviços.
  */
 public class Usuario
     implements UserDetails

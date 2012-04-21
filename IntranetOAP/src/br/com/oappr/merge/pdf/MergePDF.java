@@ -30,7 +30,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Classe responsável por fazer merge entre arquivos PDF.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 public final class MergePDF
     implements Serializable
