@@ -43,10 +43,10 @@
 			<band height="140"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="137"
-						y="15"
-						width="420"
-						height="15"
+						x="132"
+						y="13"
+						width="425"
+						height="17"
 						key="textField-1"/>
 					<box leftPadding="5">					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#333333"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#333333"/>
@@ -73,9 +73,9 @@
 				</image>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="137"
+						x="132"
 						y="30"
-						width="420"
+						width="425"
 						height="15"
 						key="textField-3"/>
 					<box leftPadding="5">					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#333333"/>
