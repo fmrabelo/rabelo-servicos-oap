@@ -5,6 +5,7 @@ package br.com.oappr.infra.DAO;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,9 +16,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
- * Classe Connection DAO responsável pela conexão com base de dados para
- * processos do laudo online.
- * @author desenvolvimento
+ * Classe Singleton responsável pela conexão com base de dados para processos do
+ * laudo online.
+ * @author Rabelo Serviços.
  */
 final class ConnectionDAO
     implements Serializable
@@ -28,13 +29,42 @@ final class ConnectionDAO
 	 */
 	private static final long serialVersionUID = -3187540011874205887L;
 	private final static String DATASOURCENAME = "java:/comp/env";
+	private static ConnectionDAO instance = null;
 
 	/**
-	 * 
+	 * construtor privado garante que não será instanciado externamente a não
+	 * ser via reflection.
 	 */
-	public ConnectionDAO ()
+	private ConnectionDAO ()
 	{
 		super();
+	}
+
+	/**
+	 * @throws NamingException
+	 */
+	private synchronized static void createInstance () throws NamingException
+	{
+		instance = new ConnectionDAO();
+	}
+
+	/**
+	 * @return ConnectionDAO
+	 */
+	public static final ConnectionDAO getInstance ()
+	{
+		if (instance == null)
+		{
+			try
+			{
+				createInstance();
+			}
+			catch (NamingException ne)
+			{
+				ne.printStackTrace();
+			}
+		}
+		return instance;
 	}
 
 	/**
@@ -44,6 +74,8 @@ final class ConnectionDAO
 	final Connection getConection () throws Exception
 	{
 		Connection conn = null;
+		System.out.printf("%n> Executando Classe ConnectionDAO.getConection() %n");
+		DatabaseMetaData db = null;
 		try
 		{
 			final Context initContext = new InitialContext();
@@ -52,11 +84,16 @@ final class ConnectionDAO
 			conn = ds.getConnection();
 			if (conn == null)
 			{
-				System.err.println("ERRO: Conexao oracle (jdbc/ADCON) nao criada...");
+				System.err.println("> ERRO: Conexao oracle (jdbc/ADCON) nao criada...");
 			}
 			else
 			{
 				System.err.println("[ OK ] Conexao oracle (jdbc/ADCON) criada com sucesso...");
+				db = conn.getMetaData();
+				if (db != null)
+				{
+					System.err.printf("  URL: %s%n  USER: %s%n", db.getURL(), db.getUserName());
+				}
 			}
 		}
 		catch (NamingException ne)
@@ -81,6 +118,7 @@ final class ConnectionDAO
 		}
 		finally
 		{
+			db = null;
 		}
 		return conn;
 	}
