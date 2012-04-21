@@ -7,7 +7,7 @@ import com.artofsolving.jodconverter.DocumentFormat;
 
 /**
  * Classe de configuração para conversões de arquivos RTF para PDF.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 public final class ConversorFromTextOffice
     extends ConversorFromOffice
@@ -26,5 +26,4 @@ public final class ConversorFromTextOffice
 		doc.setExportFilter(DocumentFamily.TEXT, "MS Word 97");
 		return doc;
 	}
-
 }

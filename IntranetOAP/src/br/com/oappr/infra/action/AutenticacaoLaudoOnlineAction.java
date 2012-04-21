@@ -20,12 +20,9 @@ import br.com.oappr.intranet.vo.PessoaVO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * @author desenvolvimento
+ * Classe responsável pela lógica de autenticação para acesso ao laudo onLine.
+ * @author Rabelo Serviços.
  */
-// @Validations(requiredStrings = {@RequiredStringValidator(fieldName =
-// "nroCadastroPaciente", message = "Valor obrigatório")}, stringLengthFields =
-// {@StringLengthFieldValidator(fieldName = "nroCadastroPaciente", minLength =
-// "5", message = "Min. 5 car.")})
 public class AutenticacaoLaudoOnlineAction
     extends ActionSupport
     implements ReportParameters

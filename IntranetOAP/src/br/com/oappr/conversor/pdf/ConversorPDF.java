@@ -6,11 +6,10 @@ import br.com.oappr.conversor.ConvertDocumentException;
 
 /**
  * Interface para conversão rtf to pdf.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 public interface ConversorPDF
     extends Serializable
 {
 	public byte[] converterDocumento (byte[] document) throws ConvertDocumentException;
-
 }

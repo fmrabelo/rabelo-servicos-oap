@@ -19,7 +19,7 @@ import br.com.oappr.intranet.vo.PessoaVO;
  * Classe Login DAO responsável pela comunicação com base de dados para
  * processos de Autenticação e recuperar dados de pessoa física
  * (médico/paciente) e Juridica (empresa).
- * @author desenvolvimento
+ * @author Rabelo Serviços.
  */
 final class PessoaDAO
     implements Serializable

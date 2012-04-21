@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Classe de controle de exceções na conversão rtf para pdf.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 public class ConvertDocumentException
     extends RuntimeException

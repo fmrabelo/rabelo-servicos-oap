@@ -32,8 +32,9 @@ import br.com.oappr.intranet.vo.PessoaVO;
 import br.com.oappr.merge.pdf.MergePDF;
 
 /**
- * Servlet responsável pelas regras para gerar o laudo online em pdf.
- * @author rabelo
+ * Servlet responsável pelas regras para receber dados do formulario web e em
+ * seguida pesquisar os dados e gerar o laudo online em pdf.
+ * @author Rabelo Serviços.
  */
 public final class ServletReport
     extends HttpServlet
@@ -44,7 +45,7 @@ public final class ServletReport
 	 */
 	private static final long serialVersionUID = 13206501245454L;
 
-	// parametros para jasper report
+	// parametros para relatorios jasper report
 	HashMap<String, String> parameters = new HashMap<String, String>();
 
 	/**
@@ -165,45 +166,49 @@ public final class ServletReport
 			final PessoaVO paciente = DaoFactory.getInstance().getPacienteByMatricula(
 			    laudo.getCdpessoa());
 			// dados do paciente
-			if (paciente != null)
+			String DSCR_PACIENTE = "";
+			if ((paciente != null) && !Validator.isBlankOrNull(paciente.getNomePessoa()))
 			{
-				parameters.put(PACIENTE, "PACIENTE : ".concat(paciente.getNomePessoa() != null
-				    ? paciente.getNomePessoa().toUpperCase()
-				    : ""));
+				DSCR_PACIENTE = paciente.getNomePessoa().toUpperCase();
 			}
+			parameters.put(LABEL_PACIENTE, ("PACIENTE: ").concat(DSCR_PACIENTE));
 
 			// Médico solicitante do exame.
+			String DESCR_MEDICO = "";
 			final PessoaVO medicoSolicitante = DaoFactory.getInstance().getMedicoSolicitante(
 			    laudo.getNrseqresultado());
 			if ((medicoSolicitante != null)
 			    && !Validator.isBlankOrNull(medicoSolicitante.getNomePessoa()))
 			{
-				parameters.put(DESCR_MEDICO,
-				    "A/C : ".concat(GenericUtils.nullToBlank(medicoSolicitante.getNomePessoa())));
+				DESCR_MEDICO = medicoSolicitante.getNomePessoa();
 			}
+			parameters.put(LABEL_DESCR_MEDICO, "A/C: ".concat(DESCR_MEDICO));
+
 			// Parametros para o médico responsável pelo Exame.
 			final MedicoVO medRespExam = DaoFactory.getInstance().getMedicoResponsavelPorExame(
 			    laudo.getNrrequisicao(), laudo.getNrseqresultado());
+			final StringBuilder buffer = new StringBuilder("");
+			String DESC_CRM_MEDICO = "";
+			String DESC_CIDADE_EXAME = "";
 			if (medRespExam != null)
 			{
-				final StringBuilder buffer = new StringBuilder("Exame realizado pel");
+				buffer.append("Exame realizado pel");
 				buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ? "a " : "o "));
 				buffer.append(GenericUtils.nullToBlank(medRespExam.getSiglaTratamento())).append(
 				    " ").append(GenericUtils.nullToBlank(medRespExam.getNomePessoa()));
-
-				parameters.put(MEDICO_RESPONSAVEL_EXAME, buffer.toString());
-				parameters.put(CRM_MEDICO_RESPONSAVEL_EXAME, medRespExam.getDescrCRM());
+				DESC_CRM_MEDICO = medRespExam.getDescrCRM();
 				if (empresa != null)
 				{
-					parameters.put(
-					    CIDADE_DATA_EXAME,
-					    GenericUtils.nullToBlank(empresa.getCidade()).concat(", ").concat(
-					        GenericUtils.nullToBlank(DateUtils.formatDateExtenso(laudo.getDtconsulta()))));
+					DESC_CIDADE_EXAME = GenericUtils.nullToBlank(empresa.getCidade()).concat(", ").concat(
+					    GenericUtils.nullToBlank(DateUtils.formatDateExtenso(laudo.getDtconsulta())));
 				}
 			}
+			parameters.put(LABEL_MEDICO_RESPONSAVEL_EXAME, buffer.toString());
+			parameters.put(LABEL_CRM_MEDICO_RESPONSAVEL_EXAME, DESC_CRM_MEDICO);
+			parameters.put(LABEL_CIDADE_DATA_EXAME, DESC_CIDADE_EXAME);
 
 			// Parametro Nome do Laudo
-			parameters.put(NOME_LAUDO, laudo.getDsexamecompl());
+			parameters.put(LABEL_NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
 
 			final String fileName = "TONOMETRIA";// nome do jasper

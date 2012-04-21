@@ -16,7 +16,7 @@ import br.com.oappr.intranet.vo.LaudoVO;
 /**
  * Classe Laudo DAO responsável pela comunicação com base de dados para
  * processos do laudo.
- * @author desenvolvimento
+ * @author Rabelo Serviços.
  */
 final class LaudoDAO
     implements Serializable

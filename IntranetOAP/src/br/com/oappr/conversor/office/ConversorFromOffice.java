@@ -18,7 +18,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
 /**
  * Classe que contém métodos com as regras de acesso aos serviços openOffice e
  * para conversão de RTF para PDF.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 /*
  * Para deixar o openoffice aceitando tcp/ip: soffice -headless
@@ -34,6 +34,7 @@ public abstract class ConversorFromOffice
 	 */
 	private final String host = "localhost";
 	private final int porta = 8100;
+	private static final String MSG = "Serviço do open office fora do ar! Conversões para PDF a partir de documentos não irão funcionar!";
 
 	/**
 	 * 
@@ -46,8 +47,7 @@ public abstract class ConversorFromOffice
 		}
 		catch (ConnectException e)
 		{
-			throw new ConvertDocumentException(
-			    "Serviço do open office fora do ar! Conversões para PDF a partir de documentos não irão funcionar!");
+			throw new ConvertDocumentException(MSG);
 		}
 	}
 
@@ -64,7 +64,6 @@ public abstract class ConversorFromOffice
 		try
 		{
 			DocumentFormat doc = this.getTipoDeDocumentoParaConverter();
-
 			DocumentFormat pdf = new DocumentFormat("Portable Document Format", "application/pdf",
 			    "pdf");
 			pdf.setExportFilter(DocumentFamily.TEXT, "writer_pdf_Export");

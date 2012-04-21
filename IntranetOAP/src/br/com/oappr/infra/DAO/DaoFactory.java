@@ -15,7 +15,7 @@ import br.com.oappr.intranet.vo.PessoaVO;
 /**
  * Classe Factory que trabalha como interface DAO Beans da camada Core de
  * negócio.
- * @author desenvolvimento
+ * @author Rabelo Serviços.
  */
 public final class DaoFactory
     implements Serializable
@@ -23,15 +23,25 @@ public final class DaoFactory
 	private static final long serialVersionUID = 1684584130338296210L;
 	private static DaoFactory instance = null;
 
+	/**
+	 * construtor privado garante que não será instanciado externamente a não
+	 * ser via reflection.
+	 */
 	private DaoFactory ()
 	{
 	}
 
+	/**
+	 * @throws NamingException
+	 */
 	private synchronized static void createInstance () throws NamingException
 	{
 		instance = new DaoFactory();
 	}
 
+	/**
+	 * @return
+	 */
 	public static final DaoFactory getInstance ()
 	{
 		if (instance == null)
@@ -54,8 +64,7 @@ public final class DaoFactory
 	 */
 	public final Connection getConection () throws Exception
 	{
-		final ConnectionDAO con = new ConnectionDAO();
-		return con.getConection();
+		return ConnectionDAO.getInstance().getConection();
 	}
 
 	/**
@@ -68,8 +77,7 @@ public final class DaoFactory
 	public final void closeConection (Statement stm, ResultSet rs, Connection conn)
 	    throws Exception
 	{
-		final ConnectionDAO con = new ConnectionDAO();
-		con.closeConection(stm, rs, conn);
+		ConnectionDAO.getInstance().closeConection(stm, rs, conn);
 	}
 
 	/**

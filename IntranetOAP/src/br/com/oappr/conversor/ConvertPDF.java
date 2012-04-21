@@ -10,7 +10,7 @@ import br.com.oappr.conversor.pdf.ConversorPDF;
 
 /**
  * Classe responsável por converter conteudo RTF em PDF.
- * @author rabelo
+ * @author Rabelo Serviços.
  */
 public final class ConvertPDF
     implements Serializable
