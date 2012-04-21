@@ -8,7 +8,8 @@ import org.springframework.security.event.authentication.AuthenticationFailureBa
 import org.springframework.security.event.authentication.AuthenticationSuccessEvent;
 
 /**
- * @author desenvolvimento
+ * Classe para validação usuario.
+ * @author Rabelo Serviços.
  */
 public class IncorrectPasswordEventListener
     extends JdbcDaoSupport
