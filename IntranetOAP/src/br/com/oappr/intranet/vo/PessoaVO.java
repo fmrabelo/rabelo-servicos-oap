@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Pojo para dados do tipo pessoa.
+ * Super Classe Pojo para os atributos dos dados do tipo pessoa.
  * @author Rabelo Serviços.
  */
 public class PessoaVO
