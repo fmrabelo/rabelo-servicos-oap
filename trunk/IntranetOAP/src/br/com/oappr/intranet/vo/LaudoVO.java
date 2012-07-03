@@ -7,8 +7,8 @@ import java.sql.Blob;
 import java.util.Date;
 
 /**
- * Pojo para dados do Laudo.
- * @author Rabelo Serviços.
+ * Classe Pojo contendo atributos para os dados do Laudo.
+ * @author Rabelo Serviços Ltda.
  */
 public final class LaudoVO
     implements java.io.Serializable
@@ -18,12 +18,6 @@ public final class LaudoVO
 	 * 
 	 */
 	private static final long serialVersionUID = 10216598875464987L;
-
-	// private Long id;
-	// private String descricao;
-	// private boolean finalizado;
-	// private Date dataFinalizacao;
-
 	private Long nrrequisicao;
 	private Long nrseqresultado;
 	private Date dtconsulta;
@@ -40,20 +34,12 @@ public final class LaudoVO
 	private Long cdconvenio;
 	private Long nrususolic;
 	private Blob dsrtf;
+	private Blob images;
 
 	/**
 	 * 
 	 */
 	public LaudoVO ()
-	{
-		super();
-	}
-
-	/**
-	 * @param id
-	 * @param descricao
-	 */
-	public LaudoVO (Long id, String descricao)
 	{
 		super();
 	}
@@ -312,6 +298,22 @@ public final class LaudoVO
 	public void setDsrtf (Blob dsrtf)
 	{
 		this.dsrtf = dsrtf;
+	}
+
+	/**
+	 * @return the images
+	 */
+	public Blob getImages ()
+	{
+		return images;
+	}
+
+	/**
+	 * @param images the images to set
+	 */
+	public void setImages (Blob images)
+	{
+		this.images = images;
 	}
 
 	/*
