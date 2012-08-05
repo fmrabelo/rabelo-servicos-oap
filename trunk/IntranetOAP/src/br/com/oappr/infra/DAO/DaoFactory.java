@@ -1,5 +1,6 @@
 package br.com.oappr.infra.DAO;
 
+import java.io.File;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -144,5 +145,23 @@ public final class DaoFactory
 	{
 		final LaudoDAO laudo = new LaudoDAO();
 		return laudo.getLaudos(nroCadastroPaciente, codigoLaudo, nroRequisicao);
+	}
+
+	/**
+	 * @return
+	 * @throws Exception
+	 */
+	@Deprecated
+	public final List<LaudoVO> getLaudosLixo () throws Exception
+	{
+		final LaudoDAO laudo = new LaudoDAO();
+		return laudo.getLaudosLixo();
+	}
+
+	@Deprecated
+	public final void gravaImagem (final File file)
+	{
+		final LaudoDAO laudo = new LaudoDAO();
+		laudo.gravaImagem(file);
 	}
 }
