@@ -3,8 +3,11 @@
  */
 package br.com.oappr.infra.DAO;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -134,5 +137,122 @@ final class LaudoDAO
 			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return lista;
+	}
+
+	/**
+	 * Teste lixo IMAGE
+	 */
+	final List<LaudoVO> getLaudosLixo () throws Exception
+	{
+		Statement stm = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		LaudoVO p = null;
+		List<LaudoVO> lista = null;
+		StringBuilder str = new StringBuilder();
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			if (conn != null)
+			{
+				stm = conn.createStatement();
+				str.append(" SELECT T1.ID, T1.IMAGEM ");
+				str.append(" FROM SYSADM.LIXOIMAGEM T1 ");
+				rs = stm.executeQuery(str.toString());
+				lista = new ArrayList<LaudoVO>();
+				while ((rs != null) && rs.next())
+				{
+					p = new LaudoVO();
+					p.setCdconvenio(rs.getLong("ID"));
+					p.setImages(rs.getBlob("IMAGEM"));
+					lista.add(p);
+				}
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new Exception(ex);
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
+		}
+		return lista;
+	}
+
+	public final void gravaImagem (final File file)
+	{
+		Connection conn = null;
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			// insert
+			PreparedStatement ps = conn.prepareStatement(" INSERT INTO SYSADM.LIXOIMAGEM(ID, IMAGEM) VALUES(?, ?) ");
+			ps.setInt(1, 1);
+			FileInputStream is = new FileInputStream(file);
+			ps.setBinaryStream(2, is, (int)file.length());
+			ps.execute();
+			// ps.executeUpdate();
+			ps.close();
+			is.close();
+
+			// update
+			// ps = conn.prepareStatement(" SELECT IMAGEM FROM SYSADM.LIXOIMAGEM
+			// WHERE ID = ? FOR UPDATE ");
+			// ps.setInt(1, 1);
+
+			// ResultSet rs = ps.executeQuery();
+			// if (rs.next())
+			// {
+			// Blob blob = rs.getBlob("IMAGEM");
+			// OutputStream outputStream = blob.setBinaryStream(0L);
+			// InputStream inputStream = new ByteArrayInputStream(file);
+			// byte[] buffer = blob.getBytes(1, file.length);
+			// int byteread = 0;
+			// while ((byteread = inputStream.read(buffer)) != -1)
+			// {
+			// outputStream.write(buffer, 0, byteread);
+			// }
+			// outputStream.close();
+			// inputStream.close();
+			// }
+			// rs.close();
+			// ps.close();
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				conn.close();
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+			conn = null;
+		}
 	}
 }
