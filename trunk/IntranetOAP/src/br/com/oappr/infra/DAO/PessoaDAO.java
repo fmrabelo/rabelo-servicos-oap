@@ -11,9 +11,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.oappr.infra.exceptions.OAPInternalException;
+import br.com.oappr.infra.util.GenericUtils;
 import br.com.oappr.intranet.vo.FoneVO;
 import br.com.oappr.intranet.vo.MedicoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
+import br.com.oappr.intranet.vo.UsuarioWebOapVO;
 
 /**
  * Classe Login DAO responsável pela comunicação com base de dados para
@@ -22,7 +25,7 @@ import br.com.oappr.intranet.vo.PessoaVO;
  * @author Rabelo Serviços.
  */
 final class PessoaDAO
-    implements Serializable
+    implements Serializable, DaoOap
 {
 
 	/**
@@ -36,6 +39,150 @@ final class PessoaDAO
 	public PessoaDAO ()
 	{
 		super();
+	}
+
+	/**
+	 * Autenticação de usuário interno OAP.
+	 * @param UsuarioWebOapVO user
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	final UsuarioWebOapVO autenticarUsuarioWebOAP (UsuarioWebOapVO user)
+	    throws OAPInternalException, Exception
+	{
+		if (user != null)
+		{
+			user = this.findUsuarioWebOAPById(user.getNrusuario());
+			if (user != null)
+			{
+				final String cryptMD5 = GenericUtils.cryptMD5(user.getSenhaweb());
+				if (cryptMD5.equals(user.getSenhaweb()))
+				{
+					return user;
+				}
+			}
+			else
+			{
+				throw new OAPInternalException("Usuário inválido ou não cadastrado.");
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Autenticação de usuário interno OAP.
+	 * @param UsuarioWebOapVO user
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	private final UsuarioWebOapVO findUsuarioWebOAPById (final Long nroUsuario) throws Exception
+	{
+		Statement stm = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			if ((conn != null) && (nroUsuario != null))
+			{
+				stm = conn.createStatement();
+				final String query = "SELECT T1.IDWEB, T1.NRUSUARIO, T1.SENHAWEB, T1.EMAILWEB FROM SYSADM.acwebacesso T1 WHERE T1.NRUSUARIO = ?1";
+				rs = stm.executeQuery(query.replace("?1", nroUsuario.toString()));
+				UsuarioWebOapVO user = null;
+				while ((rs != null) && rs.next())
+				{
+					user = new UsuarioWebOapVO();
+					user.setIdweb(rs.getLong("IDWEB"));
+					user.setNrusuario(nroUsuario);
+					user.setSenhaweb(rs.getString("SENHAWEB"));
+					user.setEmailweb(rs.getString("EMAILWEB"));
+				}
+				return user;
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new Exception(ex);
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
+		}
+		return null;
+	}
+
+	/**
+	 * Cadastro de usuário interno OAP.
+	 * @param UsuarioWebOapVO user
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	final UsuarioWebOapVO insertUsuarioWebOAP (final UsuarioWebOapVO user)
+	    throws OAPInternalException, Exception
+	{
+		Statement stm = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			if ((conn != null) && (user != null))
+			{
+				stm = conn.createStatement();
+				// verificar se é um código válido de colaborador da OAP.
+				rs = stm.executeQuery("select * from sysadm.ACUSUARI where nrusuario = "
+				    + user.getNrusuario());
+				if ((rs != null) && rs.next())
+				{
+					// verficar se já existe cadastro web para o colaborador.
+					final UsuarioWebOapVO userExist = this.findUsuarioWebOAPById(user.getNrusuario());
+					if (userExist != null)
+					{
+						throw new OAPInternalException("Atenção: O usuário com código OAP "
+						    + user.getNrusuario() + " já existe no sistema web.");
+					}
+					final String query = "INSERT INTO SYSADM.acwebacesso (idweb, nrusuario, senhaweb, emailweb) VALUES ( SYSADM.ID_WEB.nextval, ?1, '?2', '?3')";
+					user.setSenhaweb(GenericUtils.cryptMD5(user.getSenhaweb()));
+					stm.executeUpdate(query.replace("?1", user.getNrusuario().toString()).replace(
+					    "?2", user.getSenhaweb().toString()).replace("?3", user.getEmailweb()));
+				}
+				else
+				{
+					throw new OAPInternalException("Atenção: O código " + user.getNrusuario()
+					    + " não pertence a nenhum colaborador da OAP.");
+				}
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
+		}
+		return user;
 	}
 
 	/**

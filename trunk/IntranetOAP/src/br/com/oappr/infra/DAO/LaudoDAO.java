@@ -22,7 +22,7 @@ import br.com.oappr.intranet.vo.LaudoVO;
  * @author Rabelo Serviços.
  */
 final class LaudoDAO
-    implements Serializable
+    implements Serializable, DaoOap
 {
 
 	/**
