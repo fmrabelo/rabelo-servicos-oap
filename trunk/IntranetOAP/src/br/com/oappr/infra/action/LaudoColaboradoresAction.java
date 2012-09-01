@@ -117,6 +117,7 @@ public class LaudoColaboradoresAction
 				if (oapUser != null)
 				{
 					setUserSession(oapUser);
+					return SUCCESS;
 				}
 				else
 				{
@@ -133,7 +134,7 @@ public class LaudoColaboradoresAction
 				e.printStackTrace();
 			}
 		}
-		return SUCCESS;
+		return ERROR;
 	}
 
 	/**
