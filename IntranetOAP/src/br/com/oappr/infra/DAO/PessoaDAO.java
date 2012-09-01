@@ -52,11 +52,11 @@ final class PessoaDAO
 	{
 		if (user != null)
 		{
+			final String inPwd = GenericUtils.cryptMD5(user.getSenhaweb());
 			user = this.findUsuarioWebOAPById(user.getNrusuario());
 			if (user != null)
 			{
-				final String cryptMD5 = GenericUtils.cryptMD5(user.getSenhaweb());
-				if (cryptMD5.equals(user.getSenhaweb()))
+				if (inPwd.equals(user.getSenhaweb()))
 				{
 					return user;
 				}
