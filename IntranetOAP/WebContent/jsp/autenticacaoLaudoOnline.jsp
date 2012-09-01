@@ -15,7 +15,7 @@
 </head>
 
 <body leftmargin="2">
-
+<div align="center">
 <s:form action="autenticarPaciente" method="post" validate="true">
 
 	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
@@ -79,24 +79,14 @@
 			</tr>
 			<tr><td colspan="2" align="left"><br></td></tr>
 			
-			<br>	
-			<tr align="center">
-				<br>
-				<td colspan="2" align="left">
-					<table width="200px" align="center" cellpadding="1" cellspacing="1" border="0">
-						<tr>
-							<br>	
-							<td width="100%" align="left" class="submit_bt">
-								<s:submit value="Validar Dados" onclick="javascrit:validar();"/>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
+			<br>
+			<div align="center">
+					<s:submit value="Validar Dados" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px" align="center"/>
+			</div>	
 	</table>
 	<br/>
 </s:form>
-
+</div>
 </body>
 </html>
 <script type="text/javascript">

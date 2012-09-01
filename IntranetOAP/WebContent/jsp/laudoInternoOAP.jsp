@@ -38,10 +38,10 @@
 		<table>
 			<tr>
 				<td>
-		   			<s:submit action="insertColaboradorOap" id="saveRegister" key="label.save" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
+		   			<s:submit action="loginOap" id="saveRegister" key="label.ok" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
 				</td>
 				<td>		
-		   	   		<s:submit action="initRegisterUser" id="init" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
+		   	   		<s:submit action="loginOap" id="init" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
 				</td>		
 			</tr>
 		</table>

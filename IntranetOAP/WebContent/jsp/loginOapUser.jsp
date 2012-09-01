@@ -16,19 +16,19 @@
 	<div align="center">
 	<s:form action="initRegisterUser" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
 		<div class="widget titulo_branco_grande" align="center">
-			<p><s:text name="%{getText('label.signUp')}"/></p>
+			<p> Área Restrita para Usuários OAP *********** <s:text name="%{getText('label.signUp')}"/></p>
 		</div>
-			AREA RESTRITA USUÁRIOS OAP.
-		<div align="center" class="texto_vermelho_10px"> 
-		  <p>
-		  <s:fielderror/> 	 	
-		  <s:actionerror/>
-		  </p>
-		</div>
-		<div align="center" style="font:bold;color:blue;">
-		   <s:actionmessage/>		 
-		</div>	
+			
 		<div>
+			<div align="center" class="texto_vermelho_10px"> 
+			  <p>
+			  <s:fielderror/> 	 	
+			  <s:actionerror/>
+			  </p>
+			</div>
+			<div align="center" style="font:bold;color:blue;">
+			   <s:actionmessage/>		 
+			</div>	
 	      	<p>
 	      		<s:textfield name="user.nrusuario" id="nrusuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
