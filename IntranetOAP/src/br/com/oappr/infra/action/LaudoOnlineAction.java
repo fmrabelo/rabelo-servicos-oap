@@ -23,7 +23,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * Classe responsável pela lógica de autenticação para acesso ao laudo onLine.
  * @author Rabelo Serviços.
  */
-public class AutenticacaoLaudoOnlineAction
+public class LaudoOnlineAction
     extends ActionSupport
     implements ReportParameters
 {
@@ -48,7 +48,7 @@ public class AutenticacaoLaudoOnlineAction
 	public String execute ()
 	{
 		this.setDataNascimento(Calendar.getInstance().getTime());
-		return com.opensymphony.xwork2.Action.SUCCESS;
+		return SUCCESS;
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class AutenticacaoLaudoOnlineAction
 			if (!Validator.notEmptyCollection(this.getListaLaudos()))
 			{
 				this.addFieldError("nroCadastroPaciente", "Nenhum registro de Laudo localizado!!");
-				return com.opensymphony.xwork2.Action.ERROR;
+				return ERROR;
 			}
 		}
 		catch (Exception ex)
@@ -74,7 +74,7 @@ public class AutenticacaoLaudoOnlineAction
 			ex.printStackTrace();
 			throw new Exception(ex);
 		}
-		return com.opensymphony.xwork2.Action.SUCCESS;
+		return SUCCESS;
 	}
 
 	/**
@@ -91,13 +91,13 @@ public class AutenticacaoLaudoOnlineAction
 		if (cdPessoa == null)
 		{
 			this.addFieldError("nroCadastroPaciente", "* Campo Obrigatório. (Usar apenas Números)");
-			return com.opensymphony.xwork2.Action.ERROR;
+			return ERROR;
 		}
 		if (this.getDataNascimento() == null)
 		{
 			this.addFieldError("dataNascimento",
 			    "* Campo Obrigatório. Preencher com uma Data Válida no formato dd/mm/aaaa (Exemplo: 01/05/1989)");
-			return com.opensymphony.xwork2.Action.ERROR;
+			return ERROR;
 		}
 
 		try
@@ -106,7 +106,7 @@ public class AutenticacaoLaudoOnlineAction
 			if ((this.getPessoaVo() == null) || (this.getPessoaVo().getDataNascimento() == null))
 			{
 				this.addFieldError("nroCadastroPaciente", "* Este Nº de Matricula está Incorreto!!");
-				return com.opensymphony.xwork2.Action.ERROR;
+				return ERROR;
 			}
 			// pessoa localizada, validar a data nascimento. Adicionar +1h nas
 			// datas para garantir distorção no horário de verão em algumas
@@ -123,7 +123,7 @@ public class AutenticacaoLaudoOnlineAction
 				// Dt.Nasc. Matr: " +
 				// (DateUtils.formatDateDDMMYYYY(dataNascPessoa) + " Dt.Nasc.
 				// Informada: " + DateUtils.formatDate(dataNascField)));
-				return com.opensymphony.xwork2.Action.ERROR;
+				return ERROR;
 			}
 
 			// Pessoa localizada e data nascimento conferida. pesquisar os
@@ -134,16 +134,16 @@ public class AutenticacaoLaudoOnlineAction
 		{
 			ex.printStackTrace();
 			this.addFieldError("nroCadastroPaciente", ex.getMessage());
-			return com.opensymphony.xwork2.Action.ERROR;
+			return ERROR;
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
 			this.addFieldError("nroCadastroPaciente", ex.getMessage());
-			return com.opensymphony.xwork2.Action.ERROR;
+			return ERROR;
 		}
 
-		return com.opensymphony.xwork2.Action.SUCCESS;
+		return SUCCESS;
 	}
 
 	/**
