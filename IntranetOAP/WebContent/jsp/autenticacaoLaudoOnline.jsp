@@ -8,9 +8,10 @@
 <head>
 	<s:head/>
 	<sx:head/>
-	<link href="<s:url value="/resources/main.css"/>" rel="stylesheet" type="text/css"/>
+	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
+	<script type="text/javascript" src="resources/js/oap.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>OAP - Oftalmologistas Associados do Paraná</title>
+	<title><s:text name="application.title"/></title>
 </head>
 
 <body leftmargin="2">
@@ -26,7 +27,7 @@
 		<tr>
 			<td>
 				<br> 
-				<span class="texto_TNR_Azul_26px">OFTALMOLOGISTAS ASSOCIADOS DO PARANÁ</span>					
+				<span class="texto_TNR_Azul_26px"><s:text name="business.title"/></span>					
 			</td>
 		</tr>
 	</table>
@@ -35,7 +36,7 @@
 		    	<td colspan="2" valign="top" align="center" bordercolor="#EAF4FF;">		    		
 					<span class="texto_Azul_Negrito_20px">
 					<img src="images/usuario.gif" alt="Segurança" style="background-color: transparent;" align="bottom"/>
-					Autenticação para Acesso
+					Autenticação para Acesso aos Laudos
 					</span>
 					<br>
 				</td>
@@ -72,7 +73,7 @@
 			</tr>			
 			<tr>
 				<td colspan="2">
-						<s:textfield name="nroCadastroPaciente" id="nroCadastroPacienteId" label="Número da Matrícula" cssClass="inputText_16px"/>
+						<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/>
 						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
 				</td>
 			</tr>
@@ -119,31 +120,6 @@
 	  	}
 	}
 	
-		
-	/*
-	  Função: validarNumero
-	
-	  Parâmetros
-	  	conteudo: Obrigatório, do tipo String. Recebe o caracter correspondente ao evento do teclado.
-	
-	  Funcionalidade
-		Não permite a entrada de caracteres que não sejam numéricos.
-	
-	  Exemplo de utilização
-		validarNumero(entrada)
-	*/
-	function validarNumero(conteudo)
-	{
-		var validos = "0123456789";
-		var valor = new String(conteudo);
-	
-		for (var i = 0; i < valor.length; i++)
-		{
-			if (validos.indexOf(valor.charAt(i)) == -1)
-				return false;
-		}
-		return true;
-	}
 
 	/*
 		Seta foco para o TestField nroCadastroPacient
