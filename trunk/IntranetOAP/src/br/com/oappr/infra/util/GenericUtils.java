@@ -1,13 +1,19 @@
 package br.com.oappr.infra.util;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 import javax.swing.text.MaskFormatter;
+
+import sun.misc.BASE64Encoder;
 
 /**
  * Classe Generica para tratar configurações de localização, conversões e
@@ -557,5 +563,28 @@ public final class GenericUtils
 	public static final boolean onOff (String vlr)
 	{
 		return (vlr != null) ? (Constants.ON.equalsIgnoreCase(vlr) ? true : false) : false;
+	}
+
+	/**
+	 * @param text
+	 * @return
+	 * @throws Exception
+	 * @throws RemoteException
+	 */
+	public static final String cryptMD5 (final String text)
+	{
+		try
+		{
+			final MessageDigest md = MessageDigest.getInstance("MD5");
+			md.update(text.getBytes("UTF-8"));
+			return new BASE64Encoder().encode(md.digest());
+		}
+		catch (UnsupportedEncodingException e)
+		{
+		}
+		catch (NoSuchAlgorithmException e)
+		{
+		}
+		return text;
 	}
 }

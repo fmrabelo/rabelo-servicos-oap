@@ -13,6 +13,8 @@ public abstract class Constants
 	// constantes para controle.
 	public static final String ON = "on";
 	public static final String OFF = "off";
+	public static final int PASSWORD_MIN_LENGTH = 6;
+	public static final String SESSION_USER_OAP = "SESSION_USER_OAP";
 
 	public final class Default
 	{
