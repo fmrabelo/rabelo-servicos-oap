@@ -9,9 +9,11 @@ import java.util.List;
 
 import javax.naming.NamingException;
 
+import br.com.oappr.infra.exceptions.OAPInternalException;
 import br.com.oappr.intranet.vo.LaudoVO;
 import br.com.oappr.intranet.vo.MedicoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
+import br.com.oappr.intranet.vo.UsuarioWebOapVO;
 
 /**
  * Classe Factory que trabalha como interface DAO Beans da camada Core de
@@ -145,6 +147,30 @@ public final class DaoFactory
 	{
 		final LaudoDAO laudo = new LaudoDAO();
 		return laudo.getLaudos(nroCadastroPaciente, codigoLaudo, nroRequisicao);
+	}
+
+	/**
+	 * Autenticar Colaborador da OAP.
+	 * @param user UsuarioWebOapVO
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	public final UsuarioWebOapVO autenticarUsuarioWebOAP (UsuarioWebOapVO user)
+	    throws OAPInternalException, Exception
+	{
+		return new PessoaDAO().autenticarUsuarioWebOAP(user);
+	}
+
+	/**
+	 * Autenticar Colaborador da OAP.
+	 * @param user UsuarioWebOapVO
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	public final UsuarioWebOapVO insertUsuarioWebOAP (UsuarioWebOapVO user) throws Exception,
+	    OAPInternalException
+	{
+		return new PessoaDAO().insertUsuarioWebOAP(user);
 	}
 
 	/**
