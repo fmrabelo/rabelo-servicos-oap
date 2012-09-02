@@ -32,19 +32,19 @@
 
 		<div>
 	      	<p>
-	      		<s:textfield name="user.nrusuario" id="nrusuario" required="true" placeholder="Número do Usuário" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrusuario" id="nrusuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
 	      		<s:textfield name="user.emailweb" id="emailweb" placeholder="E-mail" cssStyle="width:300px"/>
 	      	</P>
 	      	<p>
-	      		<s:textfield name="confirmEmailweb" id="confirmEmailweb" placeholder="Confirme o E-mail" cssStyle="width:300px"/>
+	      		<s:textfield name="confirmEmailweb" id="confirmEmailweb" placeholder="Confirmar E-mail" cssStyle="width:300px"/>
 	      	</P>							
 	      	<p>
 	      		<s:password name="user.senhaweb" id="senhaweb" placeholder="Senha" cssStyle="width:300px"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="confirmSenhaweb" id="confirmSenhaweb" placeholder="Confirme a Senha"  cssStyle="width:300px"/>
+	      		<s:password name="confirmSenhaweb" id="confirmSenhaweb" placeholder="Confirmar Senha"  cssStyle="width:300px"/>
 	      	</P>							
 		</div>
 		<table>

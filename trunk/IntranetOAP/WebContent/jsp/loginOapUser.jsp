@@ -16,7 +16,7 @@
 	<div align="center">
 	<s:form action="initRegisterUser" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
 		<div class="widget titulo_branco_grande" align="center">
-			<p> Área Restrita para Usuários OAP *********** <s:text name="%{getText('label.signUp')}"/></p>
+			<p><s:text name="%{getText('label.restrictedArea')}"/></p>
 		</div>
 			
 		<div>
@@ -42,7 +42,7 @@
 		   			<s:submit action="autenticarColaboradorOap" id="login" key="label.send" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
 				</td>
 				<td>		
-		   	   		<s:submit action="loginOap" id="init" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
+		   	   		<s:submit action="initRegisterUser" id="init" key="label.newUser" cssClass="button" cssStyle="width:200px"/>
 				</td>		
 			</tr>
 		</table>

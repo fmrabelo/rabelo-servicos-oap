@@ -243,7 +243,7 @@ public final class ServletReport
 			final HttpServletResponse response = ServletActionContext.getResponse();
 
 			// Parametros do cabeçalho
-			final PessoaVO paciente = DaoFactory.getInstance().getPacienteByMatricula(
+			final PessoaVO paciente = DaoFactory.getInstance().getPacienteByCodMatricula(
 			    laudo.getCdpessoa());
 			// dados do paciente
 			String DSCR_PACIENTE = "";
