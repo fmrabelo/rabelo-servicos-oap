@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.com.oappr.infra.exceptions.OAPInternalException;
 import br.com.oappr.infra.util.GenericUtils;
+import br.com.oappr.infra.util.Validator;
 import br.com.oappr.intranet.vo.FoneVO;
 import br.com.oappr.intranet.vo.MedicoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
@@ -149,7 +150,7 @@ final class PessoaDAO
 					final UsuarioWebOapVO userExist = this.findUsuarioWebOAPById(user.getNrusuario());
 					if (userExist != null)
 					{
-						throw new OAPInternalException("Atenção: O usuário com código OAP "
+						throw new OAPInternalException("Atenção: O usuário OAP com código "
 						    + user.getNrusuario() + " já existe no sistema web.");
 					}
 					final String query = "INSERT INTO SYSADM.acwebacesso (idweb, nrusuario, senhaweb, emailweb) VALUES ( SYSADM.ID_WEB.nextval, ?1, '?2', '?3')";
@@ -186,12 +187,68 @@ final class PessoaDAO
 	}
 
 	/**
-	 * Pesquisa e retorna Paciente caso exista.
+	 * Pesquisa Pacientes pelo nome.
+	 * @param codPessoa
+	 * @return List<PessoaVO>
+	 * @throws Exception
+	 */
+	final List<PessoaVO> getPessoaByName (final String nomePessoa) throws Exception
+	{
+		Statement stm = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		List<PessoaVO> list = null;
+		PessoaVO p = null;
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			if ((conn != null) && !Validator.isBlankOrNull(nomePessoa))
+			{
+				stm = conn.createStatement();
+				final String query = "SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE UPPER(T1.NMPESSOA) LIKE UPPER('?1%') ORDER BY T1.CDPESSOA ASC ".replace(
+				    "?1", nomePessoa);
+				rs = stm.executeQuery(query);
+				list = new ArrayList<PessoaVO>();
+				while ((rs != null) && rs.next())
+				{
+					p = new PessoaVO();
+					p.setCdPessoa(rs.getLong("CDPESSOA"));
+					p.setNomePessoa(rs.getString("NMPESSOA"));
+					p.setDataNascimento(rs.getDate("DTNASC"));
+					list.add(p);
+				}
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new Exception(ex);
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			p = null;
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
+		}
+		return list;
+	}
+
+	/**
+	 * Pesquisa Paciente pelo Código de matricula da Pessoa.
 	 * @param codPessoa
 	 * @return
 	 * @throws Exception
 	 */
-	final PessoaVO getPessoaByMatricula (final Long codPessoa) throws Exception
+	final PessoaVO getPessoaByCodMatricula (final Long codPessoa) throws Exception
 	{
 		Statement stm = null;
 		ResultSet rs = null;

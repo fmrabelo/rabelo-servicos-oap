@@ -121,15 +121,25 @@ public final class DaoFactory
 	}
 
 	/**
-	 * Pesquisa e retorna pessoa do tipo Paciente caso exista.
+	 * Pesquisa pessoa do tipo Paciente pelo código de matrícula.
 	 * @param codPessoa
 	 * @return PessoaVO
 	 * @throws Exception
 	 */
-	public final PessoaVO getPacienteByMatricula (final Long codPessoa) throws Exception
+	public final PessoaVO getPacienteByCodMatricula (final Long codPessoa) throws Exception
 	{
-		final PessoaDAO paciente = new PessoaDAO();
-		return paciente.getPessoaByMatricula(codPessoa);
+		return new PessoaDAO().getPessoaByCodMatricula(codPessoa);
+	}
+
+	/**
+	 * Pesquisa pessoa do tipo Paciente pelo nome.
+	 * @param nomePessoa
+	 * @return List<PessoaVO>
+	 * @throws Exception
+	 */
+	public final List<PessoaVO> getPessoaByName (final String nomePessoa) throws Exception
+	{
+		return new PessoaDAO().getPessoaByName(nomePessoa);
 	}
 
 	/**

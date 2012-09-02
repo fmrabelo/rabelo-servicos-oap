@@ -3,6 +3,9 @@
  */
 package br.com.oappr.infra.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -12,13 +15,14 @@ import br.com.oappr.infra.exceptions.OAPInternalException;
 import br.com.oappr.infra.report.ReportParameters;
 import br.com.oappr.infra.util.Constants;
 import br.com.oappr.infra.util.Validator;
+import br.com.oappr.intranet.vo.PessoaVO;
 import br.com.oappr.intranet.vo.UsuarioWebOapVO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * Classe responsável pela lógica de negócio realizada pelos colaboradores da
- * OAP.
+ * Classe responsável pela lógica de negócio para cadastro, autenticação e
+ * pesquisa de pacientes pelos colaboradores da OAP.
  * @author Rabelo Serviços.
  */
 public class LaudoColaboradoresAction
@@ -30,9 +34,17 @@ public class LaudoColaboradoresAction
 	 */
 	private static final long serialVersionUID = 13102010197665488L;
 
+	// campos para cadastro e autenticação de colaboradores internos da OAP.
 	private UsuarioWebOapVO user;
 	private String confirmEmailweb;
 	private String confirmSenhaweb;
+
+	// pesquisar lista de pacientes por médico/colaborador OAP
+	private String nomePaciente;
+	private Long codPaciente;
+	private List<PessoaVO> listPacientes;
+
+	// mensagem de validação
 	final String msg = "Campo Obrigatório não preenchido: ?";
 
 	/**
@@ -104,7 +116,7 @@ public class LaudoColaboradoresAction
 	 * @return
 	 */
 	@Action(value = "autenticarColaboradorOap", results = {
-	    @Result(location = "/jsp/laudoInternoOAP.jsp", name = "success"),
+	    @Result(location = "/jsp/listaPacientes.jsp", name = "success"),
 	    @Result(location = "/jsp/loginOapUser.jsp", name = "error")})
 	public String autenticarPaciente ()
 	{
@@ -116,7 +128,9 @@ public class LaudoColaboradoresAction
 				    this.getUser());
 				if (oapUser != null)
 				{
+					this.setUser(oapUser);
 					setUserSession(oapUser);
+					this.initListarPacientes();
 					return SUCCESS;
 				}
 				else
@@ -135,6 +149,69 @@ public class LaudoColaboradoresAction
 			}
 		}
 		return ERROR;
+	}
+
+	/**
+	 * Inicializa o fluxo para Listar pacientes pelo nome ou código.
+	 * @return String
+	 */
+	@Action(value = "initListarPacientes", results = {@Result(location = "/jsp/listaPacientes.jsp", name = "success")})
+	public String initListarPacientes ()
+	{
+		this.setListPacientes(null);
+		this.setCodPaciente(null);
+		this.setNomePaciente(null);
+		return SUCCESS;
+	}
+
+	/**
+	 * Listar pacientes pelo nome ou código.
+	 * @return String
+	 */
+	@Action(value = "listarPacientes", results = {
+	    @Result(location = "/jsp/listaPacientes.jsp", name = "success"),
+	    @Result(location = "/jsp/listaPacientes.jsp", name = "error")})
+	public String listarPacientes ()
+	{
+		String msg = "Nenhum Paciente Localizado.";
+		try
+		{
+			this.setListPacientes(null);
+			if ((this.getCodPaciente() != null) && (this.getCodPaciente() > 0))
+			{
+				this.setListPacientes(new ArrayList<PessoaVO>());
+				this.getListPacientes().add(
+				    DaoFactory.getInstance().getPacienteByCodMatricula(this.getCodPaciente()));
+			}
+			else if (!Validator.isBlankOrNull(this.getNomePaciente()))
+			{
+				if (this.getNomePaciente().trim().length() < 4)
+				{
+					msg = "Nome do Paciente deve ser preenchido com no mínimo 4 caracteres alfabéticos.";
+					this.addActionError(msg);
+					return ERROR;
+				}
+				else
+				{
+					this.setListPacientes(DaoFactory.getInstance().getPessoaByName(
+					    this.getNomePaciente()));
+				}
+			}
+			if (!Validator.notEmptyCollection(this.getListPacientes()))
+			{
+				this.addActionMessage(msg);
+			}
+		}
+		catch (OAPInternalException e)
+		{
+			this.addActionError(e.getMessage());
+		}
+		catch (Exception e)
+		{
+			this.addActionError(msg);
+			e.printStackTrace();
+		}
+		return SUCCESS;
 	}
 
 	/**
@@ -265,4 +342,53 @@ public class LaudoColaboradoresAction
 		return (UsuarioWebOapVO)ServletActionContext.getRequest().getSession().getAttribute(
 		    Constants.SESSION_USER_OAP);
 	}
+
+	/**
+	 * @return the listPacientes
+	 */
+	public List<PessoaVO> getListPacientes ()
+	{
+		return listPacientes;
+	}
+
+	/**
+	 * @param listPacientes the listPacientes to set
+	 */
+	public void setListPacientes (List<PessoaVO> listPacientes)
+	{
+		this.listPacientes = listPacientes;
+	}
+
+	/**
+	 * @return the nomePaciente
+	 */
+	public String getNomePaciente ()
+	{
+		return nomePaciente;
+	}
+
+	/**
+	 * @param nomePaciente the nomePaciente to set
+	 */
+	public void setNomePaciente (String nomePaciente)
+	{
+		this.nomePaciente = nomePaciente;
+	}
+
+	/**
+	 * @return the codPaciente
+	 */
+	public Long getCodPaciente ()
+	{
+		return codPaciente;
+	}
+
+	/**
+	 * @param codPaciente the codPaciente to set
+	 */
+	public void setCodPaciente (Long codPaciente)
+	{
+		this.codPaciente = codPaciente;
+	}
+
 }
