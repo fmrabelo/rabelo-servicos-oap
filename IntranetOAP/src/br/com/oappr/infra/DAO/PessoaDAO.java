@@ -54,18 +54,20 @@ final class PessoaDAO
 		if (user != null)
 		{
 			final String inPwd = GenericUtils.cryptMD5(user.getSenhaweb());
-			user = this.findUsuarioWebOAPById(user.getNrusuario());
+			user = this.findUsuarioWebOAPById(user.getNrUsuario());
 			if (user != null)
 			{
 				if (inPwd.equals(user.getSenhaweb()))
 				{
-					return user;
+					// TODO: preencher dados do usuario oap logado.
+					return this.getDadosPessoaUsuarioByNrUsuario(user.getNrUsuario());
 				}
 			}
 			else
 			{
 				throw new OAPInternalException("Usuário inválido ou não cadastrado.");
 			}
+			user = null;
 		}
 		return null;
 	}
@@ -94,7 +96,7 @@ final class PessoaDAO
 				{
 					user = new UsuarioWebOapVO();
 					user.setIdweb(rs.getLong("IDWEB"));
-					user.setNrusuario(nroUsuario);
+					user.setNrUsuario(nroUsuario);
 					user.setSenhaweb(rs.getString("SENHAWEB"));
 					user.setEmailweb(rs.getString("EMAILWEB"));
 				}
@@ -142,25 +144,25 @@ final class PessoaDAO
 			{
 				stm = conn.createStatement();
 				// verificar se é um código válido de colaborador da OAP.
-				rs = stm.executeQuery("select * from sysadm.ACUSUARI where nrusuario = "
-				    + user.getNrusuario());
+				rs = stm.executeQuery("select nrusuario from sysadm.ACUSUARI where nrusuario = "
+				    + user.getNrUsuario());
 				if ((rs != null) && rs.next())
 				{
 					// verficar se já existe cadastro web para o colaborador.
-					final UsuarioWebOapVO userExist = this.findUsuarioWebOAPById(user.getNrusuario());
+					final UsuarioWebOapVO userExist = this.findUsuarioWebOAPById(user.getNrUsuario());
 					if (userExist != null)
 					{
 						throw new OAPInternalException("Atenção: O usuário OAP com código "
-						    + user.getNrusuario() + " já existe no sistema web.");
+						    + user.getNrUsuario() + " já existe no sistema web.");
 					}
 					final String query = "INSERT INTO SYSADM.acwebacesso (idweb, nrusuario, senhaweb, emailweb) VALUES ( SYSADM.ID_WEB.nextval, ?1, '?2', '?3')";
 					user.setSenhaweb(GenericUtils.cryptMD5(user.getSenhaweb()));
-					stm.executeUpdate(query.replace("?1", user.getNrusuario().toString()).replace(
+					stm.executeUpdate(query.replace("?1", user.getNrUsuario().toString()).replace(
 					    "?2", user.getSenhaweb().toString()).replace("?3", user.getEmailweb()));
 				}
 				else
 				{
-					throw new OAPInternalException("Atenção: O código " + user.getNrusuario()
+					throw new OAPInternalException("Atenção: O código " + user.getNrUsuario()
 					    + " não pertence a nenhum colaborador da OAP.");
 				}
 			}
@@ -240,6 +242,64 @@ final class PessoaDAO
 			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return list;
+	}
+
+	/**
+	 * Retorna os dados da pessoa e dados do usuário usando o código de usuario
+	 * (nrusuario).
+	 * @param nrusuario
+	 * @return
+	 * @throws Exception
+	 */
+	final UsuarioWebOapVO getDadosPessoaUsuarioByNrUsuario (final Long nrusuario) throws Exception
+	{
+		Statement stm = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		UsuarioWebOapVO p = null;
+		try
+		{
+			conn = DaoFactory.getInstance().getConection();
+			if ((conn != null) && (nrusuario != null))
+			{
+				stm = conn.createStatement();
+				final String qry = "SELECT USU.CDPESSOA, USU.NMUSUARIO, USU.CDUSUARIO, USU.FLMEDICO, PES.NMPESSOA, PES.DSFORMTRAT, PES.DTNASC FROM SYSADM.ACPESSOA PES, SYSADM.ACUSUARI USU WHERE PES.CDPESSOA=USU.CDPESSOA AND USU.NRUSUARIO = "
+				    + nrusuario;
+				rs = stm.executeQuery(qry);
+				p = new UsuarioWebOapVO();
+				while ((rs != null) && rs.next())
+				{
+					p.setNrUsuario(nrusuario);
+					p.setCdPessoa(rs.getLong("CDPESSOA"));
+					p.setNmUsuario(rs.getString("NMUSUARIO"));
+					p.setCdUsuario(rs.getString("CDUSUARIO"));
+					p.setFlMedico(rs.getInt("FLMEDICO"));
+					p.setNomePessoa(rs.getString("NMPESSOA"));
+					p.setSiglaTratamento(rs.getString("DSFORMTRAT"));
+					p.setDataNascimento(rs.getDate("DTNASC"));
+				}
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new Exception(ex);
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			DaoFactory.getInstance().closeConection(stm, rs, conn);
+		}
+		return p;
 	}
 
 	/**

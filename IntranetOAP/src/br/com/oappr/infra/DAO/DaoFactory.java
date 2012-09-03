@@ -132,6 +132,19 @@ public final class DaoFactory
 	}
 
 	/**
+	 * Retorna os dados da pessoa e dados do usuário usando o código de usuario
+	 * (nrusuario).
+	 * @param nrusuario
+	 * @return
+	 * @throws Exception
+	 */
+	public final UsuarioWebOapVO getDadosPessoaUsuarioByNrUsuario (final Long nrusuario)
+	    throws Exception
+	{
+		return new PessoaDAO().getDadosPessoaUsuarioByNrUsuario(nrusuario);
+	}
+
+	/**
 	 * Pesquisa pessoa do tipo Paciente pelo nome.
 	 * @param nomePessoa
 	 * @return List<PessoaVO>
