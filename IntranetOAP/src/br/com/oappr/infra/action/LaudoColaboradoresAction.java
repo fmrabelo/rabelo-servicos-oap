@@ -170,12 +170,20 @@ public class LaudoColaboradoresAction
 	 */
 	@Action(value = "listarPacientes", results = {
 	    @Result(location = "/jsp/listaPacientes.jsp", name = "success"),
-	    @Result(location = "/jsp/listaPacientes.jsp", name = "error")})
+	    @Result(location = "/jsp/listaPacientes.jsp", name = "error"),
+	    @Result(location = "/jsp/loginOapUser.jsp", name = "login")})
 	public String listarPacientes ()
 	{
 		String msg = "Nenhum Paciente Localizado.";
 		try
 		{
+			// validar se usuario logado.
+			if (this.getUser() == null)
+			{
+				this.initLogin();
+				this.addActionError("Por motivos de segurança o seu tempo de conexão expirou, favor efetuar novo Login.");
+				return "login";
+			}
 			this.setListPacientes(null);
 			if ((this.getCodPaciente() != null) && (this.getCodPaciente() > 0))
 			{
@@ -219,6 +227,10 @@ public class LaudoColaboradoresAction
 	 */
 	public UsuarioWebOapVO getUser ()
 	{
+		if (user == null)
+		{
+			user = getUserSession();
+		}
 		return user;
 	}
 
@@ -267,7 +279,7 @@ public class LaudoColaboradoresAction
 	 */
 	private final boolean isValidLogin ()
 	{
-		if ((this.getUser().getNrusuario() == null) || (this.getUser().getNrusuario() < 1))
+		if ((this.getUser().getNrUsuario() == null) || (this.getUser().getNrUsuario() < 1))
 		{
 			this.addFieldError("nrusuario", msg.replace("?", "Número do Usuário"));
 			return false;
@@ -337,7 +349,7 @@ public class LaudoColaboradoresAction
 	 * Insere usuario oap na sessao http.
 	 * @param user
 	 */
-	private final static UsuarioWebOapVO getUserSession ()
+	public final static UsuarioWebOapVO getUserSession ()
 	{
 		return (UsuarioWebOapVO)ServletActionContext.getRequest().getSession().getAttribute(
 		    Constants.SESSION_USER_OAP);
