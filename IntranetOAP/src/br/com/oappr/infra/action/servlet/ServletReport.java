@@ -4,8 +4,6 @@
 package br.com.oappr.infra.action.servlet;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -106,51 +104,51 @@ public final class ServletReport
 		if ("rtf".equals(str))
 		{
 			// gravar arquivo
-			final String PATH = "c://temp//ceratoscopia_04082012.jpg";
-			final File imagem = new File(PATH);
-			if (imagem.exists())
-			{
-				// ByteArrayOutputStream ous = null;
-				// InputStream ios = null;
-				// try
-				// {
-				// byte[] buffer = new byte[4096];
-				// ous = new ByteArrayOutputStream();
-				// ios = new FileInputStream(imagem);
-				// int read = 0;
-				// while ((read = ios.read(buffer)) != -1)
-				// {
-				// ous.write(buffer, 0, read);
-				// }
-				// }
-				// finally
-				// {
-				// try
-				// {
-				// if (ous != null)
-				// {
-				// ous.close();
-				// }
-				// }
-				// catch (IOException e)
-				// {
-				// // swallow, since not that important
-				// }
-				// try
-				// {
-				// if (ios != null)
-				// {
-				// ios.close();
-				// }
-				// }
-				// catch (IOException e)
-				// {
-				// // swallow, since not that important
-				// }
-				// }
-				// final FileInputStream is = new FileInputStream(imagem);
-				DaoFactory.getInstance().gravaImagem(imagem);
-			}
+			// final String PATH = "c://temp//ceratoscopia_04082012.jpg";
+			// final File imagem = new File(PATH);
+			// if (imagem.exists())
+			// {
+			// ByteArrayOutputStream ous = null;
+			// InputStream ios = null;
+			// try
+			// {
+			// byte[] buffer = new byte[4096];
+			// ous = new ByteArrayOutputStream();
+			// ios = new FileInputStream(imagem);
+			// int read = 0;
+			// while ((read = ios.read(buffer)) != -1)
+			// {
+			// ous.write(buffer, 0, read);
+			// }
+			// }
+			// finally
+			// {
+			// try
+			// {
+			// if (ous != null)
+			// {
+			// ous.close();
+			// }
+			// }
+			// catch (IOException e)
+			// {
+			// // swallow, since not that important
+			// }
+			// try
+			// {
+			// if (ios != null)
+			// {
+			// ios.close();
+			// }
+			// }
+			// catch (IOException e)
+			// {
+			// // swallow, since not that important
+			// }
+			// }
+			// final FileInputStream is = new FileInputStream(imagem);
+			// DaoFactory.getInstance().gravaImagem(imagem);
+			// }
 
 			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
 			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado),
@@ -171,35 +169,37 @@ public final class ServletReport
 			final byte[] relatorioPDF = new ConvertPDF().convertRTF_To_PDF(relatorioRTF);
 
 			// converter imagens dos laudos para byte[]
-			final byte[] images = laudo.getImages().getBytes(1, (int)laudo.getImages().length());
-			try
-			{
-				List<LaudoVO> list = DaoFactory.getInstance().getLaudosLixo();
-				final String output = "c://temp//ceratoscopia_RETORNO.jpg";
-				File f = new File(output);
-				final FileOutputStream fos = new FileOutputStream(f);
-				InputStream in = list.get(0).getImages().getBinaryStream();
-				int length = (int)laudo.getImages().length();
-				int bufferSize = 1024;
-				byte[] buffer = new byte[bufferSize];
-				while ((length = in.read(buffer)) != -1)
-				{
-					fos.write(buffer, 0, length);
-				}
-				in.close();
-				fos.flush();
-				fos.close();
-				f = null;
-
-			}
-			catch (Exception ex)
-			{
-				ex.printStackTrace();
-				throw ex;
-			}
+			// final byte[] images = laudo.getImages().getBytes(1,
+			// (int)laudo.getImages().length());
+			// try
+			// {
+			// List<LaudoVO> list = DaoFactory.getInstance().getLaudosLixo();
+			// final String output = "c://temp//ceratoscopia_RETORNO.jpg";
+			// File f = new File(output);
+			// final FileOutputStream fos = new FileOutputStream(f);
+			// InputStream in = list.get(0).getImages().getBinaryStream();
+			// int length = (int)laudo.getImages().length();
+			// int bufferSize = 1024;
+			// byte[] buffer = new byte[bufferSize];
+			// while ((length = in.read(buffer)) != -1)
+			// {
+			// fos.write(buffer, 0, length);
+			// }
+			// in.close();
+			// fos.flush();
+			// fos.close();
+			// f = null;
+			//
+			// }
+			// catch (Exception ex)
+			// {
+			// ex.printStackTrace();
+			// throw ex;
+			// }
 
 			// converter images para PDF.
-			final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(images);
+			// final byte[] imagesPDF = new
+			// ConvertPDF().convertJPG_To_PDF(images);
 
 			// Recuperar os dados da empresa.
 			final PessoaVO empresa = DaoFactory.getInstance().getDadosEmpresa();
