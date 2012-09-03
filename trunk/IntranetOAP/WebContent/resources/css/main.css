@@ -701,12 +701,12 @@ input[type="checkbox"]:checked:active::before {top: -4px; left: -3px;}
 }
 
 div.scrollListOap {
-	height: 500px;
+	height: 350px;
 	width: 600px;
 	overflow: auto;
 	border-width: thin;
 	border: 1px solid #66ACC2;
-	background-color: #BBD6DD;
+	background-color: #EAF4F7;
 	padding: 8px;
 	font-size: 9pt;
 }
