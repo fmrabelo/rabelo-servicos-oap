@@ -3,12 +3,15 @@
  */
 package br.com.oappr.intranet.vo;
 
+import java.io.Serializable;
+
 /**
  * Classe Pojo para dados do Medico.
  * @author Rabelo Serviços.
  */
-public final class MedicoVO
-    extends PessoaVO
+public class MedicoVO
+    extends UsuarioVO
+    implements Serializable
 {
 
 	/**

@@ -11,7 +11,7 @@ import java.util.List;
  * @author Rabelo Serviços.
  */
 public class PessoaVO
-    implements java.io.Serializable
+    implements java.io.Serializable, OAPVO
 {
 
 	/**
