@@ -1,47 +1,83 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <html>
-
 <head>
 	<s:head/>
-	<sx:head/>
-	<link href="<s:url value="/resources/main.css"/>" rel="stylesheet" type="text/css"/>
+	<sj:head jqueryui="true" compressed="true"/>
+	
+	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Lista de Laudos Cadastrados - OAP - Oftalmologistas Associados do Paraná</title>
+	<title>Lista de Laudos - OAP</title>
+
+	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript">
+	
+		/**
+		 * FunÃ§Ãµes a serem executadas quando terminar de carregar a pagina
+		 */
+		$(document).ready(function (){
+		});
+		
+		//abrir laudo pdf em nova guia.
+		function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
+		{
+			var _action = '/IntranetOAP/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
+			console.log(_action);
+			window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
+		}
+		
+	</script>
 </head>
 
 
 <body>
 
 <s:form action="#" method="get" validate="false" target="_blank">
+<div align="center">
+	
+		<div class="widget titulo_branco_grande" align="center">
+			<p>
+				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="50" height="50" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<s:text name="%{getText('business.title')}"/>
+			</p>
+		</div>	
 
 	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr> 
 		  	<td rowspan="2">
-				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="150" border="0" style="background-color:transparent;"/>
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<br> 
-				<span class="texto_TNR_Azul_26px">OFTALMOLOGISTAS ASSOCIADOS DO PARANÁ</span>					
-			</td>
 			<!--center>
-				O arquivo está em formato pdf, que requer o software Adobe Acrobat Reader. 
-				Caso não o tenha instalado, clique no seguinte endereço http://get.adobe.com/br/reader/
+				O arquivo estÃ¡ em formato pdf, que requer o software Adobe Acrobat Reader. 
+				Caso nÃ£o o tenha instalado, clique no seguinte endereÃ§o http://get.adobe.com/br/reader/
 			</center-->
 		</tr>
 	</table>
 
+	<div>
+		<div align="center" class="texto_vermelho_10px"> 
+		  <p>
+		  <s:fielderror/> 	 	
+		  <s:actionerror/>
+		  </p>
+		</div>
+		<div align="center" style="font:bold;color:blue;">
+		   <s:actionmessage/>		 
+		</div>	
+	</div>
+	
+	<div align="center">
 	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr>
-		
 			<p/>
 	        <td align="left" style="text-align: left; text-decoration: none">
-	        <b><p>PACIENTE:<p>
+	        <b>
+	        <p>
+	        	<img src="images/001_54.png" alt="UsuÃ¡rio OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+	         <p>
 	        </td>	
 	        	  
 	       	<p/><p/>      
@@ -50,76 +86,48 @@
 	        </td>	   
 		</tr>
 		<tr><td><p></td></tr>
-		<tr>
-			<th align="center" style="text-align: center;" colspan="5">
-				<span class="texto_azul_negrito_22px">Laudos</span> 
-			</th>
-		</tr>
-		
 	</table>
+	</div>
 
-	<table align="center" style="border-collapse:collapse;background-color: #CFD3A8;" border="0" cellpadding="1" >
-		<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
-			<tr class="<s:if test="#songStatus.odd == true ">odd</s:if><s:else>even</s:else>" >
-				<td>
-					${dsexamecompl}
-					<!-- Assim tambem funciona...JSTL -->
-				</td> 
-				<td>
-					<s:date name="dtconsulta" format="dd/MM/yyyy"/>
-				</td>
-				
-				<td style="text-align: center;">
-					<!--s:url id="gerarPDF" action="gerarLaudoPdf"-->
-						<!--s:param name="id" value="id" /-->
-					<!--/s:url-->
-					<!--s:a id="a_%{id}" href="%{gerarPDF}"-->
-						<!--b-->
-						<!--img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/-->
-					<!--/s:a-->
-					
-					<b>
-
-					<!-- s:url id="gerarRTF" includeParams="all" value="/servletReport?Text1=rtf"-->
-						<!-- s:param name="nrseqresultado" value="nrseqresultado" /-->
-						<!-- s:param name="nrrequisicao" value="nrrequisicao" /-->
-					<!-- /s:url-->
-					<!-- s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="alert('Esse processo pode demorar alguns segundos!! Clique no OK para continuar!!');" -->
-					<!-- s:a id="a_%{nrseqresultado}" href="%{gerarRTF}" onclick="javascript:openLaudo(this.href);"-->
-						<!-- b-->
-						<!-- img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/-->
-					<!-- /s:a-->		
-					
-					<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
-						<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="none"/>
-					</a>			
-
-				</td>
-			</tr>
-		</s:iterator>
-	</table>
-	
-	<table border="0" align="center">
-		<tr class="titleDiv">
-			<p/><p/>
+	<!-- lista de laudos -->
+	<div align="center">
+		<div align="center">
+		<s:actionmessage/>
+		</div>
+		<br>
+		<s:if test="%{!pessoaVo.listaLaudos.isEmpty()}">
+			<div align="center" class="titulo_cinza_negrito_grande">
+				<img src="images/001_18.png" alt="UsuÃ¡rio OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<s:property value="pessoaVo.listaLaudos.size"/><s:if test="%{pessoaVo.listaLaudos.size>1}">  Laudos Localizados</s:if><s:else>  Laudo Localizado</s:else>				 
+			</div>
+			<br>
+			<div class="table oxo scrollListOap">
+				<article class="list">
+				<ul>
+					<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
+						<li style="text-align: left">
+							<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
+								<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="0"  width="5" height="5" border="0" style="background-color:transparent;"/>
+							</a>			
+							${dsexamecompl}							
+							<s:date name="dtconsulta" format="dd/MM/yyyy"/>							
+						</li>			
+					</s:iterator>
+				</ul>
+				</article>
+			</div>
+		</s:if>
+	</div>
+	<div align="center" class="texto_Azul_12px">
+        <s:if test="%{pessoaVo.urlSite=='oap.com'}">
     		<s:url id="show" action="autenticacaoLaudoOnline"/>
-	        <td align="center" style="text-align: center;">
-	         	<s:a href="%{show}">Voltar</s:a>
-	        </td>		
-		</tr>
-	</table>
-
+         	<s:a href="%{show}">
+         		<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+         		Voltar
+         	</s:a>
+        </s:if>
+	</div>
+</div>
 </s:form>
 </body>
 </html>
-
-<script type="text/javascript">
-
-	//abrir laudo pdf em nova guia.
-	function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
-	{
-		var _action = '/IntranetOAP/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
-		window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
-	}
-	
-</script>

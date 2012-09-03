@@ -16,7 +16,10 @@
 	<div align="center">
 	<s:form action="initRegisterUser" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
 		<div class="widget titulo_branco_grande" align="center">
-			<p><s:text name="%{getText('label.signUp')}"/></p>
+			<p>
+				<img src="images/001_57.png" alt="Logomarca OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<s:text name="%{getText('label.signUp')}"/>
+			</p>
 		</div>
 
 		<div align="center" class="texto_vermelho_10px"> 
@@ -32,7 +35,7 @@
 
 		<div>
 	      	<p>
-	      		<s:textfield name="user.nrusuario" id="nrusuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
 	      		<s:textfield name="user.emailweb" id="emailweb" placeholder="E-mail" cssStyle="width:300px"/>
@@ -68,10 +71,10 @@
 	function validar()
 	{
 		var msg_ = 'Número do Usuário é obrigatório e deve ser preenchido somente com Números.';
-		var nroCadastroPaciente_ = form.nrusuario.value;
+		var nroCadastroPaciente_ = form.nrUsuario.value;
 		if(nroCadastroPaciente_ != null && !validarNumero(nroCadastroPaciente_))
 	  	{
-	  		form.nrusuario.value='';
+	  		form.nrUsuario.value='';
 	  		alert(msg_);
 	  		return;
 	  	}
