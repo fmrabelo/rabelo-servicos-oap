@@ -9,6 +9,7 @@ package br.com.oappr.intranet.vo;
  * @author Rabelo Serviços.
  */
 public class UsuarioWebOapVO
+    extends MedicoVO
     implements java.io.Serializable
 {
 
@@ -17,7 +18,6 @@ public class UsuarioWebOapVO
 	 */
 	private static final long serialVersionUID = 10216598811332357L;
 	private Long idweb;
-	private Long nrusuario;
 	private String senhaweb;
 	private String emailweb;
 
@@ -39,7 +39,6 @@ public class UsuarioWebOapVO
 	{
 		super();
 		this.idweb = idweb;
-		this.nrusuario = nrusuario;
 		this.senhaweb = senhaweb;
 		this.emailweb = emailweb;
 	}
@@ -58,22 +57,6 @@ public class UsuarioWebOapVO
 	public void setIdweb (Long idweb)
 	{
 		this.idweb = idweb;
-	}
-
-	/**
-	 * @return the nrusuario
-	 */
-	public Long getNrusuario ()
-	{
-		return nrusuario;
-	}
-
-	/**
-	 * @param nrusuario the nrusuario to set
-	 */
-	public void setNrusuario (Long nrusuario)
-	{
-		this.nrusuario = nrusuario;
 	}
 
 	/**
@@ -118,7 +101,6 @@ public class UsuarioWebOapVO
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((idweb == null) ? 0 : idweb.hashCode());
-		result = prime * result + ((nrusuario == null) ? 0 : nrusuario.hashCode());
 		return result;
 	}
 
@@ -150,17 +132,6 @@ public class UsuarioWebOapVO
 			}
 		}
 		else if (!idweb.equals(other.idweb))
-		{
-			return false;
-		}
-		if (nrusuario == null)
-		{
-			if (other.nrusuario != null)
-			{
-				return false;
-			}
-		}
-		else if (!nrusuario.equals(other.nrusuario))
 		{
 			return false;
 		}
