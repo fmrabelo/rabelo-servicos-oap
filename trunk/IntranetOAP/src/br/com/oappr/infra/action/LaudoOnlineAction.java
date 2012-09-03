@@ -16,6 +16,7 @@ import br.com.oappr.infra.util.DateUtils;
 import br.com.oappr.infra.util.Validator;
 import br.com.oappr.intranet.vo.LaudoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
+import br.com.oappr.intranet.vo.UsuarioWebOapVO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -52,20 +53,48 @@ public class LaudoOnlineAction
 	}
 
 	/**
+	 * Método util na pesquisa de laudos.<br>
+	 * Esse método é útil em dois processos:<br>
+	 * <p>
+	 * 1-Listar Laudo On-line para os Pacientes da OAP
+	 * </p>
+	 * <p>
+	 * 2-Listar Laudos internos para os Colaboradores da OAP. <br>
+	 * Neste caso é preciso criar o objeto pessoa a partir do codigo de cadastro
+	 * passado como parametro para a pesquisa.
+	 * </p>
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "listarLaudos", results = {@Result(location = "/jsp/listaLaudos.jsp", name = "success")})
+	@Action(value = "listarLaudos", results = {
+	    @Result(location = "/jsp/listaLaudos.jsp", name = "success"),
+	    @Result(location = "/jsp/listaLaudos.jsp", name = "error")})
 	public String listarLaudos () throws Exception
 	{
 		// pesquisar laudos
 		try
 		{
+			final UsuarioWebOapVO userSessionOAP = LaudoColaboradoresAction.getUserSession();
+			if ((this.getPessoaVo() == null) && (userSessionOAP != null)
+			    && (this.getNroCadastroPaciente() != null) && (this.getNroCadastroPaciente() > 0))
+			{
+				// Laudos internos, pesquisar o paciente e atribuí-lo a pessoa
+				// do laudo.
+				this.setPessoaVo(DaoFactory.getInstance().getPacienteByCodMatricula(
+				    this.getNroCadastroPaciente()));
+			}
+			else
+			{
+				// setar valor para indicar que é pesquisa de laudo por
+				// paciente.
+				this.getPessoaVo().setUrlSite("oap.com");
+			}
+			// pesquisar laudos.
 			this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
 			    null, null));
 			if (!Validator.notEmptyCollection(this.getListaLaudos()))
 			{
-				this.addFieldError("nroCadastroPaciente", "Nenhum registro de Laudo localizado!!");
+				this.addFieldError("nroCadastroPaciente", "Nenhum Laudo localizado!!");
 				return ERROR;
 			}
 		}
