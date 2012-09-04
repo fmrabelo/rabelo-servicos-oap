@@ -109,6 +109,7 @@ public class LaudoColaboradoresAction
 	{
 		this.setUser(new UsuarioWebOapVO());
 		setUserSession(null);
+		ServletActionContext.getRequest().getSession().invalidate();
 		return SUCCESS;
 	}
 
