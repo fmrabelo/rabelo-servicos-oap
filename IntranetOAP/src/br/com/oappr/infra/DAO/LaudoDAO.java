@@ -63,18 +63,35 @@ final class LaudoDAO
 			if (conn != null)
 			{
 				stm = conn.createStatement();
+				// str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO,
+				// T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
+				// str.append(" T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL,
+				// T2.NRLAUDO, T2.NRUSUARIOINC, T2.DHINCLUSAO, ");
+				// str.append(" T2.NRUSUARIOALT, T2.DHALTERACAO,
+				// T1.CDCONVENIO,T2.NRUSUSOLIC, T2.DSRTF, T3.IMAGEM ");
+				// str.append(" FROM SYSADM.AARESULTADO T1, SYSADM.ACREQUISICAO
+				// T2, SYSADM.ACREQUISIMAGEM T3 ");
+				// str.append(" WHERE T1.NRSEQRESULTADO = T2.NRSEQRESULTADO ");
+				// str.append(" AND T1.TPPRESENCA = 5 ");
+				// str.append(" AND T1.CDPESSOA =
+				// ").append(nroCadastroPaciente);// paciente
+				// str.append(" AND T2.TPLAUDO = 2 ");// 2=Laudo tipo RTF.
+				// str.append(" AND T2.FLLIBERADO = 1 ");// laudo liberado
+				// str.append(" AND T2.NRSEQRESULTADO IS NOT NULL ");
+				// str.append(" AND T2.NRREQUISICAO = T3.NRREQUISICAO ");
+				// str.append(" AND T2.CDPROCED = T3.CDPROCED ");
+
 				str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO, T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
 				str.append(" 	T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL, T2.NRLAUDO, T2.NRUSUARIOINC, T2.DHINCLUSAO, ");
-				str.append(" 	T2.NRUSUARIOALT, T2.DHALTERACAO, T1.CDCONVENIO,T2.NRUSUSOLIC, T2.DSRTF, T3.IMAGEM ");
-				str.append(" FROM SYSADM.AARESULTADO T1, SYSADM.ACREQUISICAO T2, SYSADM.ACREQUISIMAGEM T3 ");
+				str.append(" 	T2.NRUSUARIOALT, T2.DHALTERACAO, T1.CDCONVENIO,T2.NRUSUSOLIC, T2.DSRTF ");
+				str.append(" FROM SYSADM.AARESULTADO T1, SYSADM.ACREQUISICAO T2 ");
 				str.append("  WHERE T1.NRSEQRESULTADO = T2.NRSEQRESULTADO ");
 				str.append(" 	 AND T1.TPPRESENCA = 5 ");
 				str.append(" 	 AND T1.CDPESSOA = ").append(nroCadastroPaciente);// paciente
 				str.append(" 	 AND T2.TPLAUDO = 2 ");// 2=Laudo tipo RTF.
 				str.append(" 	 AND T2.FLLIBERADO = 1 ");// laudo liberado
 				str.append(" 	 AND T2.NRSEQRESULTADO IS NOT NULL ");
-				str.append(" 	 AND T2.NRREQUISICAO = T3.NRREQUISICAO ");
-				str.append(" 	 AND T2.CDPROCED = T3.CDPROCED ");
+
 				if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
 				{
 					// --pesquisar laudo específico
@@ -111,7 +128,7 @@ final class LaudoDAO
 					if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
 					{
 						p.setDsrtf(rs.getBlob("DSRTF"));
-						p.setImages(rs.getBlob("IMAGEM"));
+						// p.setImages(rs.getBlob("IMAGEM"));
 					}
 					lista.add(p);
 				}

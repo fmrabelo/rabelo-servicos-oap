@@ -14,34 +14,6 @@
 	<title><s:text name="application.title"/></title>
 
 	<script type="text/javascript" src="resources/js/oap.js"></script>
-	<script type="text/javascript">
-	
-		/**
-		 * Funções a serem executadas quando terminar de carregar a pagina
-		 */
-		$(document).ready(function (){
-	
-		});
-		
-		var form = document.forms[0];
-	
-		function validar()
-		{
-			var msg_ = 'Código do Paciente deve ser preenchido somente com Números.';
-			var codPaciente_ = form.codPaciente.value;
-			if(codPaciente_ != null && !validarNumero(codPaciente_))
-		  	{
-		  		form.codPaciente.value='';
-		  		alert(msg_);
-		  		return false;
-		  	}
-		}
-	
-		function cancelLaudosDialogIDButton() {
-			$('#laudosDialogID').dialog('close');
-		}	
-	</script>	
-	
 </head>
 
 	<!-- listar laudos dialog  -->
@@ -83,8 +55,11 @@
 				</p>
 			</div>				
 			<div align="center" class="texto_vermelho_10px"> 
-			  	<s:fielderror/> 	 	
-			  	<s:actionerror/>
+			  	<s:if test="hasFieldErrors() || hasActionErrors()">
+				  	<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+				  	<s:fielderror/>
+				  	<s:actionerror/>
+			  	</s:if>
 			</div>
 			<div>
 		      		<s:textfield name="codPaciente" id="codPaciente" required="true" placeholder="Código do Paciente" cssStyle="width:250px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
@@ -106,7 +81,10 @@
 	<!-- lista de pacientes -->
 	<div align="center">
 		<div align="center">
-		<s:actionmessage/>
+			<s:if test="hasActionMessages()">
+			<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+			<s:actionmessage/>
+			</s:if>
 		</div>
 		<br>
 		<s:if test="%{!listPacientes.isEmpty()}">
@@ -131,3 +109,30 @@
 	
 </body>
 </html>
+	<script type="text/javascript">
+	
+		/**
+		 * Funções a serem executadas quando terminar de carregar a pagina
+		 */
+		$(document).ready(function (){
+	
+		});
+		
+		var form = document.forms[0];
+	
+		function validar()
+		{
+			var msg_ = 'Código do Paciente deve ser preenchido somente com Números.';
+			var codPaciente_ = form.codPaciente.value;
+			if(codPaciente_ != null && !validarNumero(codPaciente_))
+		  	{
+		  		form.codPaciente.value='';
+		  		alert(msg_);
+		  		return false;
+		  	}
+		}
+	
+		function cancelLaudosDialogIDButton() {
+			$('#laudosDialogID').dialog('close');
+		}	
+	</script>	
