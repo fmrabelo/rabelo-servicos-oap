@@ -60,12 +60,18 @@
 	<div>
 		<div align="center" class="texto_vermelho_10px"> 
 		  <p>
-		  <s:fielderror/> 	 	
-		  <s:actionerror/>
+  		  <s:if test="hasFieldErrors() || hasActionErrors()">
+  		  	  <img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+			  <s:fielderror/>
+			  <s:actionerror/>
+		  </s:if>
 		  </p>
 		</div>
 		<div align="center" style="font:bold;color:blue;">
-		   <s:actionmessage/>		 
+			<s:if test="hasActionMessages()">
+				<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+		   		<s:actionmessage/>
+		   	</s:if>		 
 		</div>	
 	</div>
 	
@@ -92,7 +98,10 @@
 	<!-- lista de laudos -->
 	<div align="center">
 		<div align="center">
-		<s:actionmessage/>
+			<s:if test="hasActionMessages()">
+			<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+			<s:actionmessage/>
+			</s:if>
 		</div>
 		<br>
 		<s:if test="%{!pessoaVo.listaLaudos.isEmpty()}">

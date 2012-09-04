@@ -25,12 +25,18 @@
 		<div>
 			<div align="center" class="texto_vermelho_10px"> 
 			  <p>
-				  <s:fielderror/> 	 	
-				  <s:actionerror/>
+			  		<s:if test="hasFieldErrors() || hasActionErrors()">
+			  			<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+				  		<s:fielderror/> 	 	
+				  		<s:actionerror/>
+				  	</s:if>
 			  </p>
 			</div>
 			<div align="center" style="font:bold;color:blue;">
-			   <s:actionmessage/>		 
+				<s:if test="hasActionMessages()">
+				<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+			   	<s:actionmessage/>
+			   	</s:if>		 
 			</div>	
 	      	<p>
 	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>

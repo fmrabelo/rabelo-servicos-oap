@@ -70,8 +70,9 @@
 				<td colspan="2">
 					<!-- span class="titulo_azul_negrito_grande"> </span -->
 				</td>
-			</tr>			
+			</tr>	
 			<tr>
+				
 				<td colspan="2">
 						<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/>
 						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
