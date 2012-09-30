@@ -36,7 +36,7 @@
 		    	<td colspan="2" valign="top" align="center" bordercolor="#EAF4FF;">		    		
 					<span class="texto_Azul_Negrito_20px">
 					<img src="images/usuario.gif" alt="Segurança" style="background-color: transparent;" align="bottom"/>
-					Autenticação para Acesso aos Laudos
+					<s:text name="%{getText('label.autenticacaoLaudos')}"/>
 					</span>
 					<br>
 				</td>
@@ -72,17 +72,16 @@
 				</td>
 			</tr>	
 			<tr>
-				
 				<td colspan="2">
-						<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/>
-						<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
+					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/>
+					<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
 				</td>
 			</tr>
 			<tr><td colspan="2" align="left"><br></td></tr>
 			
 			<br>
 			<div align="center">
-					<s:submit value="Validar Dados" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px" align="center"/>
+				<s:submit value="Validar Dados" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
 			</div>	
 	</table>
 	<br/>
@@ -99,7 +98,7 @@
 		form.nroCadastroPacienteId.focus();
 	}
 	
-	function validar()
+	function validarAutenticacaoLaudoOnLine()
 	{
 		var msg_ = 'Número da Matrícula é obrigatório e deve ser preenchido somente com Números.';
 		var nroCadastroPaciente_ = form.nroCadastroPacienteId.value;
@@ -110,7 +109,6 @@
 	  		return;
 	  	}
 	}
-	
 
 	/*
 		Seta foco para o TestField nroCadastroPacient

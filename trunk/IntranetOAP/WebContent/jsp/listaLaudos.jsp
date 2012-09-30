@@ -1,34 +1,14 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <html>
 <head>
 	<s:head/>
-	<sj:head jqueryui="true" compressed="true"/>
 	
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Lista de Laudos - OAP</title>
-
 	<script type="text/javascript" src="resources/js/oap.js"></script>
-	<script type="text/javascript">
-	
-		/**
-		 * Funções a serem executadas quando terminar de carregar a pagina
-		 */
-		$(document).ready(function (){
-		});
-		
-		//abrir laudo pdf em nova guia.
-		function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
-		{
-			var _action = '/IntranetOAP/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
-			console.log(_action);
-			window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
-		}
-		
-	</script>
+	<title><s:text name="%{getText('label.listaLaudosOAP')}"/></title>
 </head>
 
 
@@ -50,10 +30,6 @@
 			</td>
 		</tr>
 		<tr>
-			<!--center>
-				O arquivo está em formato pdf, que requer o software Adobe Acrobat Reader. 
-				Caso não o tenha instalado, clique no seguinte endereço http://get.adobe.com/br/reader/
-			</center-->
 		</tr>
 	</table>
 
@@ -107,7 +83,9 @@
 		<s:if test="%{!pessoaVo.listaLaudos.isEmpty()}">
 			<div align="center" class="titulo_cinza_negrito_grande">
 				<img src="images/001_18.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-				<s:property value="pessoaVo.listaLaudos.size"/><s:if test="%{pessoaVo.listaLaudos.size>1}">  Laudos Localizados</s:if><s:else>  Laudo Localizado</s:else>				 
+				<s:property value="pessoaVo.listaLaudos.size"/>
+				<s:if test="%{pessoaVo.listaLaudos.size>1}">  <s:text name="%{getText('label.laudosLocalizados')}"/></s:if>
+				<s:else>  <s:text name="%{getText('label.laudoLocalizado')}"/></s:else>				 
 			</div>
 			<br>
 			<div class="table oxo scrollListOap">
@@ -132,7 +110,7 @@
     		<s:url id="show" action="autenticacaoLaudoOnline"/>
          	<s:a href="%{show}">
          		<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-         		Voltar
+         		<s:text name="%{getText('label.back')}"/>
          	</s:a>
         </s:if>
 	</div>

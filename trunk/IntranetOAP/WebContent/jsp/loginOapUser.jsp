@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<s:head/>
+	<sj:head jqueryui="true" compressed="true"/>
+	
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="resources/js/oap.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -49,6 +52,7 @@
 			<tr>
 				<td>
 		   			<s:submit action="autenticarColaboradorOap" id="login" key="label.send" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
+					<img id="indicator" src="images/indicator.gif" alt="Loading..." style="display:none"/>
 				</td>
 				<td>		
 		   	   		<s:submit action="initRegisterUser" id="init" key="label.newUser" cssClass="button" cssStyle="width:200px"/>
@@ -65,6 +69,7 @@
 
 	function validar()
 	{
+		$("#indicator").show();
 		var msg_ = 'Número do Usuário é obrigatório e deve ser preenchido somente com Números.';
 		var nroCadastroPaciente_ = form.nrUsuario.value;
 		if(nroCadastroPaciente_ != null && !validarNumero(nroCadastroPaciente_))

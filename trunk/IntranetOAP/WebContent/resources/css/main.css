@@ -701,7 +701,7 @@ input[type="checkbox"]:checked:active::before {top: -4px; left: -3px;}
 }
 
 div.scrollListOap {
-	height: 350px;
+	height: 550px;
 	width: 600px;
 	overflow: auto;
 	border-width: thin;
