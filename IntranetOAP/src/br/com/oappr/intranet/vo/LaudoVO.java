@@ -5,6 +5,7 @@ package br.com.oappr.intranet.vo;
 
 import java.sql.Blob;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Classe Pojo contendo atributos para os dados do Laudo.
@@ -34,7 +35,7 @@ public final class LaudoVO
 	private Long cdconvenio;
 	private Long nrususolic;
 	private Blob dsrtf;
-	private Blob images;
+	private List<Blob> images;
 
 	/**
 	 * 
@@ -301,17 +302,17 @@ public final class LaudoVO
 	}
 
 	/**
-	 * @return the images
+	 * @return the list images
 	 */
-	public Blob getImages ()
+	public List<Blob> getImages ()
 	{
 		return images;
 	}
 
 	/**
-	 * @param images the images to set
+	 * @param List the images to set
 	 */
-	public void setImages (Blob images)
+	public void setImages (List<Blob> images)
 	{
 		this.images = images;
 	}

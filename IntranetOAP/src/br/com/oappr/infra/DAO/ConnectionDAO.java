@@ -76,6 +76,7 @@ final class ConnectionDAO
 		Connection conn = null;
 		System.out.printf("%n> Executando Classe ConnectionDAO.getConection() %n");
 		DatabaseMetaData db = null;
+		final String erroJDBC = "> ERRO: Conexao oracle (jdbc/ADCON) nao criada...";
 		try
 		{
 			final Context initContext = new InitialContext();
@@ -84,7 +85,7 @@ final class ConnectionDAO
 			conn = ds.getConnection();
 			if (conn == null)
 			{
-				System.err.println("> ERRO: Conexao oracle (jdbc/ADCON) nao criada...");
+				System.err.println(erroJDBC);
 			}
 			else
 			{
@@ -99,22 +100,22 @@ final class ConnectionDAO
 		catch (NamingException ne)
 		{
 			ne.printStackTrace();
-			throw new Exception(ne);
+			throw new Exception(erroJDBC);
 		}
 		catch (SQLException sqle)
 		{
 			sqle.printStackTrace();
-			throw new Exception(sqle);
+			throw new Exception(erroJDBC);
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
-			throw new Exception(ex);
+			throw new Exception(erroJDBC);
 		}
 		catch (Throwable th)
 		{
 			th.printStackTrace();
-			throw new Exception(th);
+			throw new Exception(erroJDBC);
 		}
 		finally
 		{

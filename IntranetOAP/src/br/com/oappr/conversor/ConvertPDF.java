@@ -3,14 +3,20 @@
  */
 package br.com.oappr.conversor;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.sql.Blob;
+
+import org.apache.commons.io.IOUtils;
 
 import br.com.oappr.conversor.office.ConversorFromTextOffice;
 import br.com.oappr.conversor.pdf.ConversorPDF;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.Image;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Classe responsável por converter conteudo RTF em PDF.
@@ -47,39 +53,48 @@ public final class ConvertPDF
 	 * @param jpg
 	 * @return byte[]
 	 */
-	public final byte[] convertJPG_To_PDF (final byte[] jpg) throws Exception
+	public final byte[] convertJPG_To_PDF (final Blob imageBlob) throws Exception
 	{
 		final Document document = new Document();
 		// String input = "c://temp//MOB.jpg"; // .gif and .jpg are ok too!
-		final String output = "c://temp//vicenteDestro.jpg";
+		// final String output = "c://temp//IMG_PDF_" +
+		// System.currentTimeMillis() + ".pdf";
 		try
 		{
-			final FileOutputStream fos = new FileOutputStream(new File(output));
-			fos.write(jpg);
-			fos.flush();
-			fos.close();
+			// final File fileOut = new File(output);
+			final OutputStream fos = new ByteArrayOutputStream();
+			// fos.write(jpg);
+			// fos.flush();
+			// fos.close();
 
-			// final PdfWriter writer = PdfWriter.getInstance(document, fos);
-			// writer.open();
-			// document.open();
-			// // document.add(Image.getInstance(jpg));
-			// final Image instance = Image.getInstance(input);
-			// instance.scalePercent(30);
-			// document.add(instance);
-			// document.close();
-			// writer.close();
-
+			final PdfWriter pdfWriter = PdfWriter.getInstance(document, fos);
+			pdfWriter.open();
+			document.open();
+			// document.add(Image.getInstance(jpg));
+			final byte[] byteArrayImg = imageBlob.getBytes(1, (int)imageBlob.length());
+			final Image instanceImg = Image.getInstance(byteArrayImg);
 			// ------------------------------------------
 			/** se precisar tratar tamanho da imagem */
 			// img.scalePercent(50);
-			// document.add(img);
 			// ------------------------------------------
+			instanceImg.scalePercent(30);
+			document.add(instanceImg);
+			document.close();
+			pdfWriter.close();
+			fos.close();
+
+			final ByteArrayInputStream in = new ByteArrayInputStream(
+			    ((ByteArrayOutputStream)fos).toByteArray());
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			IOUtils.copy(in, out);
+			IOUtils.closeQuietly(in);
+			IOUtils.closeQuietly(out);
+			return out.toByteArray();
 		}
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
 			throw ex;
 		}
-		return jpg;
 	}
 }
