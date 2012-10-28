@@ -4,9 +4,12 @@
 package br.com.oappr.infra.action.servlet;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +72,11 @@ public final class ServletReport
 		catch (Exception ex)
 		{
 			ex.printStackTrace();
-			throw new ServletException(ex);
+			res.getOutputStream().println(
+			    "<html><p><span style='font-size:12pt; color:#0000FF;'>Ocorreu um erro ao Gerar o Laudo, favor entrar em contato com a OAP.</span></p>");
+			res.getOutputStream().println(
+			    "<p>Código de Erro:<br><span style='color:red'>" + ex.getMessage() + "</p></html>");
+			// throw new ServletException(ex);
 		}
 		finally
 		{
@@ -89,7 +96,8 @@ public final class ServletReport
 	}
 
 	/**
-	 * Método responsavel por montar estrutra do laudo e gerar o relatio pdf.
+	 * Método responsável por montar a estrutra do laudo e gerar o relatório
+	 * PDF.
 	 * @param str
 	 * @param nrseqresultado
 	 * @param nroCadastroPaciente
@@ -103,53 +111,6 @@ public final class ServletReport
 	{
 		if ("rtf".equals(str))
 		{
-			// gravar arquivo
-			// final String PATH = "c://temp//ceratoscopia_04082012.jpg";
-			// final File imagem = new File(PATH);
-			// if (imagem.exists())
-			// {
-			// ByteArrayOutputStream ous = null;
-			// InputStream ios = null;
-			// try
-			// {
-			// byte[] buffer = new byte[4096];
-			// ous = new ByteArrayOutputStream();
-			// ios = new FileInputStream(imagem);
-			// int read = 0;
-			// while ((read = ios.read(buffer)) != -1)
-			// {
-			// ous.write(buffer, 0, read);
-			// }
-			// }
-			// finally
-			// {
-			// try
-			// {
-			// if (ous != null)
-			// {
-			// ous.close();
-			// }
-			// }
-			// catch (IOException e)
-			// {
-			// // swallow, since not that important
-			// }
-			// try
-			// {
-			// if (ios != null)
-			// {
-			// ios.close();
-			// }
-			// }
-			// catch (IOException e)
-			// {
-			// // swallow, since not that important
-			// }
-			// }
-			// final FileInputStream is = new FileInputStream(imagem);
-			// DaoFactory.getInstance().gravaImagem(imagem);
-			// }
-
 			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
 			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado),
 			    GenericUtils.toLong(nrrequisicao));
@@ -168,39 +129,6 @@ public final class ServletReport
 			// converter o conteúdo laudo RTF para PDF.
 			final byte[] relatorioPDF = new ConvertPDF().convertRTF_To_PDF(relatorioRTF);
 
-			// converter imagens dos laudos para byte[]
-			// final byte[] images = laudo.getImages().getBytes(1,
-			// (int)laudo.getImages().length());
-			// try
-			// {
-			// List<LaudoVO> list = DaoFactory.getInstance().getLaudosLixo();
-			// final String output = "c://temp//ceratoscopia_RETORNO.jpg";
-			// File f = new File(output);
-			// final FileOutputStream fos = new FileOutputStream(f);
-			// InputStream in = list.get(0).getImages().getBinaryStream();
-			// int length = (int)laudo.getImages().length();
-			// int bufferSize = 1024;
-			// byte[] buffer = new byte[bufferSize];
-			// while ((length = in.read(buffer)) != -1)
-			// {
-			// fos.write(buffer, 0, length);
-			// }
-			// in.close();
-			// fos.flush();
-			// fos.close();
-			// f = null;
-			//
-			// }
-			// catch (Exception ex)
-			// {
-			// ex.printStackTrace();
-			// throw ex;
-			// }
-
-			// converter images para PDF.
-			// final byte[] imagesPDF = new
-			// ConvertPDF().convertJPG_To_PDF(images);
-
 			// Recuperar os dados da empresa.
 			final PessoaVO empresa = DaoFactory.getInstance().getDadosEmpresa();
 			if (empresa == null)
@@ -215,7 +143,20 @@ public final class ServletReport
 			final List<InputStream> pdfs = new ArrayList<InputStream>();
 			pdfs.add(new ByteArrayInputStream(cabecalho));
 			pdfs.add(new ByteArrayInputStream(relatorioPDF));
-			// pdfs.add(new ByteArrayInputStream(imagesPDF));
+
+			// imagens
+			// TODO: APENAS TESTE DE LEITURA DA TABELA DE TESTE DA OAP E
+			// ESCREVER EM ARQUIVO
+			// this.testeLerFotoGravarEmArquivo();
+
+			// converter imagens dos laudos para byte[]
+			// final byte[] images = laudo.getImages().getBytes(1,
+			// (int)laudo.getImages().length());
+			for (final Blob bl : laudo.getImages())
+			{
+				final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl);
+				pdfs.add(new ByteArrayInputStream(imagesPDF));
+			}
 			final MergePDF mergePDF = new MergePDF();
 			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs, empresa);
 
@@ -225,6 +166,39 @@ public final class ServletReport
 			report.showReport(res, fileName, byteArrayMerged, GenericReport.PDF_TYPE);
 		}
 
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	@Deprecated
+	@SuppressWarnings({"deprecation", "unused"})
+	private void testeLerFotoGravarEmArquivo () throws Exception
+	{
+		try
+		{
+			List<LaudoVO> list = DaoFactory.getInstance().getLaudosLixo();
+			for (LaudoVO lixo : list)
+			{
+				final String output = "c://temp//img_oap//RETORNO_TABELA_LIXOIMAGEM_ID_"
+				    + lixo.getCdconvenio() + ".jpg";
+				File f = new File(output);
+				final FileOutputStream fos = new FileOutputStream(f);
+				// while ((length = in.read(buffer)) != -1)
+				// {
+				// fos.write(buffer, 0, length);
+				// }
+				// in.close();
+				fos.flush();
+				fos.close();
+				f = null;
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw ex;
+		}
 	}
 
 	/**

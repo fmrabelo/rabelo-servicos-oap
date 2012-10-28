@@ -6,6 +6,7 @@ package br.com.oappr.infra.DAO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,6 +63,7 @@ final class LaudoDAO
 			conn = DaoFactory.getInstance().getConection();
 			if (conn != null)
 			{
+				boolean existLaudo = ((codigoLaudo != null) && (codigoLaudo.longValue() > 0));
 				stm = conn.createStatement();
 				// str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO,
 				// T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
@@ -81,6 +83,8 @@ final class LaudoDAO
 				// str.append(" AND T2.NRREQUISICAO = T3.NRREQUISICAO ");
 				// str.append(" AND T2.CDPROCED = T3.CDPROCED ");
 
+				// pesquisa sem imagens
+				str = new StringBuilder();
 				str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO, T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
 				str.append(" 	T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL, T2.NRLAUDO, T2.NRUSUARIOINC, T2.DHINCLUSAO, ");
 				str.append(" 	T2.NRUSUARIOALT, T2.DHALTERACAO, T1.CDCONVENIO,T2.NRUSUSOLIC, T2.DSRTF ");
@@ -92,7 +96,7 @@ final class LaudoDAO
 				str.append(" 	 AND T2.FLLIBERADO = 1 ");// laudo liberado
 				str.append(" 	 AND T2.NRSEQRESULTADO IS NOT NULL ");
 
-				if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
+				if (existLaudo)
 				{
 					// --pesquisar laudo específico
 					str.append(" AND T2.NRSEQRESULTADO = ").append(codigoLaudo);
@@ -125,10 +129,11 @@ final class LaudoDAO
 					p.setHragenda(rs.getDate("HRAGENDA"));
 					p.setDhalteracao(rs.getDate("DHALTERACAO"));
 					// blob para o laudo especifico e imagens.
-					if ((codigoLaudo != null) && (codigoLaudo.longValue() > 0))
+					if (existLaudo)
 					{
 						p.setDsrtf(rs.getBlob("DSRTF"));
-						// p.setImages(rs.getBlob("IMAGEM"));
+						p.setImages(this.pesquisaImagemLaudo(conn, p.getNrrequisicao(),
+						    p.getCdproced()));
 					}
 					lista.add(p);
 				}
@@ -157,8 +162,68 @@ final class LaudoDAO
 	}
 
 	/**
+	 * Método responsável por pesquisar lista de imagens do laudo e retorná-las
+	 * caso existam.
+	 * @param conn
+	 * @param nrrequisicao
+	 * @param cdproced
+	 * @throws Exception
+	 */
+	private final List<Blob> pesquisaImagemLaudo (final Connection conn, final Long nrrequisicao,
+	    final Long cdproced) throws Exception
+	{
+		PreparedStatement stm = null;
+		ResultSet rs = null;
+		List<Blob> lista = null;
+		StringBuilder str = new StringBuilder();
+		try
+		{
+			if (conn != null)
+			{
+				// tabela teste
+				str.append(" SELECT T1.ID, T1.IMAGEM  FROM SYSADM.LIXOIMAGEM T1 ");
+
+				// str.append(" SELECT T3.IMAGEM ");
+				// str.append(" FROM SYSADM.ACREQUISIMAGEM T3 ");
+				// str.append(" WHERE T3.NRREQUISICAO = ? AND T3.CDPROCED = ?
+				// ");
+				stm = conn.prepareStatement(str.toString());
+				// stm.setLong(1, nrrequisicao);
+				// stm.setLong(2, cdproced);
+				rs = stm.executeQuery();
+				lista = new ArrayList<Blob>();
+				while ((rs != null) && rs.next())
+				{
+					lista.add(rs.getBlob("IMAGEM"));
+				}
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw new Exception(ex);
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			DaoFactory.getInstance().closeConection(stm, rs, null);
+		}
+		return lista;
+	}
+
+	/**
 	 * Teste lixo IMAGE
 	 */
+	@Deprecated
 	final List<LaudoVO> getLaudosLixo () throws Exception
 	{
 		Statement stm = null;
@@ -181,7 +246,7 @@ final class LaudoDAO
 				{
 					p = new LaudoVO();
 					p.setCdconvenio(rs.getLong("ID"));
-					p.setImages(rs.getBlob("IMAGEM"));
+					// p.setImages(rs.getBlob("IMAGEM"));
 					lista.add(p);
 				}
 			}

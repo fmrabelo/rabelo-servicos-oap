@@ -95,7 +95,7 @@ public final class MergePDF
 			endereco.append(SPC).append(GenericUtils.nullToBlank(empresa.getUrlSite()));
 			// headers and footers must be added before the document is opened
 			final HeaderFooter footer = new HeaderFooter(new Phrase(endereco.toString(), new Font(
-			    bf_courier, 9)), false);
+			    bf_courier, 7)), true);
 
 			footer.setBorder(Rectangle.NO_BORDER);
 			footer.setAlignment(Element.ALIGN_CENTER);
@@ -146,7 +146,7 @@ public final class MergePDF
 					if (paginate && (currentPageNumber > 1))
 					{
 						cb.beginText();
-						cb.setFontAndSize(bf, 9);
+						cb.setFontAndSize(bf, 7);
 						cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Pág. "
 						    + (currentPageNumber - 1) + " de " + totalPages, 520, 5, 0);
 						cb.endText();
