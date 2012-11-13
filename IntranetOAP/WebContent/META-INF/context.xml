@@ -9,7 +9,7 @@
       username="oap"  
       password="oap123"  
       driverClassName="oracle.jdbc.driver.OracleDriver"  
-      url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON"
+      url="jdbc:oracle:thin:@192.168.0.31:1521:ADCON"
       auth="Container"  
       />        
       
