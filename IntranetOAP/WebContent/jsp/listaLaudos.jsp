@@ -54,20 +54,15 @@
 	<div align="center">
 	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr>
-			<p/>
 	        <td align="left" style="text-align: left; text-decoration: none">
-	        <b>
-	        <p>
-	        	<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-	         <p>
+		        <p>
+		        	<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+		         <p>
 	        </td>	
-	        	  
-	       	<p/><p/>      
 	        <td align="left" style="text-align: center;color: blue;">
-	        <b><p>  ${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}  <p>
+	        <b>${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}
 	        </td>	   
 		</tr>
-		<tr><td><p></td></tr>
 	</table>
 	</div>
 
@@ -91,15 +86,26 @@
 			<div class="table oxo scrollListOap">
 				<article class="list">
 				<ul>
+					<table>
+					<tr>
+						<td align="center" class="texto_Azul_Negrito_20px">Laudo</td>
+						<td class="texto_Azul_Negrito_20px">Data</td>
+					</tr>
+					<tr><td colspan="2"></td></tr>
 					<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
-						<li style="text-align: left">
+						<tr>
+							<td>
 							<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
-								<img src="images/printer1.jpg" alt="Imprimir" align="bottom" border="0"  width="5" height="5" border="0" style="background-color:transparent;"/>
+								<img src="images/printer1.jpg" class="list li img" style="width:2em; height:1.7em;" alt='Imprimir'/>
+								${dsexamecompl}
 							</a>			
-							${dsexamecompl}							
-							<s:date name="dtconsulta" format="dd/MM/yyyy"/>							
-						</li>			
+							</td>
+							<td>							
+							<s:date name="dtconsulta" format="dd/MM/yyyy"/>
+							</td>
+						</tr>							
 					</s:iterator>
+					</table>
 				</ul>
 				</article>
 			</div>

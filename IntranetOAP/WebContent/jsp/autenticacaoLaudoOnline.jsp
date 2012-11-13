@@ -18,27 +18,25 @@
 <div align="center">
 <s:form action="autenticarPaciente" method="post" validate="true">
 
-	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
+	<table align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr> 
 		  	<td rowspan="2">
-				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="150" border="0" style="background-color:transparent;"/>
+				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="130" border="0" style="background-color:transparent;"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<br> 
-				<span class="texto_TNR_Azul_26px"><s:text name="business.title"/></span>					
+				<br><br><span class="texto_TNR_Azul_26px"><s:text name="business.title"/></span>					
 			</td>
 		</tr>
 	</table>
-	<table style="border-collapse:collapse;background-color: #EAF4FF;" width="400px" height="300px" align="center" cellpadding="1" cellspacing="1" border="0px">
+	<table style="border-collapse:collapse;background-color: #EAF4FF;" width="600px" height="300px" align="center" cellpadding="1" cellspacing="1" border="0px">
 		    <tr> 
 		    	<td colspan="2" valign="top" align="center" bordercolor="#EAF4FF;">		    		
 					<span class="texto_Azul_Negrito_20px">
-					<img src="images/usuario.gif" alt="Segurança" style="background-color: transparent;" align="bottom"/>
-					<s:text name="%{getText('label.autenticacaoLaudos')}"/>
+						<img src="images/usuario.gif" alt="Segurança" style="background-color: transparent;" align="bottom"/>
+						<s:text name="%{getText('label.autenticacaoLaudos')}"/>
 					</span>
-					<br>
 				</td>
 			</tr>
 			<tr>				
@@ -52,12 +50,14 @@
 			<tr>
 				<td colspan="2" class="texto_Azul_14px">
 					<pre class="texto_Azul_14px">
+					<!-- 
 						&bull; Utilize o <u>Número da Matrícula</u> e a <u>Data de Nascimento</u> do Titular 
 						     para ter acesso aos serviços disponibilizados para resultados de exames.
 							  					
 						&bull; O campo <u>Número da Matrícula</u> deve ser somente números.
 												
 						&bull; A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Ex.: 01/05/1989)
+					 -->
 					</pre>
 				</td>
 			</tr>
@@ -73,10 +73,15 @@
 			</tr>	
 			<tr>
 				<td colspan="2">
-					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/>
+					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/><br><br>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
 					<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
 				</td>
 			</tr>
+
 			<tr><td colspan="2" align="left"><br></td></tr>
 			
 			<br>
