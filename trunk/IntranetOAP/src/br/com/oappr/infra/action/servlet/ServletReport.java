@@ -109,6 +109,7 @@ public final class ServletReport
 	    final String nroCadastroPaciente, final String nrrequisicao, final HttpServletResponse res)
 	    throws Exception
 	{
+		final String msg = "Laudo não localizado!!";
 		if ("rtf".equals(str))
 		{
 			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
@@ -117,12 +118,16 @@ public final class ServletReport
 
 			if (!Validator.notEmptyCollection(listaLaudos) || (listaLaudos.get(0) == null))
 			{
-				throw new Exception("Laudo não localizado!!");
+				throw new Exception(msg);
 			}
 
 			// Recuperar Laudo Original do Clinitools gravado na base
 			// Oracle.
 			final LaudoVO laudo = listaLaudos.get(0);
+			if ((laudo == null) || (laudo.getDsrtf() == null) || (laudo.getDsrtf().length() <= 0))
+			{
+				throw new Exception(msg);
+			}
 
 			// converter blob rtf para byte[]
 			final byte[] relatorioRTF = laudo.getDsrtf().getBytes(1, (int)laudo.getDsrtf().length());
@@ -154,14 +159,17 @@ public final class ServletReport
 			// (int)laudo.getImages().length());
 			for (final Blob bl : laudo.getImages())
 			{
-				final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl);
-				pdfs.add(new ByteArrayInputStream(imagesPDF));
+				if (bl != null)
+				{
+					final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl);
+					pdfs.add(new ByteArrayInputStream(imagesPDF));
+				}
 			}
 			final MergePDF mergePDF = new MergePDF();
 			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs, empresa);
 
 			// apresentar o pdf final.
-			final String fileName = "laudoOnlinePDF";
+			final String fileName = "laudoOnlinePDF_" + DateUtils.getCurrentTimestamp();
 			final LaudoReport report = new LaudoReport();
 			report.showReport(res, fileName, byteArrayMerged, GenericReport.PDF_TYPE);
 		}
