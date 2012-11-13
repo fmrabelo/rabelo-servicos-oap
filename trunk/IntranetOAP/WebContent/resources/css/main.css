@@ -9,17 +9,29 @@ fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td {
 	border: 0;
 	font-family: inherit;
-	font-size: 10pt;
+	font-size: inherit;
 	font-style: inherit;
 	font-weight: inherit;
 	margin: 0;
 	outline: 0;
-	padding: 2;
+	padding:.3em 1em;
 	vertical-align: baseline;
-	font-family: "PT Sans", Arial, Helvetica, sans-serif;
+	font-family:inherit;
 	text-decoration: none;
 	list-style-type: none;
+	border-collapse:collapse;
 }
+
+tr.odd td {
+	background:#f7fbff
+}
+tr.odd .column1 {
+	background:#f4f9fe;
+}
+.column1 {
+	background:#f9fcfe;
+}
+
 html, body {height: 100%;}
 :focus {/* remember to define focus styles! */
 	outline: 0;
@@ -222,7 +234,7 @@ A:hover {
 	color: white;
 	font-family: inherit;
 	font-weight: bold;
-	font-size: 18pt;
+	font-size: 14pt;
 	padding: 2px 5px;
 	font-variant: normal;
 	width: auto;	
@@ -269,13 +281,15 @@ A:hover {
 }
 
 .texto_TNR_Azul_26px {
-	font-family: 'Times New Roman';
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00798C', endColorstr='#2B3541');
+	border: 0;
+	font-family: inherit;
 	text-align: left;
 	display: block;
-	width: 100%;
-	border-bottom: 1px solid #09F;
+	width: auto;
+	border-bottom: 0px solid #09F;
 	font-size: 26px;
-	color: #09F;
+	color: #4E8EC6;
 	text-decoration: none;
 	font-weight: bold;
 	text-transform: none;
@@ -283,7 +297,8 @@ A:hover {
 }
 
 .texto_azul_negrito_22px {
-	font-family: 'Times New Roman';
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00798C', endColorstr='#2B3541');
+	font-family: inherit;
 	text-align: center;
 	display: block;
 	width: 100%;
@@ -299,7 +314,7 @@ A:hover {
 .texto_Azul_Negrito_20px {
 	font-family: Verdana, monospace, Helvetica, sans-serif;
 	font-size: 20px;
-	color: #09F;
+	color: #4E8EC6;
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -318,9 +333,9 @@ A:hover {
 }
 
 .inputText_16px {
-	font-family: verdana, arial, sans-serif;
+	font-family: inherit;
 	padding: 2px;
-	font-size: 16px; 
+	font-size: 22px; 
 	border: 1px solid #b9b9b9;
 	width: 200px;
 	height: 25px
@@ -647,9 +662,9 @@ input[type="checkbox"]:checked:active::before {top: -4px; left: -3px;}
 }
 .list li img {
 	border-radius: 5px;
-	margin-right:4px;
-	width:40px; 
-	height:40px;
+	margin-right:5px;
+	width:2.2em; 
+	height:1.8em;
 }
 
 .secondary { 
@@ -709,4 +724,15 @@ div.scrollListOap {
 	background-color: #EAF4F7;
 	padding: 8px;
 	font-size: 9pt;
+}
+
+img.printerImage {
+    background: url('/images/miniPrinter.png') no-repeat top center;
+ 	width: 12em;
+ 	height: 8em;
+ }
+ 
+.imageContainer {
+    height: 300px;
+    width: 100%;
 }
