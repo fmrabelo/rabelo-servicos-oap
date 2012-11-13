@@ -181,15 +181,15 @@ final class LaudoDAO
 			if (conn != null)
 			{
 				// tabela teste
-				str.append(" SELECT T1.ID, T1.IMAGEM  FROM SYSADM.LIXOIMAGEM T1 ");
+				// str.append(" SELECT T1.ID, T1.IMAGEM FROM SYSADM.LIXOIMAGEM
+				// T1 ");
 
-				// str.append(" SELECT T3.IMAGEM ");
-				// str.append(" FROM SYSADM.ACREQUISIMAGEM T3 ");
-				// str.append(" WHERE T3.NRREQUISICAO = ? AND T3.CDPROCED = ?
-				// ");
+				str.append(" SELECT T1.IMAGEMBIN IMAGEM  ");
+				str.append(" FROM SYSADM.ACREQUISIMAGEM T1 ");
+				str.append(" WHERE T1.NRREQUISICAO = ? AND T1.CDPROCED = ? ");
 				stm = conn.prepareStatement(str.toString());
-				// stm.setLong(1, nrrequisicao);
-				// stm.setLong(2, cdproced);
+				stm.setLong(1, nrrequisicao);
+				stm.setLong(2, cdproced);
 				rs = stm.executeQuery();
 				lista = new ArrayList<Blob>();
 				while ((rs != null) && rs.next())
