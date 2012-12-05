@@ -116,16 +116,11 @@ final class LaudoDAO
 					p.setNrrequisicao(rs.getLong("NRREQUISICAO"));
 					p.setNrseqresultado(rs.getLong("NRSEQRESULTADO"));
 					p.setNrusuarioamb(rs.getLong("NRUSUARIOAMB"));
-					p.setCdpessoa(rs.getLong("CDPESSOA"));
-					p.setCdproced(rs.getLong("CDPROCED"));
-					p.setNrlaudo(rs.getLong("NRLAUDO"));
 					p.setNrusuarioinc(rs.getLong("NRUSUARIOINC"));
 					p.setNrusuarioalt(rs.getLong("NRUSUARIOALT"));
 					p.setCdconvenio(rs.getLong("CDCONVENIO"));
 					p.setNrususolic(rs.getLong("NRUSUSOLIC"));
-					p.setDsexamecompl(rs.getString("DSEXAMECOMPL"));
 					p.setDhinclusao(rs.getDate("DHINCLUSAO"));
-					p.setDtconsulta(rs.getDate("DTCONSULTA"));
 					p.setHragenda(rs.getDate("HRAGENDA"));
 					p.setDhalteracao(rs.getDate("DHALTERACAO"));
 					// blob para o laudo especifico e imagens.
