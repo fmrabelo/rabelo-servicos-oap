@@ -50,20 +50,38 @@
 		   	</s:if>		 
 		</div>	
 	</div>
-	
+
+	<div align="center" style="height: 50px; padding: 5px;">
+		<table style="border-collapse:collapse; width:40%; size:10px;" align="center" cellpadding="1" cellspacing="1" border="0">
+			<tr style="background-color: #ECECEC;">
+		        <td align="left" style="text-align: left; text-decoration: none; ">
+			        <p>
+			        	<img src="images/acrobat.jpg" width="20px" border="0" style="background: #ECECEC;"/>&nbsp;&nbsp;
+			         <p>
+		        </td>	
+				<td align="left" style="text-align: left; text-decoration: none; font-size: 11px; color:#666;position: absolute;left: 510px; top: 160px; ">
+				Para visualizar os Arquivos PDF é necessário ter instalado o programa Acrobat Reader.<br> 
+				Caso não tenha instalado,
+				<a href="http://www.adobe.com.br/products/acrobat/readstep2.html" target="_new">clique aqui</a> 
+				para fazer o download.
+				
+				</td>
+			</tr>
+		</table>	
+	</div>	
 	<div align="center">
-	<table style="border-collapse:collapse;" align="center" cellpadding="1" cellspacing="1" border="0">
-		<tr>
-	        <td align="left" style="text-align: left; text-decoration: none">
-		        <p>
-		        	<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-		         <p>
-	        </td>	
-	        <td align="left" style="text-align: center;color: blue;">
-	        <b>${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}
-	        </td>	   
-		</tr>
-	</table>
+		<table style="border-collapse:collapse; width: 50%;" align="center" cellpadding="1" cellspacing="1" border="0">
+			<tr>
+		        <td align="left" style="text-align: left; text-decoration: none">
+			        <p>
+			        	<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+			         <p>
+		        </td>	
+		        <td align="left" style="text-align: center;color: blue;">
+		        <b>${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}
+		        </td>	   
+			</tr>
+		</table>
 	</div>
 
 	<!-- lista de laudos -->
