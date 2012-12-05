@@ -15,6 +15,7 @@
 	</filter-mapping>
 	  
 	<!-- spring -->
+	<!-- 
 	<listener>
 	    <description>Carrega o applicationContext.xml do spring na inicializacao</description>
 	    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -24,9 +25,11 @@
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>classpath:spring-security-config.xml</param-value>
 	</context-param>
+	 -->
 	<!-- spring -->
 	
 	<!-- spring-security -->
+	<!-- 
 	<filter>
 	    <description>Filtro de seguranca implementando pelo Spring-Security</description>
 	    <filter-name>springSecurityFilterChain</filter-name>
@@ -37,6 +40,7 @@
 	    <filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	 -->
 	<!-- spring-security -->
 	
     <servlet>  
