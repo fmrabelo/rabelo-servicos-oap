@@ -41,6 +41,18 @@
 		</title>
 		<pageHeader>
 			<band height="140"  isSplitAllowed="true" >
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="219"
+						y="55"
+						width="338"
+						height="56"
+						key="rectangle-1"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.05" lineStyle="Solid"/>
+</graphicElement>
+				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="132"
@@ -110,9 +122,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="224"
+						x="226"
 						y="65"
-						width="333"
+						width="322"
 						height="13"
 						key="textField"/>
 					<box></box>
@@ -123,9 +135,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="325"
+						x="226"
 						y="78"
-						width="232"
+						width="322"
 						height="13"
 						key="textField-5"/>
 					<box></box>
@@ -136,9 +148,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="325"
+						x="226"
 						y="91"
-						width="232"
+						width="322"
 						height="13"
 						key="textField-6"/>
 					<box></box>
@@ -147,18 +159,6 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{CIDADE_DATA_EXAME}]]></textFieldExpression>
 				</textField>
-				<rectangle>
-					<reportElement
-						mode="Transparent"
-						x="219"
-						y="55"
-						width="338"
-						height="56"
-						key="rectangle-1"/>
-					<graphicElement stretchType="NoStretch">
-					<pen lineWidth="0.05" lineStyle="Solid"/>
-</graphicElement>
-				</rectangle>
 			</band>
 		</pageHeader>
 		<columnHeader>
