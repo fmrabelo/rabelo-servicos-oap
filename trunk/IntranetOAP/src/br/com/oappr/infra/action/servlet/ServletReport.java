@@ -157,6 +157,12 @@ public final class ServletReport
 			// converter imagens dos laudos para byte[]
 			// final byte[] images = laudo.getImages().getBytes(1,
 			// (int)laudo.getImages().length());
+
+			final String nomeExame = laudo.getDsexamecompl();
+			if ((nomeExame != null) && nomeExame.trim().toUpperCase().startsWith("MICROSCOPIA"))
+			{
+				System.out.println(" É MICROSCOPIA FIMMMMM... ");
+			}
 			for (final Blob bl : laudo.getImages())
 			{
 				if (bl != null)
@@ -168,12 +174,13 @@ public final class ServletReport
 			final MergePDF mergePDF = new MergePDF();
 			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs, empresa);
 
-			// apresentar o pdf final.
-			final String fileName = "laudoOnlinePDF_" + DateUtils.getCurrentTimestamp();
+			// apresentar o pdf final com nome para o arquivo pdf.
+			final StringBuilder pdfFileName = new StringBuilder("laudoOnline_");
+			pdfFileName.append(nomeExame != null ? nomeExame : "").append("_").append(
+			    laudo.getCdpessoa() != null ? laudo.getCdpessoa() : "");
 			final LaudoReport report = new LaudoReport();
-			report.showReport(res, fileName, byteArrayMerged, GenericReport.PDF_TYPE);
+			report.showReport(res, pdfFileName.toString(), byteArrayMerged, GenericReport.PDF_TYPE);
 		}
-
 	}
 
 	/**
@@ -254,8 +261,9 @@ public final class ServletReport
 			String DESC_CIDADE_EXAME = "";
 			if (medRespExam != null)
 			{
-				buffer.append("Exame realizado pel");
-				buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ? "a " : "o "));
+				// buffer.append("Exame realizado pel");
+				// buffer.append(("F".equalsIgnoreCase(medRespExam.getSexo()) ?
+				// "a " : "o "));
 				buffer.append(GenericUtils.nullToBlank(medRespExam.getSiglaTratamento())).append(
 				    " ").append(GenericUtils.nullToBlank(medRespExam.getNomePessoa()));
 				DESC_CRM_MEDICO = medRespExam.getDescrCRM();
@@ -273,10 +281,12 @@ public final class ServletReport
 			parameters.put(LABEL_NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
 
-			final String fileName = "TONOMETRIA";// nome do jasper
+			// nome do arquivo jasper, alterar este nome somente se alterar o
+			// nome do arquivo fonte jrxml.
+			final String jasperFileName = "TONOMETRIA";
 			final LaudoReport report = new LaudoReport();
-			return report.getByteArrayCabecalhoPDF(request, response, fileName, null, parameters,
-			    GenericReport.PDF_TYPE);
+			return report.getByteArrayCabecalhoPDF(request, response, jasperFileName, null,
+			    parameters, GenericReport.PDF_TYPE);
 		}
 		catch (Exception e)
 		{
