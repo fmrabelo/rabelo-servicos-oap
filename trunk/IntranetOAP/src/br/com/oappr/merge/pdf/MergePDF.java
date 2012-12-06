@@ -137,6 +137,10 @@ public final class MergePDF
 
 						// controle de espaçamento superior e esquerdo.
 						cb.addTemplate(page, 1, 0, 0, 1, -40, -50);
+
+						// cb.addTemplate(page, -0.5f, 0f, 0f, -0.5f,
+						// PageSize.A4.width() / 2,
+						// PageSize.A4.height());
 					}
 					else
 					{
