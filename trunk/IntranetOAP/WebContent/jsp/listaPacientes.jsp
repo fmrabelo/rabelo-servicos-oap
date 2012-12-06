@@ -42,11 +42,11 @@
 			</div>
 			<div class="titulo_cinza_negrito_grande" align="center"></div>
 			<div class="titulo_cinza_negrito_grande" align="center">
-				<p align="center" style="font-size: 13pt">
+				<p align="center" style="font-size: 15pt; color:#050607;">
 					<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;					
 					<s:property value="user.nomePessoa"/>
 				</p>
-				<p align="left">
+				<p align="left" style="font-size: 10pt; background-color: #DCEFF5;color: rgb(192, 91, 91);">
 					<img src="images/001_53.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 					<s:text name="%{getText('label.pesquisaPacienteCodNome')}"/>
 				</p>
