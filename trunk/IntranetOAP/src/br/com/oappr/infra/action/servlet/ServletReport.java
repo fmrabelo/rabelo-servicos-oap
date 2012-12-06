@@ -159,10 +159,12 @@ public final class ServletReport
 			// (int)laudo.getImages().length());
 
 			final String nomeExame = laudo.getDsexamecompl();
-			if ((nomeExame != null) && nomeExame.trim().toUpperCase().startsWith("MICROSCOPIA"))
-			{
-				System.out.println(" É MICROSCOPIA FIMMMMM... ");
-			}
+			// if ((nomeExame != null) &&
+			// nomeExame.trim().toUpperCase().startsWith("MICROSCOPIA"))
+			// {
+			// System.out.println(" É MICROSCOPIA FIMMMMM... ");
+			// }
+
 			for (final Blob bl : laudo.getImages())
 			{
 				if (bl != null)
