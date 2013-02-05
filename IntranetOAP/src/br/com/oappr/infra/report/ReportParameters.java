@@ -19,4 +19,5 @@ public interface ReportParameters
 	public static final java.lang.String LABEL_MEDICO_RESPONSAVEL_EXAME = "MEDICO_RESPONSAVEL_EXAME";
 	public static final java.lang.String LABEL_CRM_MEDICO_RESPONSAVEL_EXAME = "CRM_MEDICO_RESPONSAVEL_EXAME";
 	public static final java.lang.String LABEL_CIDADE_DATA_EXAME = "CIDADE_DATA_EXAME";
+	public static final java.lang.String LABEL_ASSINATURA_MEDICO_PATH = "ASSINATURA_MEDICO_PATH";
 }
