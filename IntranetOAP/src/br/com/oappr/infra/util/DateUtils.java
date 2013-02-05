@@ -113,6 +113,10 @@ public final class DateUtils
 		{
 			return null;
 		}
+		else
+		{
+			// retira horas da data
+		}
 		simpleDateExtensoBr.setTimeZone(TIME_ZONE);
 		return simpleDateExtensoBr.format(dateTime);
 	}
