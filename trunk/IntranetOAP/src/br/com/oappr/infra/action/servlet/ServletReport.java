@@ -186,6 +186,37 @@ public final class ServletReport
 	}
 
 	/**
+	 * Gerar arquivo físico local contendo a assinatura digital do Médico.
+	 * @throws Exception
+	 */
+	private final String assinaturaDigitalMedico (final Blob blob, String nomeMedico)
+	{
+		if (Validator.isBlankOrNull(nomeMedico))
+		{
+			nomeMedico = "assinaturaMedicoOAP";
+		}
+		try
+		{
+			File tempFile = File.createTempFile(nomeMedico.trim(), ".jpg");
+			final FileOutputStream fos = new FileOutputStream(tempFile);
+			final byte[] byteArrayImg = blob.getBytes(1, (int)blob.length());
+			fos.write(byteArrayImg);
+			fos.flush();
+			fos.close();
+			if ((tempFile != null) && (tempFile.length() > 0))
+			{
+				tempFile.deleteOnExit();
+				return tempFile.getAbsolutePath();
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
 	 * @throws Exception
 	 */
 	@Deprecated
@@ -274,11 +305,21 @@ public final class ServletReport
 					DESC_CIDADE_EXAME = GenericUtils.nullToBlank(empresa.getCidade()).concat(", ").concat(
 					    GenericUtils.nullToBlank(DateUtils.formatDateExtenso(laudo.getDtconsulta())));
 				}
+				// parametro para assinatura do médico
+				if ((medRespExam.getAssinaturaDigital() != null)
+				    && (medRespExam.getAssinaturaDigital().length() > 0))
+				{
+					final String path = this.assinaturaDigitalMedico(
+					    medRespExam.getAssinaturaDigital(), medRespExam.getNomePessoa());
+					if (!Validator.isBlankOrNull(path))
+					{
+						parameters.put(LABEL_ASSINATURA_MEDICO_PATH, path);
+					}
+				}
 			}
 			parameters.put(LABEL_MEDICO_RESPONSAVEL_EXAME, buffer.toString());
 			parameters.put(LABEL_CRM_MEDICO_RESPONSAVEL_EXAME, DESC_CRM_MEDICO);
 			parameters.put(LABEL_CIDADE_DATA_EXAME, DESC_CIDADE_EXAME);
-
 			// Parametro Nome do Laudo
 			parameters.put(LABEL_NOME_LAUDO, laudo.getDsexamecompl());
 			this.setParameters(parameters);
