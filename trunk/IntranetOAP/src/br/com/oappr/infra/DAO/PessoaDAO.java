@@ -429,7 +429,7 @@ final class PessoaDAO
 				stm = conn.createStatement();
 				final StringBuilder str = new StringBuilder();
 				str.append(" 	Select   T1.NRSEQMEDICO, T4.CDPESSOA, T1.NRUSUARIO, T1.FLREVISOR, T3.NMPESSOA, T2.DSORGCLAS,	 ");
-				str.append(" 	         T3.DSFORMTRAT, T3.TPSEXO ,T2.IMAGEMASSINATURA	 ");
+				str.append(" 	         T3.DSFORMTRAT, T3.TPSEXO ,T2.IMAGEMBIN	 ");
 				str.append(" 	From    SYSADM.ACREQUISICAOMEDICO T1, SYSADM.ACUSUARI T2,	 ");
 				str.append(" 	        SYSADM.ACPESSOA T3, SYSADM.AARESULTADOPR T4	 ");
 				str.append(" 	WHERE  T1.NRUSUARIO = T2.NRUSUARIO	 ");
@@ -447,7 +447,7 @@ final class PessoaDAO
 					p.setNomePessoa(rs.getString("NMPESSOA"));
 					p.setDescrCRM(rs.getString("DSORGCLAS"));
 					p.setSiglaTratamento(rs.getString("DSFORMTRAT"));
-					p.setAssinaturaDigital(rs.getBlob("IMAGEMASSINATURA"));
+					p.setAssinaturaDigital(rs.getBlob("IMAGEMBIN"));
 					p.setSexo(rs.getString("TPSEXO"));
 					return p;
 				}
