@@ -587,4 +587,25 @@ public final class GenericUtils
 		}
 		return text;
 	}
+
+	/**
+	 * @return
+	 */
+	public static final boolean verificarNomeExames (final String nomeExame,
+	    final String[] arrayCompare)
+	{
+		if (!Validator.isBlankOrNull(nomeExame)
+		    && ((arrayCompare != null) && (arrayCompare.length > 0)))
+		{
+			for (String z : arrayCompare)
+			{
+				if (nomeExame.toLowerCase().contains(z.toString().toLowerCase()))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }
