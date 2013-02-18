@@ -3,6 +3,7 @@
  */
 package br.com.oappr.merge.pdf;
 
+import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,7 +96,7 @@ public final class MergePDF
 			endereco.append(SPC).append(GenericUtils.nullToBlank(empresa.getUrlSite()));
 			// headers and footers must be added before the document is opened
 			final HeaderFooter footer = new HeaderFooter(new Phrase(endereco.toString(), new Font(
-			    bf_courier, 7)), true);
+			    bf_courier, 7, 0, new Color(204, 204, 204))), false);
 
 			footer.setBorder(Rectangle.NO_BORDER);
 			footer.setAlignment(Element.ALIGN_CENTER);
@@ -124,6 +125,7 @@ public final class MergePDF
 					if (currentPageNumber > 1)
 					{
 						document.newPage();
+						// document.setMargins(380, 108, 172, 36);
 					}
 					pageOfCurrentReaderPDF++;
 					currentPageNumber++;
@@ -136,8 +138,21 @@ public final class MergePDF
 						// cb.addTemplate(page, 1, 0, 0, .5f, 0, 0);
 
 						// controle de espaçamento superior e esquerdo.
-						cb.addTemplate(page, 1, 0, 0, 1, -40, -50);
+						/**
+						 * parametros: 1:pagina,<br>
+						 * 2:Texto nao aparece se usar zero 0.<br>
+						 * 3:escreve na diagonal usando 1.<br>
+						 * 4:diagonal meio da pagina<br>
+						 * 5:Texto nao aparece se usar zero 0.<br>
+						 * 6: Margem Esquerda<br>
+						 * 7: Margem Direita<br>
+						 */
+						// usar esta configuração para imagens via Export
+						cb.addTemplate(page, 1, 0, 0, 1, -30, -50);
+						// usar esta configuração para imagens via Driver
+						// cb.addTemplate(page, 1, 0, 0, 1, -50, -50);
 
+						// Inserve conteudo de ponta cabeça.
 						// cb.addTemplate(page, -0.5f, 0f, 0f, -0.5f,
 						// PageSize.A4.width() / 2,
 						// PageSize.A4.height());
