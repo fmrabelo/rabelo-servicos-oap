@@ -42,11 +42,15 @@ import br.com.oappr.merge.pdf.MergePDF;
 public final class ServletReport
     extends HttpServlet
     implements ReportParameters, Serializable
+
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 13206501245454L;
+
+	// Exames cujas imagens não necessitam muito Zoom
+	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia", "campimetria", "Iol Master"};
 
 	// parametros para relatorios jasper report
 	HashMap<String, String> parameters = new HashMap<String, String>();
@@ -158,18 +162,24 @@ public final class ServletReport
 			// final byte[] images = laudo.getImages().getBytes(1,
 			// (int)laudo.getImages().length());
 
+			// TODO: Lógica para tratar especificamente as imagens de
+			// Microscopia, que provavelmente serão distribuidas 6 por página
+			// A4.
 			final String nomeExame = laudo.getDsexamecompl();
 			// if ((nomeExame != null) &&
 			// nomeExame.trim().toUpperCase().startsWith("MICROSCOPIA"))
 			// {
-			// System.out.println(" É MICROSCOPIA FIMMMMM... ");
+			// System.out.println(" É MICROSCOPIA... ");
 			// }
 
+			// Processamento das Imagens do laudo.
 			for (final Blob bl : laudo.getImages())
 			{
+				// existe conteúdo na imagem
 				if (bl != null)
 				{
-					final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl);
+					final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl, nomeExame);
+					// adiciona imagem ao pdf.
 					pdfs.add(new ByteArrayInputStream(imagesPDF));
 				}
 			}
@@ -305,7 +315,7 @@ public final class ServletReport
 					DESC_CIDADE_EXAME = GenericUtils.nullToBlank(empresa.getCidade()).concat(", ").concat(
 					    GenericUtils.nullToBlank(DateUtils.formatDateExtenso(laudo.getDtconsulta())));
 				}
-				// parametro para assinatura do médico
+				// parametro para assinatura digital do médico
 				if ((medRespExam.getAssinaturaDigital() != null)
 				    && (medRespExam.getAssinaturaDigital().length() > 0))
 				{
@@ -314,6 +324,7 @@ public final class ServletReport
 					if (!Validator.isBlankOrNull(path))
 					{
 						parameters.put(LABEL_ASSINATURA_MEDICO_PATH, path);
+						System.out.printf("%n-> Assinatura Digital do Medico : %s%n", path);
 					}
 				}
 			}
