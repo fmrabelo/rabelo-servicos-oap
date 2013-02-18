@@ -42,6 +42,19 @@
 		</title>
 		<pageHeader>
 			<band height="140"  isSplitAllowed="true" >
+				<image  scaleImage="FillFrame" vAlign="Middle" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="380"
+						y="30"
+						width="153"
+						height="106"
+						key="image-2"
+						isRemoveLineWhenBlank="true"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P{ASSINATURA_MEDICO_PATH}]]></imageExpression>
+				</image>
 				<rectangle>
 					<reportElement
 						mode="Transparent"
@@ -160,18 +173,6 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{CIDADE_DATA_EXAME}]]></textFieldExpression>
 				</textField>
-				<image  scaleImage="FillFrame" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="469"
-						y="58"
-						width="75"
-						height="52"
-						key="image-2"
-						isRemoveLineWhenBlank="true"/>
-					<box></box>
-					<graphicElement stretchType="NoStretch"/>
-					<imageExpression class="java.lang.String"><![CDATA[$P{ASSINATURA_MEDICO_PATH}]]></imageExpression>
-				</image>
 			</band>
 		</pageHeader>
 		<columnHeader>
