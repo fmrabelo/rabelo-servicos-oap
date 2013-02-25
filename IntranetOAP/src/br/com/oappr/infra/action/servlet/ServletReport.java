@@ -53,7 +53,7 @@ public final class ServletReport
 	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia", "campimetria", "Iol Master"};
 
 	// parametros para relatorios jasper report
-	HashMap<String, String> parameters = new HashMap<String, String>();
+	HashMap<String, String> parameters = null;
 
 	/**
 	 * doget
@@ -269,6 +269,7 @@ public final class ServletReport
 	private final byte[] gerarCabecalhoPDF (final LaudoVO laudo, final PessoaVO empresa)
 	    throws Exception
 	{
+		parameters = new HashMap<String, String>();
 		try
 		{
 			final HttpServletRequest request = ServletActionContext.getRequest();
