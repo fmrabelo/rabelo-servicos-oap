@@ -51,10 +51,10 @@
 				<td colspan="2" class="texto_Azul_14px">
 					<pre class="texto_Azul_14px">
 					<!-- 
-						&bull; Utilize o <u>Número da Matrícula</u> e a <u>Data de Nascimento</u> do Titular 
+						&bull; Utilize o <u>Código do Paciente (Número da Matrícula)</u> e a <u>Data de Nascimento</u> do Titular 
 						     para ter acesso aos serviços disponibilizados para resultados de exames.
 							  					
-						&bull; O campo <u>Número da Matrícula</u> deve ser somente números.
+						&bull; O campo <u>Código do Paciente</u> deve ser somente números.
 												
 						&bull; A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Ex.: 01/05/1989)
 					 -->
@@ -73,7 +73,7 @@
 			</tr>	
 			<tr>
 				<td colspan="2">
-					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Número da Matrícula" cssClass="inputText_16px"/><br><br>
+					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Código do Paciente" cssClass="inputText_16px"/><br><br>
 				</td>
 			</tr>
 			<tr>
@@ -86,7 +86,7 @@
 			
 			<br>
 			<div align="center">
-				<s:submit value="Validar Dados" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
+				<s:submit value="Acessar" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
 			</div>	
 	</table>
 	<br/>
