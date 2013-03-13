@@ -41,50 +41,9 @@
 			</tr>
 			<tr>				
 				<td colspan="2"><span class="titulo_azul_negrito_grande"/></td>
-			</tr>					
-			<!--tr>
-				<td colspan="2" style="font-family: sans-serif;color: blue;font-size: 10px;">
-					<img src="images/linhaHorizPaisagem.gif" style="background-color: transparent;" align="bottom"/>
-				</td>
-			</tr-->
-			<tr>
-				<td colspan="2" class="texto_Azul_14px">
-					<pre class="texto_Azul_14px">
-					<!-- 
-						&bull; Utilize o <u>Código do Paciente (Número da Matrícula)</u> e a <u>Data de Nascimento</u> do Titular 
-						     para ter acesso aos serviços disponibilizados para resultados de exames.
-							  					
-						&bull; O campo <u>Código do Paciente</u> deve ser somente números.
-												
-						&bull; A <u>Data de Nascimento</u> deve ser no formato dd/mm/aaaa (Ex.: 01/05/1989)
-					 -->
-					</pre>
-				</td>
 			</tr>
-			<!-- tr>
-				<td colspan="2" style="font-family: sans-serif;color: blue;font-size: 10px;">
-					<img src="images/linhaHorizPaisagem.gif" hspace="2px" background-color: transparent;" align="ceter"/>
-				</td>
-			</tr-->
-			<tr>
-				<td colspan="2">
-					<!-- span class="titulo_azul_negrito_grande"> </span -->
-				</td>
-			</tr>	
-			<tr>
-				<td colspan="2">
-					<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Código do Paciente" cssClass="inputText_16px"/><br><br>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
-				</td>
-			</tr>
-
-			<tr><td colspan="2" align="left"><br></td></tr>
-			
-			<br>
+			<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Código do Paciente" cssClass="inputText_16px"/>
+			<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
 			<div align="center">
 				<s:submit value="Acessar" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
 			</div>	
