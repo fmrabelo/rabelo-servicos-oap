@@ -23,6 +23,7 @@ import javax.sql.DataSource;
 final class ConnectionDAO
     implements Serializable
 {
+	Connection conn = null;
 
 	/**
 	 * 
@@ -73,7 +74,11 @@ final class ConnectionDAO
 	 */
 	final Connection getConection () throws Exception
 	{
-		Connection conn = null;
+		if (conn != null)
+		{
+			return conn;
+		}
+
 		System.out.printf("%n> Executando Classe ConnectionDAO.getConection() %n");
 		DatabaseMetaData db = null;
 		final String erroJDBC = "> ERRO: Conexao oracle (jdbc/ADCON) nao criada...";
@@ -131,7 +136,43 @@ final class ConnectionDAO
 	 * @param conn
 	 * @throws Exception
 	 */
+	@Deprecated
 	final void closeConection (Statement stm, ResultSet rs, Connection conn) throws Exception
+	{
+		try
+		{
+			if (rs != null)
+			{
+				rs.close();
+				rs = null;
+			}
+			if (stm != null)
+			{
+				stm.close();
+				stm = null;
+			}
+			if (conn != null)
+			{
+				conn.close();
+				conn = null;
+			}
+			System.err.println("[ OK ] Conexao fechada com sucesso...");
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+			throw ex;
+		}
+	}
+
+	/**
+	 * Fecha fluxo e conexão com base de dados.
+	 * @param stm
+	 * @param rs
+	 * @param conn
+	 * @throws Exception
+	 */
+	final void closeConection (Statement stm, ResultSet rs) throws Exception
 	{
 		try
 		{

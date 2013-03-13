@@ -77,10 +77,22 @@ public final class DaoFactory
 	 * @param conn
 	 * @throws Exception
 	 */
-	public final void closeConection (Statement stm, ResultSet rs, Connection conn)
-	    throws Exception
+	// public final void closeConection (Statement stm, ResultSet rs, Connection
+	// conn)
+	// throws Exception
+	// {
+	// ConnectionDAO.getInstance().closeConection(stm, rs, conn);
+	// }
+	/**
+	 * Fecha fluxo e conexão com base de dados.
+	 * @param stm
+	 * @param rs
+	 * @param conn
+	 * @throws Exception
+	 */
+	public final void closeConection (Statement stm, ResultSet rs) throws Exception
 	{
-		ConnectionDAO.getInstance().closeConection(stm, rs, conn);
+		ConnectionDAO.getInstance().closeConection(stm, rs);
 	}
 
 	/**
