@@ -82,13 +82,11 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && (nroUsuario != null))
+			if ((DaoFactory.getInstance().getConection() != null) && (nroUsuario != null))
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				final String query = "SELECT T1.IDWEB, T1.NRUSUARIO, T1.SENHAWEB, T1.EMAILWEB FROM SYSADM.acwebacesso T1 WHERE T1.NRUSUARIO = ?1";
 				rs = stm.executeQuery(query.replace("?1", nroUsuario.toString()));
 				UsuarioWebOapVO user = null;
@@ -120,7 +118,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return null;
 	}
@@ -135,14 +132,12 @@ final class PessoaDAO
 	    throws OAPInternalException, Exception
 	{
 		Statement stm = null;
-		Connection conn = null;
 		ResultSet rs = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && (user != null))
+			if ((DaoFactory.getInstance().getConection() != null) && (user != null))
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				// verificar se é um código válido de colaborador da OAP.
 				rs = stm.executeQuery("select nrusuario from sysadm.ACUSUARI where nrusuario = "
 				    + user.getNrUsuario());
@@ -183,7 +178,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return user;
 	}
@@ -198,15 +192,14 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		List<PessoaVO> list = null;
 		PessoaVO p = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && !Validator.isBlankOrNull(nomePessoa))
+			if ((DaoFactory.getInstance().getConection() != null)
+			    && !Validator.isBlankOrNull(nomePessoa))
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				final String query = "SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE UPPER(T1.NMPESSOA) LIKE UPPER('?1%') ORDER BY T1.CDPESSOA ASC ".replace(
 				    "?1", nomePessoa);
 				rs = stm.executeQuery(query);
@@ -239,7 +232,6 @@ final class PessoaDAO
 		finally
 		{
 			p = null;
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return list;
 	}
@@ -255,14 +247,12 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		UsuarioWebOapVO p = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && (nrusuario != null))
+			if ((DaoFactory.getInstance().getConection() != null) && (nrusuario != null))
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				final String qry = "SELECT USU.CDPESSOA, USU.NMUSUARIO, USU.CDUSUARIO, USU.FLMEDICO, PES.NMPESSOA, PES.DSFORMTRAT, PES.DTNASC FROM SYSADM.ACPESSOA PES, SYSADM.ACUSUARI USU WHERE PES.CDPESSOA=USU.CDPESSOA AND USU.NRUSUARIO = "
 				    + nrusuario;
 				rs = stm.executeQuery(qry);
@@ -297,7 +287,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return p;
 	}
@@ -312,14 +301,12 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		PessoaVO p = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && (codPessoa != null))
+			if ((DaoFactory.getInstance().getConection() != null) && (codPessoa != null))
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				rs = stm.executeQuery("SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE T1.CDPESSOA = "
 				    + codPessoa);
 				p = new PessoaVO();
@@ -348,7 +335,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return p;
 	}
@@ -403,7 +389,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return null;
 	}
@@ -470,7 +455,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return null;
 	}
@@ -484,13 +468,11 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if (conn != null)
+			if (DaoFactory.getInstance().getConection() != null)
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				final StringBuilder str = new StringBuilder();
 				str.append(" 	Select CL.NMPESSOA, CL.DSENDERECO, CL.DSREFEREN, CL.DSTELEFONE, CL.DSFAX, CL.NRDDD, CL.DSBAIRRO,	 ");
 				str.append(" 	        CL.SGESTADO, CL.CDCIDADE, CL.NRCEP, CL.SGPAIS, CD.NMCIDADE	 ");
@@ -510,7 +492,7 @@ final class PessoaDAO
 					p.setCidade(rs.getString("NMCIDADE"));
 					p.setCep(rs.getString("NRCEP"));
 					p.setComplEndereco(rs.getString("DSREFEREN"));
-					p.setEmail(this.getEmailEmpresa(conn));
+					p.setEmail(this.getEmailEmpresa());
 
 					FoneVO fone = new FoneVO();
 					fone.setDdd(rs.getString("NRDDD"));
@@ -545,7 +527,6 @@ final class PessoaDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return null;
 	}
@@ -556,15 +537,15 @@ final class PessoaDAO
 	 * @return String Email
 	 * @throws Exception
 	 */
-	private final String getEmailEmpresa (final Connection conn) throws Exception
+	private final String getEmailEmpresa () throws Exception
 	{
 		Statement stm = null;
 		ResultSet rs = null;
 		try
 		{
-			if (conn != null)
+			if (DaoFactory.getInstance().getConection() != null)
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				rs = stm.executeQuery("SELECT DSEMAIL FROM SYSADM.ACPESSOA T1, SYSADM.ACPREFERENCES T2 WHERE T1.CDPESSOA = T2.CDINSTITUICAO ");
 				if ((rs != null) && rs.next())
 				{

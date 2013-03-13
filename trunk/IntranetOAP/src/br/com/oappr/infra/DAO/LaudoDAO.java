@@ -54,17 +54,15 @@ final class LaudoDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		LaudoVO p = null;
 		List<LaudoVO> lista = null;
 		StringBuilder str = new StringBuilder();
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if (conn != null)
+			if (DaoFactory.getInstance().getConection() != null)
 			{
 				boolean existLaudo = ((codigoLaudo != null) && (codigoLaudo.longValue() > 0));
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				// str.append(" SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO,
 				// T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, ");
 				// str.append(" T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL,
@@ -127,8 +125,7 @@ final class LaudoDAO
 					if (existLaudo)
 					{
 						p.setDsrtf(rs.getBlob("DSRTF"));
-						p.setImages(this.pesquisaImagemLaudo(conn, p.getNrrequisicao(),
-						    p.getCdproced()));
+						p.setImages(this.pesquisaImagemLaudo(p.getNrrequisicao(), p.getCdproced()));
 					}
 					lista.add(p);
 				}
@@ -151,7 +148,6 @@ final class LaudoDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return lista;
 	}
@@ -164,8 +160,8 @@ final class LaudoDAO
 	 * @param cdproced
 	 * @throws Exception
 	 */
-	private final List<Blob> pesquisaImagemLaudo (final Connection conn, final Long nrrequisicao,
-	    final Long cdproced) throws Exception
+	private final List<Blob> pesquisaImagemLaudo (final Long nrrequisicao, final Long cdproced)
+	    throws Exception
 	{
 		PreparedStatement stm = null;
 		ResultSet rs = null;
@@ -173,7 +169,7 @@ final class LaudoDAO
 		StringBuilder str = new StringBuilder();
 		try
 		{
-			if (conn != null)
+			if (DaoFactory.getInstance().getConection() != null)
 			{
 				// tabela teste
 				// str.append(" SELECT T1.ID, T1.IMAGEM FROM SYSADM.LIXOIMAGEM
@@ -182,7 +178,7 @@ final class LaudoDAO
 				str.append(" SELECT T1.IMAGEMBIN IMAGEM  ");
 				str.append(" FROM SYSADM.ACREQUISIMAGEM T1 ");
 				str.append(" WHERE T1.NRREQUISICAO = ? AND T1.CDPROCED = ? ");
-				stm = conn.prepareStatement(str.toString());
+				stm = DaoFactory.getInstance().getConection().prepareStatement(str.toString());
 				stm.setLong(1, nrrequisicao);
 				stm.setLong(2, cdproced);
 				rs = stm.executeQuery();
@@ -210,7 +206,6 @@ final class LaudoDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, null);
 		}
 		return lista;
 	}
@@ -223,16 +218,14 @@ final class LaudoDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		LaudoVO p = null;
 		List<LaudoVO> lista = null;
 		StringBuilder str = new StringBuilder();
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if (conn != null)
+			if (DaoFactory.getInstance().getConection() != null)
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				str.append(" SELECT T1.ID, T1.IMAGEM ");
 				str.append(" FROM SYSADM.LIXOIMAGEM T1 ");
 				rs = stm.executeQuery(str.toString());
@@ -263,11 +256,15 @@ final class LaudoDAO
 		}
 		finally
 		{
-			DaoFactory.getInstance().closeConection(stm, rs, conn);
 		}
 		return lista;
 	}
 
+	/**
+	 * Teste
+	 * @param file
+	 */
+	@Deprecated
 	public final void gravaImagem (final File file)
 	{
 		Connection conn = null;
