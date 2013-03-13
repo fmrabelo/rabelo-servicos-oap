@@ -33,7 +33,7 @@ public abstract class ConversorFromOffice
 	 * mas essa configuração pode ser externalizada
 	 */
 	private final String host = "localhost";
-	private final int porta = 8100;
+	private final int porta = 9188;// 8100;
 	private static final String MSG = "Serviço do open office fora do ar! Conversões para PDF a partir de documentos não irão funcionar!";
 
 	/**
@@ -67,7 +67,8 @@ public abstract class ConversorFromOffice
 			DocumentFormat pdf = new DocumentFormat("Portable Document Format", "application/pdf",
 			    "pdf");
 			pdf.setExportFilter(DocumentFamily.TEXT, "writer_pdf_Export");
-			pdf.setExportFilter(DocumentFamily.SPREADSHEET, "calc_pdf_Export");
+			// pdf.setExportFilter(DocumentFamily.SPREADSHEET,
+			// "calc_pdf_Export");
 
 			ByteArrayInputStream input = new ByteArrayInputStream(documento);
 			ByteArrayOutputStream output = new ByteArrayOutputStream();

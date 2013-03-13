@@ -49,6 +49,9 @@ public final class ConvertPDF
 			ex.printStackTrace();
 			throw ex;
 		}
+		finally
+		{
+		}
 	}
 
 	/**
@@ -108,6 +111,9 @@ public final class ConvertPDF
 		{
 			ex.printStackTrace();
 			throw ex;
+		}
+		finally
+		{
 		}
 	}
 }
