@@ -49,8 +49,14 @@ public final class ServletReport
 	 */
 	private static final long serialVersionUID = 13206501245454L;
 
+	/***************************************************************************
+	 * Histórico de Atualizações: Configuração utilizada até 13/03/2013 para
+	 * imagens sem aumento de tamanho: <br>
+	 * EXAMES_MENOR_ZOOM[] = {"ceratoscopia", "campimetria", "Iol Master"};
+	 */
+
 	// Exames cujas imagens não necessitam muito Zoom
-	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia", "campimetria", "Iol Master"};
+	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia"};
 
 	// parametros para relatorios jasper report
 	HashMap<String, String> parameters = null;
@@ -66,6 +72,7 @@ public final class ServletReport
 		final String nrseqresultado = req.getParameter("nrseqresultado");
 		final String nrrequisicao = req.getParameter("nrrequisicao");
 		final String nroCadastroPaciente = req.getParameter("nroCadastroPaciente");
+		System.out.printf("%n%s%n", "---------------------------------------------------");
 		System.out.printf(
 		    "%n-> Gerando laudo PDF [Resulado: %s] [Requisição: %s] [Paciente: %s]%n",
 		    nrseqresultado, nrrequisicao, nroCadastroPaciente);
@@ -84,6 +91,15 @@ public final class ServletReport
 		}
 		finally
 		{
+			// teste fechar conexao jdbc.
+			try
+			{
+				DaoFactory.getInstance().closeConection(null, null);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -113,12 +129,17 @@ public final class ServletReport
 	    final String nroCadastroPaciente, final String nrrequisicao, final HttpServletResponse res)
 	    throws Exception
 	{
+
+		long totalTime = System.currentTimeMillis(), iniTime = 0;
 		final String msg = "Laudo não localizado!!";
 		if ("rtf".equals(str))
 		{
+			iniTime = System.currentTimeMillis();
+			System.out.println("> getLaudo()....");
 			final List<LaudoVO> listaLaudos = DaoFactory.getInstance().getLaudos(
 			    GenericUtils.toLong(nroCadastroPaciente), GenericUtils.toLong(nrseqresultado),
 			    GenericUtils.toLong(nrrequisicao));
+			print((System.currentTimeMillis() - iniTime));
 
 			if (!Validator.notEmptyCollection(listaLaudos) || (listaLaudos.get(0) == null))
 			{
@@ -134,24 +155,41 @@ public final class ServletReport
 			}
 
 			// converter blob rtf para byte[]
+			iniTime = System.currentTimeMillis();
+			System.out.print("> converter blob rtf para byte[]....");
 			final byte[] relatorioRTF = laudo.getDsrtf().getBytes(1, (int)laudo.getDsrtf().length());
+			print((System.currentTimeMillis() - iniTime));
+
 			// converter o conteúdo laudo RTF para PDF.
+			iniTime = System.currentTimeMillis();
+			System.out.print("> convertRTF_To_PDF....");
 			final byte[] relatorioPDF = new ConvertPDF().convertRTF_To_PDF(relatorioRTF);
+			print((System.currentTimeMillis() - iniTime));
 
 			// Recuperar os dados da empresa.
+			iniTime = System.currentTimeMillis();
+			System.out.print("> Recuperar os dados da empresa....");
 			final PessoaVO empresa = DaoFactory.getInstance().getDadosEmpresa();
+			print((System.currentTimeMillis() - iniTime));
 			if (empresa == null)
 			{
 				throw new Exception("Não foi possível localizar os dados da Clínica!!");
 			}
+
 			// gerar array de bytes via JasperReport contendo o cabeçalho pdf
 			// para o relatório.
+			iniTime = System.currentTimeMillis();
+			System.out.print("> gerar cabeçalho com jasper para pdf ....");
 			final byte[] cabecalho = this.gerarCabecalhoPDF(laudo, empresa);
+			print((System.currentTimeMillis() - iniTime));
 
 			// merge entre pdf com o cabeçalho e o conteudo do laudo.
+			iniTime = System.currentTimeMillis();
+			System.out.print("> merge entre pdf com o cabeçalho e o conteudo do laudo ....");
 			final List<InputStream> pdfs = new ArrayList<InputStream>();
 			pdfs.add(new ByteArrayInputStream(cabecalho));
 			pdfs.add(new ByteArrayInputStream(relatorioPDF));
+			print((System.currentTimeMillis() - iniTime));
 
 			// imagens
 			// TODO: APENAS TESTE DE LEITURA DA TABELA DE TESTE DA OAP E
@@ -173,26 +211,46 @@ public final class ServletReport
 			// }
 
 			// Processamento das Imagens do laudo.
-			for (final Blob bl : laudo.getImages())
+			if ((laudo.getImages() != null) && (laudo.getImages().size() > 0))
 			{
-				// existe conteúdo na imagem
-				if (bl != null)
+				iniTime = System.currentTimeMillis();
+				System.out.print("> Processamento das Imagens do laudo....");
+				for (final Blob bl : laudo.getImages())
 				{
-					final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl, nomeExame);
-					// adiciona imagem ao pdf.
-					pdfs.add(new ByteArrayInputStream(imagesPDF));
+					// existe conteúdo na imagem
+					if (bl != null)
+					{
+						final byte[] imagesPDF = new ConvertPDF().convertJPG_To_PDF(bl, nomeExame);
+						// adiciona imagem ao pdf.
+						pdfs.add(new ByteArrayInputStream(imagesPDF));
+					}
 				}
+				print((System.currentTimeMillis() - iniTime));
 			}
+
+			iniTime = System.currentTimeMillis();
+			System.out.print("> concatena PDFs....");
 			final MergePDF mergePDF = new MergePDF();
 			final byte[] byteArrayMerged = mergePDF.concatPDFs(pdfs, empresa);
+			print((System.currentTimeMillis() - iniTime));
 
 			// apresentar o pdf final com nome para o arquivo pdf.
+			iniTime = System.currentTimeMillis();
+			System.out.print("> apresentar o pdf final com nome para o arquivo pdf....");
 			final StringBuilder pdfFileName = new StringBuilder("laudoOnline_");
 			pdfFileName.append(nomeExame != null ? nomeExame : "").append("_").append(
 			    laudo.getCdpessoa() != null ? laudo.getCdpessoa() : "");
 			final LaudoReport report = new LaudoReport();
 			report.showReport(res, pdfFileName.toString(), byteArrayMerged, GenericReport.PDF_TYPE);
+			print((System.currentTimeMillis() - iniTime));
+			System.out.println("> TEMPO TOTAL:  " + (System.currentTimeMillis() - totalTime) / 1000
+			    + "s");
 		}
+	}
+
+	public static void print (final long time)
+	{
+		System.out.printf("%s%d%s%n", ".... OK  ", time, "ms");
 	}
 
 	/**
