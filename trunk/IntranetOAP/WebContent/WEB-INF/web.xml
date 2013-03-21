@@ -64,7 +64,7 @@
 
   <!-- Definindo session-timeout de sessão web em minutos-->
   <session-config>
-	<session-timeout>30</session-timeout>
+	<session-timeout>180</session-timeout>
   </session-config>
 			
   <welcome-file-list>
