@@ -50,7 +50,7 @@
 	</div>
 
 	<div>
-		<div align="center" class="texto_vermelho_10px"> 
+		<div align="center" class="texto_vermelho_12px"> 
 		  <p>
   		  <s:if test="hasFieldErrors() || hasActionErrors()">
   		  	  <img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>

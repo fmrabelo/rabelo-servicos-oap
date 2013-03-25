@@ -17,11 +17,11 @@
 
 <body>
 	<div align="center">
-	<s:form action="initRegisterUser" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
+	<s:form action="initLembrarSenha" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
 		<div class="widget titulo_branco_grande" align="center">
 			<p>
 				<img src="images/001_42.png" alt="Área Restrita" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-				<s:text name="%{getText('label.restrictedArea')}"/>
+				Gerar Nova Senha
 			</p>
 		</div>
 			
@@ -41,33 +41,30 @@
 			   	<s:actionmessage/>
 			   	</s:if>		 
 			</div>
-			<div align="center" style="font:bold;color:back;padding-left: 5px;">				
-				<s:url id="lost" action="initLembrarSenha"/>
-				* Se esqueceu sua senha,
-	         	<s:a href="%{lost}" cssStyle="color:blue;">			 
-				clique aqui. 
-				</s:a>
+			<div align="center" style="font:bold;color:back;padding-left: 5px;">
+			Insira os dados abaixo para gerar uma nova senha.<br>
+			A nova senha será enviada para o email do usuário.
 			</div>			
-			<div align="center" style="font:bold;color:back;padding-left: 55px;">				
-				<s:url id="changepwd" action="initAlterarSenha"/>
-				* Se deseja alterar a senha atual,
-	         	<s:a href="%{changepwd}" cssStyle="color:blue;">			 
-				clique aqui. 
-				</s:a>			
-			</div>
 	      	<p>
 	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="user.senhaweb" id="senhaweb" placeholder="Senha"  cssStyle="width:300px"/>
+	      		<s:password name="confirmSenhaweb" id="dataNascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/>
 	      	</P>
+	      	<p>
+	      		<s:password name="user.emailweb" id="emailweb" placeholder="Email cadastrado"  cssStyle="width:300px"/>
+	      	</P>
+	      	
 		</div>
 		<table>
 			<tr>
 				<td>
-		   			<s:submit action="autenticarColaboradorOap" id="login" key="label.send" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
+		   			<s:submit action="lembrarSenha" id="login" key="label.send" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
 					<img id="indicator" src="images/indicator.gif" alt="Loading..." style="display:none"/>
 				</td>
+				<td>		
+		   	   		<s:submit action="loginOap" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
+				</td>		
 			</tr>
 		</table>
 	</s:form>

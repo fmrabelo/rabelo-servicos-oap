@@ -24,7 +24,7 @@
 				<s:text name="%{getText('label.signUp')}"/>
 			</p>
 		</div>
-		<div align="center" class="texto_vermelho_10px"> 
+		<div align="center" class="texto_vermelho_12px"> 
 		  <p>
 	  		  <s:if test="hasFieldErrors() || hasActionErrors()">
   		  	  	<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
@@ -35,8 +35,8 @@
 		</div>
 		<div align="center" style="font:bold;color:blue;">
 			<s:if test="hasActionMessages()">
-			<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
-		   	<s:actionmessage/>		 
+				<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
+			   	<s:actionmessage/>		 
 		   	</s:if>
 		</div>	
 		<div>
@@ -64,6 +64,9 @@
 				</td>
 				<td>		
 		   	   		<s:submit action="initRegisterUser" id="init" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
+				</td>
+				<td>
+					<s:submit action="initListarPacientes" id="init" key="label.back" cssClass="button" cssStyle="width:200px"/>
 				</td>		
 			</tr>
 		</table>
