@@ -51,7 +51,7 @@
 					<s:text name="%{getText('label.pesquisaPacienteCodNome')}"/>
 				</p>
 			</div>				
-			<div align="center" class="texto_vermelho_10px"> 
+			<div align="center" class="texto_vermelho_12px"> 
 			  	<s:if test="hasFieldErrors() || hasActionErrors()">
 				  	<img src="images/001_11.png" width="20" height="20" border="0" style="background-color:transparent;"/>
 				  	<s:fielderror/>
@@ -71,6 +71,12 @@
 					<!--td>		
 			   	   		<s:submit action="initListarPacientes" id="initListarPacientesID" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
 					</td-->		
+					<td>
+						<s:if test="%{user.cdPessoa==1}"> 
+						<s:submit action="initRegisterUser" id="init" key="label.newUser" cssClass="button" cssStyle="width:200px"/>
+						</s:if>						
+						<s:submit action="loginOap" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
+					</td>
 				</tr>
 			</table>
 		</s:form>
