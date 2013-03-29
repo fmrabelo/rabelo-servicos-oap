@@ -48,11 +48,11 @@
 	      	<p>
 	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
+	      	<!--p-->
+	      		<!--s:textfield name="dataNascimento" id="dataNascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/-->
+	      	<!--/P-->
 	      	<p>
-	      		<s:password name="confirmSenhaweb" id="dataNascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/>
-	      	</P>
-	      	<p>
-	      		<s:password name="user.emailweb" id="emailweb" placeholder="Email cadastrado"  cssStyle="width:300px"/>
+	      		<s:textfield name="user.emailweb" id="emailweb" placeholder="confirme o Email cadastrado"  cssStyle="width:300px"/>
 	      	</P>
 	      	
 		</div>
