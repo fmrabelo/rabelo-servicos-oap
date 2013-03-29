@@ -78,7 +78,7 @@ final class PessoaDAO
 	 * @return UsuarioWebOapVO
 	 * @throws Exception
 	 */
-	private final UsuarioWebOapVO findUsuarioWebOAPById (final Long nroUsuario) throws Exception
+	final UsuarioWebOapVO findUsuarioWebOAPById (final Long nroUsuario) throws Exception
 	{
 		Statement stm = null;
 		ResultSet rs = null;
@@ -118,6 +118,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return null;
 	}
@@ -178,6 +188,62 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
+		}
+		return user;
+	}
+
+	/**
+	 * Alterar Senha de usuário WEB interno da OAP.
+	 * @param UsuarioWebOapVO user
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	final UsuarioWebOapVO alterarSenhaUsuarioWebOAP (final UsuarioWebOapVO user)
+	    throws OAPInternalException, Exception
+	{
+		Statement stm = null;
+		try
+		{
+			if ((DaoFactory.getInstance().getConection() != null) && (user != null))
+			{
+				stm = DaoFactory.getInstance().getConection().createStatement();
+				final String query = "UPDATE SYSADM.acwebacesso set SENHAWEB = '?1' where NRUSUARIO = '?2' ";
+				user.setSenhaweb(GenericUtils.cryptMD5(user.getSenhaweb()));
+				stm.executeUpdate(query.replace("?1", user.getSenhaweb().toString()).replace("?2",
+				    user.getNrUsuario().toString()));
+			}
+		}
+		catch (SQLException sqle)
+		{
+			sqle.printStackTrace();
+			throw new Exception(sqle);
+		}
+		catch (Exception ex)
+		{
+			throw ex;
+		}
+		catch (Throwable th)
+		{
+			th.printStackTrace();
+			throw new Exception(th);
+		}
+		finally
+		{
+			if (stm != null)
+			{
+				stm.close();
+			}
+			stm = null;
 		}
 		return user;
 	}
@@ -232,6 +298,16 @@ final class PessoaDAO
 		finally
 		{
 			p = null;
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return list;
 	}
@@ -287,6 +363,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return p;
 	}
@@ -335,6 +421,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return p;
 	}
@@ -349,13 +445,11 @@ final class PessoaDAO
 	{
 		Statement stm = null;
 		ResultSet rs = null;
-		Connection conn = null;
 		try
 		{
-			conn = DaoFactory.getInstance().getConection();
-			if ((conn != null) && (nroResultado != null))
+			if (nroResultado != null)
 			{
-				stm = conn.createStatement();
+				stm = DaoFactory.getInstance().getConection().createStatement();
 				final StringBuilder str = new StringBuilder();
 				str.append(" SELECT T2.DSFORMTRAT || ' ' || T2.NMPESSOA NOME ");
 				str.append(" 	FROM SYSADM.AARESULTADO T1, SYSADM.ACPESSOA T2 ");
@@ -389,6 +483,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return null;
 	}
@@ -455,6 +559,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return null;
 	}
@@ -527,6 +641,16 @@ final class PessoaDAO
 		}
 		finally
 		{
+			if (rs != null)
+			{
+				rs.close();
+			}
+			if (stm != null)
+			{
+				stm.close();
+			}
+			rs = null;
+			stm = null;
 		}
 		return null;
 	}
@@ -570,13 +694,13 @@ final class PessoaDAO
 			if (rs != null)
 			{
 				rs.close();
-				rs = null;
 			}
 			if (stm != null)
 			{
 				stm.close();
-				stm = null;
 			}
+			rs = null;
+			stm = null;
 		}
 		return null;
 	}

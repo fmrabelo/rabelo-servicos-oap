@@ -9,7 +9,10 @@ import org.apache.struts2.convention.annotation.Result;
 import br.com.oappr.infra.DAO.DaoFactory;
 import br.com.oappr.infra.exceptions.OAPInternalException;
 import br.com.oappr.infra.util.Constants;
+import br.com.oappr.infra.util.GenericUtils;
 import br.com.oappr.infra.util.Validator;
+import br.com.oappr.infra.util.email.Email;
+import br.com.oappr.infra.util.email.googleSimples.SimpleGoogleMail;
 import br.com.oappr.intranet.vo.UsuarioWebOapVO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,6 +35,7 @@ public class GerenciarSenhasAction
 	private String confirmEmailweb;
 	private String confirmSenhaweb;
 	private String reConfirmSenhaweb;
+	private String dataNascimento;
 
 	// mensagem de validação
 	final String msg = "Campo Obrigatório não preenchido: ?";
@@ -78,7 +82,6 @@ public class GerenciarSenhasAction
 			try
 			{
 				return DaoFactory.getInstance().autenticarUsuarioWebOAP(this.getUser());
-
 			}
 			catch (OAPInternalException e)
 			{
@@ -104,8 +107,9 @@ public class GerenciarSenhasAction
 		{
 			if (this.isValidAlterarSenha())
 			{
-				// DaoFactory.getInstance().insertUsuarioWebOAP(this.getUser());
-				this.addActionMessage("Senha alterada com sucesso!");
+				this.getUser().setSenhaweb(this.getConfirmSenhaweb());
+				DaoFactory.getInstance().alterarSenhaUsuarioWebOAP(this.getUser());
+				this.addActionMessage("OK. Senha alterada com sucesso!");
 			}
 		}
 		catch (OAPInternalException ex)
@@ -133,11 +137,32 @@ public class GerenciarSenhasAction
 		// validar campos de entrada.
 		try
 		{
-			if (this.isValid())
+			if (this.isValidLembrarSenha())
 			{
-				// DaoFactory.getInstance().insertUsuarioWebOAP(this.getUser());
-				this.addActionMessage("Uma nova senha foi gerada e enviada para o email cadastrado para "
-				    + this.getUser().getNmUsuario());
+				// setar nova senha.
+				final String senha = GenericUtils.getRandomPwd();
+				this.getUser().setSenhaweb(senha);
+				DaoFactory.getInstance().alterarSenhaUsuarioWebOAP(this.getUser());
+				// send mail
+				final StringBuilder conteudoEmail = new StringBuilder(
+				    "Foi solicitado uma nova senha para o usuário OAP ");
+				conteudoEmail.append(this.getUser().getNrUsuario());
+				conteudoEmail.append("\nEssa senha é gerada aleatoriamente pelo sistema; \nrecomendamos que a altere por uma de mais fácil memorização.");
+				conteudoEmail.append("\n\nGuarde a Nova Senha:    ").append(senha).append("\n\n");
+				conteudoEmail.append(Email.conteudoEmailRestrito);
+				final String emailDestinatario = "fmrabelo@gmail.com";// this.getUser().getEmailweb();//
+				// final CreateEmail email = new CreateEmail();
+				// email.createMail("Email automatico OAP ", conteudoEmail,
+				// null, emailDestinatario,
+				// null);
+
+				SimpleGoogleMail.testMailGoogle(emailDestinatario, conteudoEmail.toString());
+
+				System.out.println("[ok] email com nova senha enviado com sucesso para "
+				    + emailDestinatario);
+				this.addActionMessage("Uma nova senha " + senha
+				    + " foi gerada e enviada para o email cadastrado: "
+				    + this.getUser().getEmailweb());
 			}
 		}
 		catch (OAPInternalException ex)
@@ -212,11 +237,25 @@ public class GerenciarSenhasAction
 		this.reConfirmSenhaweb = reConfirmSenhaweb;
 	}
 
+	public String getDataNascimento ()
+	{
+		return dataNascimento;
+	}
+
+	public void setDataNascimento (String dataNascimento)
+	{
+		this.dataNascimento = dataNascimento;
+	}
+
 	/**
 	 * @return
 	 */
 	private final boolean isValidLogin ()
 	{
+		if (this.getUser() == null)
+		{
+			this.addFieldError("nrusuario", msg.replace("?", "Todos os campos são obrigatórios"));
+		}
 		if ((this.getUser().getNrUsuario() == null) || (this.getUser().getNrUsuario() < 1))
 		{
 			this.addFieldError("nrusuario", msg.replace("?", "Número do Usuário"));
@@ -232,43 +271,77 @@ public class GerenciarSenhasAction
 
 	/**
 	 * @return
+	 * @throws Exception
 	 */
-	private final boolean isValid ()
+	private final boolean isValidLembrarSenha () throws Exception
 	{
+		this.getUser().setSenhaweb("xxxxxx");// fack test only.
 		if (!this.isValidLogin())
 		{
 			return false;
 		}
+		// TODO: USUARIO WEB NAO POSSUI CAMPO NA TABELA PARA A DATA DE
+		// NASCIMENTO
+
+		// if (Validator.isBlankOrNull(this.getDataNascimento()))
+		// {
+		// this.addFieldError("dataNascimento", "Data de Nascimento é campo
+		// obrigatório!");
+		// return false;
+		// }
+		// if (!Validator.isDate(DateUtils.parseDate(this.getDataNascimento())))
+		// {
+		// this.addFieldError("dataNascimento",
+		// "Data de Nascimento não é uma data válida (Ex: 01/01/2010) ");
+		// return false;
+		// }
 		if (Validator.isBlankOrNull(this.getUser().getEmailweb()))
 		{
 			this.addFieldError("email", msg.replace("?", "Email"));
 			return false;
 		}
-		else if (!Validator.isEmail(this.getUser().getEmailweb()))
+		// validar se existe usuário cadastrado com código informado.
+		final UsuarioWebOapVO user = DaoFactory.getInstance().findUsuarioWebOAPById(
+		    this.getUser().getNrUsuario());
+		if ((user == null) || (user.getNrUsuario() == null))
 		{
-			this.addFieldError("email", "Email inválido.");
+			this.addActionError("Usuário " + this.getUser().getNrUsuario()
+			    + " não existe ou não está cadastrado no sistema WEB. ");
 			return false;
 		}
-		if (!this.getUser().getEmailweb().equals(this.getConfirmEmailweb()))
+		else
 		{
-			this.addFieldError("email", "O Email e o Email de Confirmação estão diferentes.");
-			return false;
-		}
-		if (this.getUser().getSenhaweb().length() < Constants.PASSWORD_MIN_LENGTH)
-		{
-			this.addFieldError("password", "Senha deve conter no mínimo "
-			    + Constants.PASSWORD_MIN_LENGTH + " caracteres!");
-			return false;
-		}
-		if (Validator.isBlankOrNull(this.getConfirmSenhaweb()))
-		{
-			this.addFieldError("password", msg.replace("?", "Confirm Password"));
-			return false;
-		}
-		if (!this.getUser().getSenhaweb().equals(this.getConfirmSenhaweb()))
-		{
-			this.addFieldError("password", "A senha e a Confirmação de senha não correspondem!");
-			return false;
+			if (Validator.isBlankOrNull(user.getEmailweb()))
+			{
+				this.addFieldError(
+				    "email",
+				    "Atenção: Este usuário ainda não possui um email cadastrado no sistema. Favor cadastrador o email ou solicitar para alguém da OAP");
+				return false;
+			}
+			else if (!user.getEmailweb().equalsIgnoreCase(this.getUser().getEmailweb()))
+			{
+				this.addFieldError("email",
+				    "O email informado não corresponde ao email cadastrado no sistema!");
+				return false;
+			}
+
+			// TODO: USUARIO WEB NAO POSSUI CAMPO NA TABELA PARA A DATA DE
+			// NASCIMENTO
+
+			// final Date dataNascUser =
+			// DateUtils.addAmountDate(user.getDataNascimento(), +1,
+			// Calendar.HOUR_OF_DAY);
+			// final Date dataNascField = DateUtils.addAmountDate(
+			// DateUtils.parseDate(this.getDataNascimento()), +1,
+			// Calendar.HOUR_OF_DAY);
+			//
+			// if (dataNascUser.compareTo(dataNascField) != 0)
+			// {
+			// this.addFieldError("dataNascimento",
+			// "Data de Nascimento não corresponde a data cadastrado no
+			// sistema!");
+			// return false;
+			// }
 		}
 		return true;
 	}
@@ -283,7 +356,7 @@ public class GerenciarSenhasAction
 		{
 			return false;
 		}
-		// validar nova senha e nova senha.
+		// validar confirmação da nova senha.
 		if (Validator.isBlankOrNull(this.getConfirmSenhaweb()))
 		{
 			this.addFieldError("password", msg.replace("?", "nova senha"));
@@ -291,18 +364,25 @@ public class GerenciarSenhasAction
 		}
 		if (Validator.isBlankOrNull(this.getReConfirmSenhaweb()))
 		{
-			this.addFieldError("password", msg.replace("?", "Confirmação de senha"));
+			this.addFieldError("password", msg.replace("?", "Confirmação da nova senha"));
 			return false;
 		}
 		if (!this.getReConfirmSenhaweb().equals(this.getConfirmSenhaweb()))
 		{
-			this.addFieldError("password", "A senha e a Confirmação de senha não correspondem!");
+			this.addFieldError("password",
+			    "A nova senha e a Confirmação da nova senha não correspondem!");
 			return false;
 		}
 		if (this.getConfirmSenhaweb().length() < Constants.PASSWORD_MIN_LENGTH)
 		{
 			this.addFieldError("password", "Nova senha deve conter no mínimo "
 			    + Constants.PASSWORD_MIN_LENGTH + " caracteres!");
+			return false;
+		}
+		// validar se senha atual é iqual a nova senha.
+		if (this.getUser().getSenhaweb().equals(this.getConfirmSenhaweb()))
+		{
+			this.addFieldError("password", "A nova senha e a atual são iguais!");
 			return false;
 		}
 		// validar se usuário valido.
