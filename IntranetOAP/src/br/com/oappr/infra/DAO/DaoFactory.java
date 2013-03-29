@@ -197,6 +197,18 @@ public final class DaoFactory
 	}
 
 	/**
+	 * Pesquisa por usuário WEB da OAP.
+	 * @param user UsuarioWebOapVO
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	public final UsuarioWebOapVO findUsuarioWebOAPById (final Long nroUsuario)
+	    throws OAPInternalException, Exception
+	{
+		return new PessoaDAO().findUsuarioWebOAPById(nroUsuario);
+	}
+
+	/**
 	 * Autenticar Colaborador da OAP.
 	 * @param user UsuarioWebOapVO
 	 * @return UsuarioWebOapVO
@@ -206,6 +218,18 @@ public final class DaoFactory
 	    OAPInternalException
 	{
 		return new PessoaDAO().insertUsuarioWebOAP(user);
+	}
+
+	/**
+	 * Atualizar senha de Colaborador da OAP.
+	 * @param user UsuarioWebOapVO
+	 * @return UsuarioWebOapVO
+	 * @throws Exception
+	 */
+	public final UsuarioWebOapVO alterarSenhaUsuarioWebOAP (UsuarioWebOapVO user) throws Exception,
+	    OAPInternalException
+	{
+		return new PessoaDAO().alterarSenhaUsuarioWebOAP(user);
 	}
 
 	/**
