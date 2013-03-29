@@ -9,6 +9,9 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.text.MaskFormatter;
@@ -608,4 +611,20 @@ public final class GenericUtils
 		return false;
 	}
 
+	/**
+	 * Gera randomicamente e retorna um valor numerico de 6 digitos.
+	 * @return String
+	 */
+	public static final String getRandomPwd ()
+	{
+		final Integer[] f = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		final List<Integer> t = Arrays.asList(f);
+		Collections.shuffle(t);
+		final StringBuilder ret = new StringBuilder("");
+		for (int x = t.size() - 1; x > 3; x--)
+		{
+			ret.append(t.get(x));
+		}
+		return ret.toString();
+	}
 }
