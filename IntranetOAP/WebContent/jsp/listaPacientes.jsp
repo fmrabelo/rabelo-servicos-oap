@@ -29,6 +29,7 @@
 	   	height="800"
 	   	width="800"
 	   	closeOnEscape="true"
+	   	zindex="1000"
 	   	/>
 <body>
 	<div align="center">
