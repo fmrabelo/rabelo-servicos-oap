@@ -27,7 +27,7 @@ public final class SimpleGoogleMail
 	 */
 	private static final long serialVersionUID = -2499314013506964600L;
 
-	public static void testMailGoogle (final String to, final String content)
+	public static void sendMailViaGoogle (final String to, final String content)
 	    throws MessagingException
 	{
 		final Properties props = LoadResourceProperties.getInstance().getPropertie(
