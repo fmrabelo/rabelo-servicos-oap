@@ -150,18 +150,17 @@ public class GerenciarSenhasAction
 				conteudoEmail.append("\nEssa senha é gerada aleatoriamente pelo sistema; \nrecomendamos que a altere por uma de mais fácil memorização.");
 				conteudoEmail.append("\n\nGuarde a Nova Senha:    ").append(senha).append("\n\n");
 				conteudoEmail.append(Email.conteudoEmailRestrito);
-				final String emailDestinatario = "fmrabelo@gmail.com";// this.getUser().getEmailweb();//
+				final String emailDestinatario = this.getUser().getEmailweb();
 				// final CreateEmail email = new CreateEmail();
 				// email.createMail("Email automatico OAP ", conteudoEmail,
 				// null, emailDestinatario,
 				// null);
 
-				SimpleGoogleMail.testMailGoogle(emailDestinatario, conteudoEmail.toString());
+				SimpleGoogleMail.sendMailViaGoogle(emailDestinatario, conteudoEmail.toString());
 
 				System.out.println("[ok] email com nova senha enviado com sucesso para "
 				    + emailDestinatario);
-				this.addActionMessage("Uma nova senha " + senha
-				    + " foi gerada e enviada para o email cadastrado: "
+				this.addActionMessage("Uma nova senha foi gerada pelo sistema e enviada para o email cadastrado: "
 				    + this.getUser().getEmailweb());
 			}
 		}
@@ -311,11 +310,12 @@ public class GerenciarSenhasAction
 		}
 		else
 		{
-			if (Validator.isBlankOrNull(user.getEmailweb()))
+			if (Validator.isBlankOrNull(user.getEmailweb())
+			    || !Validator.isEmail(user.getEmailweb()))
 			{
 				this.addFieldError(
 				    "email",
-				    "Atenção: Este usuário ainda não possui um email cadastrado no sistema. Favor cadastrador o email ou solicitar para alguém da OAP");
+				    "Atenção: Este usuário ainda não possui um email válido cadastrado no sistema. Favor cadastrador o email ou solicitar para alguém da OAP");
 				return false;
 			}
 			else if (!user.getEmailweb().equalsIgnoreCase(this.getUser().getEmailweb()))

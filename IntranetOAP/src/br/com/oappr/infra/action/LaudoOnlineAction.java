@@ -60,7 +60,7 @@ public class LaudoOnlineAction
 	 * </p>
 	 * <p>
 	 * 2-Listar Laudos internos para os Colaboradores da OAP. <br>
-	 * Neste caso é preciso criar o objeto pessoa a partir do codigo de cadastro
+	 * Neste caso é preciso criar o objeto pessoa apartir do codigo do cadastro
 	 * passado como parametro para a pesquisa.
 	 * </p>
 	 * @return
