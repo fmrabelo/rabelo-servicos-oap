@@ -206,6 +206,11 @@ public class LaudoColaboradoresAction
 					    this.getNomePaciente()));
 				}
 			}
+			if ((this.getListPacientes() != null) && (this.getListPacientes().size() == 1)
+			    && (this.getListPacientes().get(0).getCdPessoa() == null))
+			{
+				this.setListPacientes(new ArrayList<PessoaVO>());
+			}
 			if (!Validator.notEmptyCollection(this.getListPacientes()))
 			{
 				this.addActionMessage(msg);
