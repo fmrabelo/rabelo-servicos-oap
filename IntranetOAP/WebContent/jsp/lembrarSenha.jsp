@@ -46,13 +46,13 @@
 			A nova senha será enviada para o email do usuário.
 			</div>			
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="Número do Usuário OAP" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<!--p-->
-	      		<!--s:textfield name="dataNascimento" id="dataNascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/-->
+	      		<!--s:textfield name="dataNascimento" id="dataNascimento" title="Data Nascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/-->
 	      	<!--/P-->
 	      	<p>
-	      		<s:textfield name="user.emailweb" id="emailweb" placeholder="confirme o Email cadastrado"  cssStyle="width:300px"/>
+	      		<s:textfield name="user.emailweb" id="emailweb" title="confirme o Email cadastrado" placeholder="confirme o Email cadastrado"  cssStyle="width:300px"/>
 	      	</P>
 	      	
 		</div>

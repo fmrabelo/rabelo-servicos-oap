@@ -42,8 +42,8 @@
 			<tr>				
 				<td colspan="2"><span class="titulo_azul_negrito_grande"/></td>
 			</tr>
-			<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" label="Código do Paciente" cssClass="inputText_16px"/>
-			<sx:datetimepicker name="dataNascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
+			<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" title="Código do Paciente" label="Código do Paciente" cssClass="inputText_16px"/>
+			<sx:datetimepicker name="dataNascimento" title="Data de Nascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
 			<div align="center">
 				<s:submit value="Acessar" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
 			</div>	

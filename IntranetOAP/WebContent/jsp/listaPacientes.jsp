@@ -15,22 +15,6 @@
 
 </head>
 
-	<!-- listar laudos dialog  -->
-	<sj:dialog 
-	   	id="laudosDialogID" 
-	   	title="Laudos" 
-	   	loadingText="Loading..." 
-	   	autoOpen="false" 
-	   	modal="true" 
-	   	showEffect="slide" 
-	   	hideEffect="slide"	   	
-	   	resizable="false" 
-	   	position="center" 
-	   	height="800"
-	   	width="800"
-	   	closeOnEscape="true"
-	   	zindex="1000"
-	   	/>
 <body>
 	<div align="center">
 		<s:form action="initListarPacientes" id="form" method="post" validate="false" cssStyle="margin-top: 3%;">
@@ -60,8 +44,8 @@
 			  	</s:if>
 			</div>
 			<div>
-		      		<s:textfield name="codPaciente" id="codPaciente" required="true" placeholder="Código do Paciente" cssStyle="width:250px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
-		      		<s:textfield name="nomePaciente" id="nomePaciente" placeholder="Nome do Paciente" cssStyle="width:250px"/>
+		      		<s:textfield name="codPaciente" id="codPaciente" required="true" title="Código do Paciente" placeholder="Código do Paciente" cssStyle="width:250px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+		      		<s:textfield name="nomePaciente" id="nomePaciente" title="Nome do Paciente" placeholder="Nome do Paciente" cssStyle="width:250px"/>
 			</div>
 			<table>
 				<tr>
@@ -105,15 +89,10 @@
 				<ul>
 					<s:iterator value="listPacientes" status="pacienteStatus">
 						<li style="text-align: left">
-							<s:url id="urlLaudosDialogID" action="listarLaudos"/>
-							<sj:a 	
-								openDialog="laudosDialogID" 
-								href="%{urlLaudosDialogID}?nroCadastroPaciente=%{cdPessoa}" 							
-								effect="highlight" 
-			                	effectOptions="{color:'#222222'}" 
-			                	effectDuration="6000">
+							<s:url id="urlLaudosID" action="listarLaudos"/>
+							<s:a href="%{urlLaudosID}?nroCadastroPaciente=%{cdPessoa}">
 			                	${cdPessoa} - ${nomePessoa}
-			                </sj:a>
+			                </s:a>			                
 						</li>			
 					</s:iterator>
 				</ul>
@@ -141,7 +120,4 @@
 		  	}
 		}
 	
-		function cancelLaudosDialogIDButton() {
-			$('#laudosDialogID').dialog('close');
-		}	
 	</script>	
