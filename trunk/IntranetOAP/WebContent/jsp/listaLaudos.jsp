@@ -84,6 +84,12 @@
 				<s:else>  <s:text name="%{getText('label.laudoLocalizado')}"/></s:else>				 
 			</div>
 			<br>
+			
+	        <a href="javascript:wback();">
+	         	<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+	         	<s:text name="%{getText('label.back')}"/>
+	        </a>
+			
 			<div class="table oxo scrollListOap">
 				<article class="list">
 				<ul>
@@ -94,10 +100,10 @@
 					</tr>
 					<tr><td colspan="2"></td></tr>
 					<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
-						<tr>
+						<tr align="left">
 							<td>
 							<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
-								<img src="images/printer1.jpg" class="list li img" style="width:2em; height:1.7em;" alt='Imprimir'/>
+								<img src="images/printer1.jpg" border="0" class="list li img" style="width:1.4em; height:1.2em;" alt='Imprimir'/>
 								${dsexamecompl}
 							</a>			
 							</td>
@@ -113,15 +119,29 @@
 		</s:if>
 	</div>
 	<div align="center" class="texto_Azul_12px">
-        <s:if test="%{pessoaVo.urlSite=='oap.com'}">
+        <!-- <s:if test="%{pessoaVo.urlSite=='oap.com'}">
     		<s:url id="show" action="autenticacaoLaudoOnline"/>
          	<s:a href="%{show}">
          		<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
          		<s:text name="%{getText('label.back')}"/>
          	</s:a>
-        </s:if>
+        </s:if> -->
+        <a href="javascript:wback();">
+         	<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+         	<s:text name="%{getText('label.back')}"/>
+        </a>
 	</div>
 </div>
 </s:form>
 </body>
 </html>
+
+<script type="text/javascript">
+function wback(){ 
+	var x=window.history.length; 
+	if (window.history[x]!=window.location) 
+	{ 
+	    window.history.back();
+	} 
+}
+</script> 

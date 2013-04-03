@@ -56,10 +56,10 @@
 				</s:a>			
 			</div>
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" label="Nº Usuário OAP" title="Número do Usuário OAP" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="user.senhaweb" id="senhaweb" placeholder="Senha"  cssStyle="width:300px"/>
+	      		<s:password name="user.senhaweb" id="senhaweb" label="Senha" title="Senha" placeholder="Senha"  cssStyle="width:300px"/>
 	      	</P>
 		</div>
 		<table>

@@ -41,13 +41,13 @@
 		</div>	
 		<div>
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
-	      		<s:textfield name="user.emailweb" id="emailweb" placeholder="E-mail" cssStyle="width:300px"/>
+	      		<s:textfield name="user.emailweb" id="emailweb" title="" placeholder="E-mail" cssStyle="width:300px"/>
 	      	</P>
 	      	<p>
-	      		<s:textfield name="confirmEmailweb" id="confirmEmailweb" placeholder="Confirmar E-mail" cssStyle="width:300px"/>
+	      		<s:textfield name="confirmEmailweb" id="confirmEmailweb" title="" placeholder="Confirmar E-mail" cssStyle="width:300px"/>
 	      	</P>							
 	      	<p>
 	      		<s:password name="user.senhaweb" id="senhaweb" placeholder="Senha" cssStyle="width:300px"/>

@@ -45,16 +45,16 @@
 			Insira os dados abaixo para alterar a Senha.
 			</div>			
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="Número do Usuário OAP" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="user.senhaweb" id="senhaweb" placeholder="Senha Atual"  cssStyle="width:300px"/>
+	      		<s:password name="user.senhaweb" id="senhaweb" title="Senha Atual" placeholder="Senha Atual"  cssStyle="width:300px"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="confirmSenhaweb" id="senhaweb1" placeholder="Nova Senha"  cssStyle="width:300px"/>
+	      		<s:password name="confirmSenhaweb" id="senhaweb1" title="Nova Senha" placeholder="Nova Senha"  cssStyle="width:300px"/>
 	      	</P>
 	      	<p>
-	      		<s:password name="reConfirmSenhaweb" id="senhaweb2" placeholder="Confirme a nova senha"  cssStyle="width:300px"/>
+	      		<s:password name="reConfirmSenhaweb" id="senhaweb2" title="Confirme a nova senha" placeholder="Confirme a nova senha"  cssStyle="width:300px"/>
 	      	</P>
 	      	
 		</div>
