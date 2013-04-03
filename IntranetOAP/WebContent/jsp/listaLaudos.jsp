@@ -138,10 +138,10 @@
 
 <script type="text/javascript">
 function wback(){ 
-	var x=window.history.length; 
-	if (window.history[x]!=window.location) 
-	{ 
-	    window.history.back();
-	} 
+	//var x=window.history.length; 
+	// if (window.history[x]!=window.location) 
+	//{ 
+	    window.history.back(-1);	    
+	//} 
 }
 </script> 
