@@ -19,7 +19,7 @@
 
 <body>
 	<div align="center">
-	<s:form id="formAgenda">
+	<s:form action="" method="post" id="formAgenda">
 		<div class="widget titulo_branco_grande" align="center">
 			<p>
 				<img src="images/001_44.png" alt="Logomarca OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
@@ -40,11 +40,11 @@
 		   			
 		   			<sx:datetimepicker name="dataAgenda" displayFormat="dd-MMM-yyyy" value="%{'today'}"/>
 
-			   		<!--s:submit action="insertColaboradorOap" id="saveRegister" key="label.save" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/-->
+			   		<s:submit action="listarAgenda" id="listarAgenda" src="/images/001_39.png" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
 
 			        <!--s:a action="listarAgenda?dataAgenda=${dataAgenda}" includeParams="dataAgenda" style="vertical-align: middle;" onclick="javascript:upateAgenda();"-->
 			        <!--s:a href="%{urlAgenda}" includeParams="dataAgenda" style="vertical-align: middle;" onclick="javascript:upateAgenda();"-->
-			        <s:a style="vertical-align: middle;" onclick="javascript:upateAgenda();">>
+			        <s:a style="vertical-align: middle;" onclick="javascript:upateAgenda();">
 						<img id="atualizar"  title="Atualizar" width="20" height="20" border="0" src="images/001_39.png" alt="Loading..." style="vertical-align: middle; background-color:transparent;"/>
 			        </s:a>		   			
 			 
@@ -107,23 +107,9 @@
 
 	function upateAgenda()
 	{
-		form.action='listarAgenda.action?dataAgendaStr='+form.dataAgenda.value;
+		alert( form.dataAgenda.value );
+		form.action='listarAgenda?dataAgendaStr='+form.dataAgenda.value;
 		form.submit();
-		//alert(form.dataAgenda.value);
-		//form.submit();
 	}
 
-	function validar()
-	{
-		$("#indicator").show();
-		var msg_ = 'Número do Usuário é obrigatório e deve ser preenchido somente com Números.';
-		var nroCadastroPaciente_ = form.nrUsuario.value;
-		if(nroCadastroPaciente_ != null && !validarNumero(nroCadastroPaciente_))
-	  	{
-	  		form.nrUsuario.value='';
-	  		alert(msg_);
-	  		return;
-	  	}
-	}
-	
 </script>
