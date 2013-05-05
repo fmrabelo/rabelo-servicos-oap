@@ -34,26 +34,20 @@
 		<table>
 			<tr>
 				<td style="padding-right: 100px; padding-top: 45px;">
-		   			<img id="ant" title="Dia Anterior" src="images/001_60_left.png" style="vertical-align: middle;" alt="Loading..."/>		   			
-				</td>
-				<td>
-		   			
-		   			<sx:datetimepicker name="dataAgenda" displayFormat="dd-MMM-yyyy" value="%{'today'}"/>
-
-			   		<s:submit action="listarAgenda" id="listarAgenda" src="/images/001_39.png" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
-
-			        <!--s:a action="listarAgenda?dataAgenda=${dataAgenda}" includeParams="dataAgenda" style="vertical-align: middle;" onclick="javascript:upateAgenda();"-->
-			        <!--s:a href="%{urlAgenda}" includeParams="dataAgenda" style="vertical-align: middle;" onclick="javascript:upateAgenda();"-->
-			        <s:a style="vertical-align: middle;" onclick="javascript:upateAgenda();">
-						<img id="atualizar"  title="Atualizar" width="20" height="20" border="0" src="images/001_39.png" alt="Loading..." style="vertical-align: middle; background-color:transparent;"/>
-			        </s:a>		   			
-			 
+					<s:submit action="listarAgenda" id="ant" src="images/001_60_left.png" title="Dia Anterior" type="image" cssStyle="left: 540px; position: absolute; height: 25px; width:25px; border:0px; background-image: initial;"/>
 				</td>
 				<td style="padding-right: 100px; padding-left:  80px;">
-		   			<img id="post" title="Proximo Dia" src="images/001_60.png" style="vertical-align: middle;" alt="Loading..."/>		   			
+					<s:submit action="listarAgenda" id="post" src="images/001_60.png" title="Proximo Dia" type="image" cssStyle="left: 840px; position: absolute; height: 25px; width:25px; border:0px; background-image: initial;"/>
+				</td>
+				<td>
+					<s:submit action="listarAgenda" id="listarAgenda" src="images/001_39.png" type="image" cssStyle="left: 745px; position: absolute; height: 23px; width:23px; border:0px; background-image: initial;"/>
+				</td>
+				<td>
+		   			<sx:datetimepicker name="dataAgenda" displayFormat="dd-MMM-yyyy" value="%{'today'}" cssStyle="height: 10px;width: 80px;"/>
 				</td>
 			</tr>
 		</table>
+					   			
 
 		<!-- lista agenda -->
 
