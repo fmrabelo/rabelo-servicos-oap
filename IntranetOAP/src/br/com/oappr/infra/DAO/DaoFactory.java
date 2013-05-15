@@ -10,6 +10,7 @@ import java.util.List;
 import javax.naming.NamingException;
 
 import br.com.oappr.infra.exceptions.OAPInternalException;
+import br.com.oappr.intranet.vo.AgendaMedicaVO;
 import br.com.oappr.intranet.vo.LaudoVO;
 import br.com.oappr.intranet.vo.MedicoVO;
 import br.com.oappr.intranet.vo.PessoaVO;
@@ -230,6 +231,21 @@ public final class DaoFactory
 	    OAPInternalException
 	{
 		return new PessoaDAO().alterarSenhaUsuarioWebOAP(user);
+	}
+
+	/**
+	 * Método responsável pela pesquisa de Agenda usando como parametros o nro
+	 * do usuário (médico) e a data da agenda.
+	 * @param nroUsuario do médico
+	 * @param data da agenda
+	 * @return List<AgendaMedicaVO>
+	 * @throws Exception
+	 */
+	public final List<AgendaMedicaVO> getAgendaMedica (final Long nroUsuario, final String data)
+	    throws Exception
+	{
+		final AgendaDAO agenda = new AgendaDAO();
+		return agenda.getAgendaMedica(nroUsuario, data);
 	}
 
 	/**
