@@ -57,9 +57,16 @@
 			   	   		<s:submit action="initListarPacientes" id="initListarPacientesID" key="label.cancel" cssClass="button" cssStyle="width:200px"/>
 					</td-->		
 					<td>
+						
+						<!-- Registrar usuario/colaborador OAP -->
 						<s:if test="%{user.cdPessoa==1}"> 
 						<s:submit action="initRegisterUser" id="init" key="label.newUser" cssClass="button" cssStyle="width:200px"/>
-						</s:if>						
+						</s:if>
+						
+						<!-- Agenda Medica OAP -->
+						<s:submit action="agendaMedica" id="init" key="label.agendaMedica" cssClass="button" cssStyle="width:200px"/>
+												
+						<!-- Logout do sistema -->
 						<s:submit action="loginOap" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
 					</td>
 				</tr>
