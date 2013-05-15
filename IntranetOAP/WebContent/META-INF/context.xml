@@ -13,7 +13,7 @@
       auth="Container"  
       />        
       
-      <!--url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON" #Acesso Externo OAP -->
-      <!--url="jdbc:oracle:thin:@192.168.0.31:1521:ADCON" #Acesso Interno OAP -->
+      <!--url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON" #Acesso Externo OAP ** DESENV ** -->
+      <!--url="jdbc:oracle:thin:@192.168.0.31:1521:ADCON" #Acesso Interno OAP **** PRODUÇÃO **** -->
             
 </Context>
