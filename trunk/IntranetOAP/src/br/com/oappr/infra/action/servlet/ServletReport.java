@@ -56,7 +56,7 @@ public final class ServletReport
 	 */
 
 	// Exames cujas imagens não necessitam muito Zoom
-	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia"};
+	public static final String EXAMES_MENOR_ZOOM[] = {"ceratoscopia", "campimetria"};
 
 	// parametros para relatorios jasper report
 	HashMap<String, String> parameters = null;
