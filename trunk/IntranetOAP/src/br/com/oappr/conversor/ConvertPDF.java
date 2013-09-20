@@ -13,8 +13,6 @@ import org.apache.commons.io.IOUtils;
 
 import br.com.oappr.conversor.office.ConversorFromTextOffice;
 import br.com.oappr.conversor.pdf.ConversorPDF;
-import br.com.oappr.infra.action.servlet.ServletReport;
-import br.com.oappr.infra.util.GenericUtils;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.Image;
@@ -79,20 +77,29 @@ public final class ConvertPDF
 			// document.add(Image.getInstance(jpg));
 			final byte[] byteArrayImg = imageBlob.getBytes(1, (int)imageBlob.length());
 			final Image instanceImg = Image.getInstance(byteArrayImg);
+
 			// ------------------------------------------
-			/** se precisar tratar zoom da imagem */
-			// img.scalePercent(50);
-			if (GenericUtils.verificarNomeExames(nomeExame, ServletReport.EXAMES_MENOR_ZOOM))
-			{
-				// usar zoom 30 com imagem exportada com o Driver
-				instanceImg.scalePercent(30);
-			}
-			else
-			{
-				// usar zoom 57 com imagem exportada com clinitolls EXPORT.
-				instanceImg.scalePercent(57);
-			}
+
+			/** Usar configurações abaixo, se caso precisar tratar zoom da imagem */
+			// instanceImg.scalePercent(50);
+			/**
+			 * Melhoria: 19/09/2013 - Comentar regra de zoom em 30% para alguns
+			 * exames e 57% para outros, deixando todos com 30%.
+			 */
+			instanceImg.scalePercent(30);
+			// if (GenericUtils.verificarNomeExames(nomeExame,
+			// ServletReport.EXAMES_MENOR_ZOOM))
+			// {
+			// // usar zoom 30 com imagem exportada com o Driver
+			// instanceImg.scalePercent(30);
+			// }
+			// else
+			// {
+			// // usar zoom 57 com imagem exportada com clinitolls EXPORT.
+			// instanceImg.scalePercent(57);
+			// }
 			// ------------------------------------------
+
 			document.add(instanceImg);
 			// document.setMargins(180, 108, 72, 36);
 			document.close();
