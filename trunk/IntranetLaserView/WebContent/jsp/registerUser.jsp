@@ -9,7 +9,7 @@
 	<sj:head jqueryui="true" compressed="true"/>
 	
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="user-scalable=no, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, width=device-width" />
 	<title><s:text name="application.title"/></title>
@@ -20,7 +20,7 @@
 	<s:form action="initRegisterUser" id="form" method="post" validate="true" cssStyle="margin-top: 3%;">
 		<div class="widget titulo_branco_grande" align="center">
 			<p>
-				<img src="images/001_57.png" alt="Logomarca OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<img src="images/001_57.png" alt="Logomarca" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 				<s:text name="%{getText('label.signUp')}"/>
 			</p>
 		</div>
@@ -41,7 +41,7 @@
 		</div>	
 		<div>
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="" placeholder="Número do Usuário" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<p>
 	      		<s:textfield name="user.emailweb" id="emailweb" title="" placeholder="E-mail" cssStyle="width:300px"/>
@@ -59,7 +59,7 @@
 		<table>
 			<tr>
 				<td>
-		   			<s:submit action="insertColaboradorOap" id="saveRegister" key="label.save" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
+		   			<s:submit action="insertColaborador" id="saveRegister" key="label.save" onclick="javascrit:validar();" cssClass="button" cssStyle="width:200px"/>
 		   			<img id="indicator" src="images/indicator.gif" alt="Loading..." style="display:none"/>
 				</td>
 				<td>		

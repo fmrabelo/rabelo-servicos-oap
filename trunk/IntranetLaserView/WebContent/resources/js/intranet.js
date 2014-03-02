@@ -1,7 +1,7 @@
 //abrir laudo pdf em nova guia.
 function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
 {
-	var _action = '/IntranetOAP/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
+	var _action = '/IntranetLaserView/servletReport?Text1=rtf&nroCadastroPaciente='+nroCadastroPaciente+'&nrseqresultado='+nrseqresultado+'&nrrequisicao='+nrrequisicao;
 	//console.log(_action);
 	window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
 }

@@ -716,11 +716,11 @@ input[type="checkbox"]:checked:active::before {top: -4px; left: -3px;}
 #menu.secondary li:active {background-color:#2ACEDB;}
 .secondary figure{ float: left;}
 
-.oap header {
+.header {
 	cursor: default;
 }
 
-div.scrollListOap {
+div.scrollList {
 	height: 550px;
 	width: 600px;
 	overflow: auto;
