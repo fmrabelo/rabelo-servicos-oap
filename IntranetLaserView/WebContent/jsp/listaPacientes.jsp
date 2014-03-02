@@ -8,7 +8,7 @@
 	<sj:head jqueryui="true" compressed="true"/>
 
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>	
-	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="user-scalable=no, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, width=device-width" />
 	<title><s:text name="application.title"/></title>
@@ -28,11 +28,11 @@
 			<div class="titulo_cinza_negrito_grande" align="center"></div>
 			<div class="titulo_cinza_negrito_grande" align="center">
 				<p align="center" style="font-size: 15pt; color:#050607;">
-					<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;					
+					<img src="images/001_54.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;					
 					<s:property value="user.nomePessoa"/>
 				</p>
 				<p align="left" style="font-size: 10pt; background-color: #DCEFF5;color: rgb(192, 91, 91);">
-					<img src="images/001_53.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+					<img src="images/001_53.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 					<s:text name="%{getText('label.pesquisaPacienteCodNome')}"/>
 				</p>
 			</div>				
@@ -58,16 +58,16 @@
 					</td-->		
 					<td>
 						
-						<!-- Registrar usuario/colaborador OAP -->
+						<!-- Registrar usuario/colaborador -->
 						<s:if test="%{user.cdPessoa==1}"> 
 						<s:submit action="initRegisterUser" id="init" key="label.newUser" cssClass="button" cssStyle="width:200px"/>
 						</s:if>
 						
-						<!-- Agenda Medica OAP -->
+						<!-- Agenda Medica  -->
 						<s:submit action="agendaMedica" id="init" key="label.agendaMedica" cssClass="button" cssStyle="width:200px"/>
 												
 						<!-- Logout do sistema -->
-						<s:submit action="loginOap" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
+						<s:submit action="login" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
 					</td>
 				</tr>
 			</table>
@@ -85,13 +85,13 @@
 		<br>
 		<s:if test="%{!listPacientes.isEmpty()}">
 			<div align="center" class="titulo_cinza_negrito_grande">
-				<img src="images/001_18.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<img src="images/001_18.png" alt="Usuário " width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 				<s:property value="listPacientes.size"/>
 				<s:if test="%{listPacientes.size>1}">  <s:text name="%{getText('label.pacientesLocalizados')}"/></s:if>
 				<s:else>  <s:text name="%{getText('label.pacienteLocalizado')}"/></s:else>				 
 			</div>
 			<br>
-			<div class="table oxo scrollListOap">
+			<div class="table oxo scrollList">
 				<article class="list">
 				<ul>
 					<s:iterator value="listPacientes" status="pacienteStatus">

@@ -11,7 +11,7 @@
 	<sx:head/>
 	
 	<link href="<s:url value="/resources/css/agenda.css"/>" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="user-scalable=no, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, width=device-width" />
 	<title><s:text name="application.title"/></title>
@@ -22,15 +22,15 @@
 	<s:form action="" method="post" id="formAgenda">
 		<div class="widget titulo_branco_grande" align="center">
 			<p>
-				<img src="images/001_44.png" alt="Logomarca OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<img src="images/001_44.png" alt="Logomarca Laser View" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 				<s:text name="%{getText('label.agendaMedicaTitle')}"/>
 			</p>
 		</div>
 		<br>
 		<div class="titulo_cinza_negrito_grande" align="center">
 				<p align="center" style="font-size: 15pt; color:#050607;">
-					<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;					
-					<s:property value="userSessionOAP.nomePessoa"/>
+					<img src="images/001_54.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;					
+					<s:property value="userSession.nomePessoa"/>
 				</p>
 		</div>		
 		<!--div style="padding: 20px;"><br><s:date name="dataAgenda" format="dd/MMM/yyyy"/></div-->

@@ -9,7 +9,7 @@
 	<sj:head jqueryui="true" compressed="true"/>
 	
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="user-scalable=no, initial-scale = 1, minimum-scale = 1, maximum-scale = 1, width=device-width" />
 	<title><s:text name="application.title"/></title>
@@ -46,7 +46,7 @@
 			A nova senha será enviada para o email do usuário.
 			</div>			
 	      	<p>
-	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="Número do Usuário OAP" placeholder="Número do Usuário OAP" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
+	      		<s:textfield name="user.nrUsuario" id="nrUsuario" required="true" title="Número do Usuário" placeholder="Número do Usuário" cssStyle="width:300px" onkeypress="javascript:validarConteudo(event, 'numero');"/>
 	      	</P>
 	      	<!--p-->
 	      		<!--s:textfield name="dataNascimento" id="dataNascimento" title="Data Nascimento" placeholder="Data Nascimento"  cssStyle="width:300px"/-->
@@ -63,7 +63,7 @@
 					<img id="indicator" src="images/indicator.gif" alt="Loading..." style="display:none"/>
 				</td>
 				<td>		
-		   	   		<s:submit action="loginOap" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
+		   	   		<s:submit action="login" id="init" key="label.exit" cssClass="button" cssStyle="width:200px"/>
 				</td>		
 			</tr>
 		</table>

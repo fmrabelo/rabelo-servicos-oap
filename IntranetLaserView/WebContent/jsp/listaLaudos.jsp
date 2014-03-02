@@ -7,8 +7,8 @@
 	
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<script type="text/javascript" src="resources/js/oap.js"></script>
-	<title><s:text name="%{getText('label.listaLaudosOAP')}"/></title>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
+	<title><s:text name="%{getText('label.listaLaudos')}"/></title>
 </head>
 
 
@@ -19,7 +19,7 @@
 	
 	<div class="widget titulo_branco_grande" align="center">
 		<p>
-			<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="50" height="50" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+			<img src="images/logo/logo1.jpg" alt="Logomarca" width="50" height="50" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 			<s:text name="%{getText('business.title')}"/>
 		</p>
 	</div>	
@@ -42,7 +42,7 @@
 		<table style="border-collapse:collapse; width: 100%;" align="center" cellpadding="1" cellspacing="1" border="0">
 			<tr>
 		        <td colspan="2" align="center" style="text-align: center;color: blue; text-decoration: none">
-		        	<img src="images/001_54.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+		        	<img src="images/001_54.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 		        	<b>${pessoaVo.cdPessoa}    -    ${pessoaVo.nomePessoa}
 		        </td>	   
 			</tr>
@@ -78,7 +78,7 @@
 		<br>
 		<s:if test="%{!pessoaVo.listaLaudos.isEmpty()}">
 			<div align="center" class="titulo_cinza_negrito_grande">
-				<img src="images/001_18.png" alt="Usuário OAP" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+				<img src="images/001_18.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 				<s:property value="pessoaVo.listaLaudos.size"/>
 				<s:if test="%{pessoaVo.listaLaudos.size>1}">  <s:text name="%{getText('label.laudosLocalizados')}"/></s:if>
 				<s:else>  <s:text name="%{getText('label.laudoLocalizado')}"/></s:else>				 
@@ -90,7 +90,7 @@
 	         	<s:text name="%{getText('label.back')}"/>
 	        </a>
 			
-			<div class="table oxo scrollListOap">
+			<div class="table oxo scrollList">
 				<article class="list">
 				<ul>
 					<table>
@@ -119,7 +119,7 @@
 		</s:if>
 	</div>
 	<div align="center" class="texto_Azul_12px">
-        <!-- <s:if test="%{pessoaVo.urlSite=='oap.com'}">
+        <!-- <s:if test="%{pessoaVo.urlSite=='is_url_site'}">
     		<s:url id="show" action="autenticacaoLaudoOnline"/>
          	<s:a href="%{show}">
          		<img src="images/001_23.png" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;

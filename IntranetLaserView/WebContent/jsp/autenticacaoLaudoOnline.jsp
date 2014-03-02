@@ -9,7 +9,7 @@
 	<s:head/>
 	<sx:head/>
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript" src="resources/js/oap.js"></script>
+	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title><s:text name="application.title"/></title>
 </head>
@@ -21,7 +21,7 @@
 	<table align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr> 
 		  	<td rowspan="2">
-				<img src="images/logo/logo1.jpg" alt="Logomarca OAP" width="150" height="130" border="0" style="background-color:transparent;"/>
+				<img src="images/logo/logo1.jpg" alt="Logomarca" width="150" height="130" border="0" style="background-color:transparent;"/>
 			</td>
 		</tr>
 		<tr>
