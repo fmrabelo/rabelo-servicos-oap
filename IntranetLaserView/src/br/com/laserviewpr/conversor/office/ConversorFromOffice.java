@@ -24,6 +24,7 @@ import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConv
  * Para deixar o openoffice aceitando tcp/ip: soffice -headless
  * -accept="socket,host=127.0.0.1,port=8100;urp;" -nofirststartwizard
  */
+
 public abstract class ConversorFromOffice
     implements ConversorPDF, Serializable
 {
