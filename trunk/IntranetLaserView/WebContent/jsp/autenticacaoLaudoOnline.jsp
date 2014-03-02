@@ -20,13 +20,8 @@
 
 	<table align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr> 
-		  	<td rowspan="2">
-				<img src="images/logo/logo1.jpg" alt="Logomarca" width="150" height="130" border="0" style="background-color:transparent;"/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<br><br><span class="texto_TNR_Azul_26px"><s:text name="business.title"/></span>					
+		  	<td>
+				<img src="images/logo/header.jpg" alt="Logomarca"  border="0" style="background-color:transparent;"/>
 			</td>
 		</tr>
 	</table>
