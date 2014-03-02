@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<Context path="/IntranetLaserView">  
+      <Resource  
+      name="jdbc/ADCON"  
+      type="javax.sql.DataSource"  
+      maxActive="20"  
+      maxIdle="10"  
+      maxWait="5000"  
+      username="oap"  
+      password="oap123"  
+      driverClassName="oracle.jdbc.driver.OracleDriver"  
+      url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON"
+      auth="Container"  
+      />        
+      
+      <!--url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON" #Acesso Externo OAP ** DESENV ** -->
+      <!--url="jdbc:oracle:thin:@192.168.0.31:1521:ADCON" #Acesso Interno OAP **** PRODUÇÃO **** -->
+            
+</Context>
