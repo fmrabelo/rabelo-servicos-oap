@@ -1,19 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>  
-<Context path="/IntranetLaserView">  
-      <Resource  
-      name="jdbc/ADCON"  
-      type="javax.sql.DataSource"  
-      maxActive="20"  
-      maxIdle="10"  
-      maxWait="5000"  
-      username="oap"  
-      password="oap123"  
-      driverClassName="oracle.jdbc.driver.OracleDriver"  
-      url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON"
-      auth="Container"  
-      />        
-      
-      <!--url="jdbc:oracle:thin:@186.215.182.36:15211:ADCON" #Acesso Externo OAP ** DESENV ** -->
-      <!--url="jdbc:oracle:thin:@192.168.0.31:1521:ADCON" #Acesso Interno OAP **** PRODUÇÃO **** -->
-            
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/IntranetLaserView">
+
+	<Resource name="jdbc/clinic" 
+		auth="Container" 
+		maxActive="50" 
+		maxIdle="10" 
+		maxWait="15000" 
+		username="laserview"
+		password="laserview#2015"
+		factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+	    driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		type="javax.sql.DataSource"
+	    url="jdbc:sqlserver://localhost:1433;databaseName=clinic;"
+	    removeAbandoned="true"
+	    removeAbandonedTimeout="30"
+	    logAbandoned="true" 	    
+    	validationQuery="select 1"/>
+
+	<!--Resource name="jdbc/sqlserv"
+	    auth="Container"
+	    factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+	  **--  driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+	    type="javax.sql.DataSource"
+	    maxActive="50"
+	    maxIdle="10"
+	    maxWait="15000"
+	    username="username"
+	    password="password"
+	    url="jdbc:sqlserver://127.0.0.1:1433;databaseName=SQLDB;"
+	    removeAbandoned="true"
+	    removeAbandonedTimeout="30"
+	    logAbandoned="true" /--> 
+
 </Context>

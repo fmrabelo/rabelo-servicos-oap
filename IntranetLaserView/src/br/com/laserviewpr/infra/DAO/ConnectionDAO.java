@@ -81,12 +81,12 @@ final class ConnectionDAO
 
 		System.out.printf("%n> Executando Classe ConnectionDAO.getConection() %n");
 		DatabaseMetaData db = null;
-		final String erroJDBC = "> ERRO: Conexao oracle (jdbc/ADCON) nao criada...";
+		final String erroJDBC = "> ERRO: Conexao com Base de Dados (jdbc/clinic) nao criada...";
 		try
 		{
 			final Context initContext = new InitialContext();
 			final Context envContext = (Context)initContext.lookup(DATASOURCENAME);
-			final DataSource ds = (DataSource)envContext.lookup("jdbc/ADCON");
+			final DataSource ds = (DataSource)envContext.lookup("jdbc/clinic");
 			conn = ds.getConnection();
 			if (conn == null)
 			{
@@ -94,7 +94,7 @@ final class ConnectionDAO
 			}
 			else
 			{
-				System.err.println("[ OK ] Conexao oracle (jdbc/ADCON) criada com sucesso...");
+				System.err.println("[ OK ] Conexao (jdbc/clinic) criada com sucesso...");
 				db = conn.getMetaData();
 				if (db != null)
 				{
