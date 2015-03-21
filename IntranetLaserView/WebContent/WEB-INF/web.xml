@@ -54,13 +54,22 @@
        <url-pattern>/servletReport</url-pattern>  
     </servlet-mapping> 	
 	
-  <!-- conexao Oracle -->
+  <!-- conexao Oracle 
   <resource-ref>
 		 <description>Oracle Datasource - Conexão DataBase</description>
 		 <res-ref-name>jdbc/ADCON</res-ref-name>
 		 <res-type>javax.sql.DataSource</res-type>
 		 <res-auth>Container</res-auth>
   </resource-ref>
+  -->
+  
+  <!-- conexao sqlserver -->
+	<resource-ref>
+	    <description>Connection Pool SQLSERVER</description>
+	    <res-ref-name>jdbc/clinic</res-ref-name>
+	    <res-type>javax.sql.DataSource</res-type>
+	    <res-auth>Container</res-auth>
+	</resource-ref>  
 
   <!-- Definindo session-timeout de sessão web em minutos-->
   <session-config>
