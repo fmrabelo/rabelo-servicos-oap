@@ -16,20 +16,4 @@
 	    removeAbandonedTimeout="30"
 	    logAbandoned="true" 	    
     	validationQuery="select 1"/>
-
-	<!--Resource name="jdbc/sqlserv"
-	    auth="Container"
-	    factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-	  **--  driverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-	    type="javax.sql.DataSource"
-	    maxActive="50"
-	    maxIdle="10"
-	    maxWait="15000"
-	    username="username"
-	    password="password"
-	    url="jdbc:sqlserver://127.0.0.1:1433;databaseName=SQLDB;"
-	    removeAbandoned="true"
-	    removeAbandonedTimeout="30"
-	    logAbandoned="true" /--> 
-
 </Context>
