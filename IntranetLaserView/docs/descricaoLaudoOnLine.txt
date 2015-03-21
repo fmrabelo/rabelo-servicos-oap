@@ -1,0 +1,199 @@
+
+==============================================================================================================================
+
+	Descrição das Funcionalidades do Sistema de Laudos e Agenda On Line
+==============================================================================================================================
+
+- 1) 	Área Restrita aos Usuários da empresa.
+	Funcionalidades realizadas pelos usuários internos. (Exemplo na OAP:  http://186.215.182.36:8080/IntranetOAP/loginOap)
+
+	Na tela de Login, há opção para alterar senha e recuperar senha esquecida.
+	Para recuperar senha esquecida é necessário informar: Número do Usuário e o e-mail cadastrados.
+	Para alterar senha é necessário informar: Número do Usuário, senha atual, nova senha e confirmar a nova senha.
+	
+	No Login, os seguinte dados são necessários para autenticação: Nº Usuário cadastrado e a Senha (Exemplo da oap. usuario: 1 ou 20 ,  senha:123456)
+
+	Após Login, o usuário com qualquer perfil terá acesso às seguintes opções: 
+	- Pesquisar Paciente pelo seu Código ou Nome, caso retorne um ou mais pacientes, basta clicar no nome para abrir os laudos deste.
+	- Acessar a Agenda do usuário logado e navegar através da data.
+		Exemplo de usuário usado na OAP para teste dessa opção: Código 20 : FABIO CECCON SILVA
+
+	
+	O usuário com perfil de Administrador terá acesso, além das anteriores, também à opção de cadastro de Novo Usuário.
+	Para cadastro de Novo Usuário são exigidos os seguintes campos:	Número do Usuário, E-mail, Confirmação de email, Senha e Confirmação de senha.
+		Exemplo de usuário usado na OAP: Código 1 : IAS INTERACTIVE SYSTEMS
+
+
+- 2) 	Área de acesso Externo para consultar Exames dos Pacientes - (Laudos On Line). Tanto Pacientes quanto seus médicos podem acessar os Laudos.
+
+	Funcionalidades para consultar laudos, realizadas por usuários Externos. 
+	(Exemplo na OAP:  http://186.215.182.36:8080/IntranetOAP/autenticacaoLaudoOnline )
+
+	A tela de Login exige o Código do Paciente e a sua Data de Nascimento para autenticação.
+	Exemplo de usuário usado na OAP: Código: 114863 e Data Nascimento: 01/01/1980
+
+	Após a autenticação do Paciente será apresentada uma lista de Laudos, contendo o Nome do Exame e Data de Realização.
+	A lista de Laudos é classificada por ordem DECRESCENTE da DATA de realização do Exame.
+	Para visualizar um Laudo basta clicar no nome do Exame apresentado na lista.
+	
+	Para visualizar os Laudos é necessário o programa Acrobat Reader. 
+	Na página há explicação de como o Paciente deverá proceder para fazer o download do Acrobat Reader.
+
+
+- 3) Emails de erro ou aviso serão enviados pelo sistema para a empresa. 
+	É necessário configurar dados de e-mail da empresa no arquivo /resource/email.properties na aplicação
+	Exemplo de configuração na OAP: 
+	
+	mail.host=smtp.gmail.com
+	mail.smtp.port=587	
+	#usuario e senha de autenticacao
+	#mail.smtp.user=oap.pr.email@gmail.com
+	#mail.smtp.pass=oap@netuno
+	#mail.smtp.auth=true
+
+
+==============================================================================================================================
+	Tecnologias Utilizadas
+==============================================================================================================================
+
+IDE Eclipse - Version: 3.3.2
+Java - jdk1.6.0_14
+Container Web - apache-tomcat-6.0.33
+Struts 2 MVC - struts2-core-2.2.3.1
+JQuery, JSP, Servlets
+jasperreports-2.0.5
+
+Drivers de Conexão a Banco de Dados:
+Foram utilizados dentro da pasta LIB do Tomcat: 
+ Oracle: apache-tomcat-6.0.33\lib\ojdbc14.jar
+ SQLServer: apache-tomcat-6.0.33\lib\sqljdbc4.jar
+JDBC - Na camada de persistência NÃO foi utilizado nenhum framework ORM ( Hipernate ou JPA )
+
+==============================================================================================================================
+
+	Lista de Querys Utilizadas no Sistema e que necessita adequação para Base de dados Específica dos novos clientes
+==============================================================================================================================
+
+
+// Autenticar Usuário Interno (Área Restrita):
+SELECT T1.IDWEB, T1.NRUSUARIO, T1.SENHAWEB, T1.EMAILWEB FROM SYSADM.acwebacesso T1 WHERE T1.NRUSUARIO = 1
+
+
+// Verificar Código válido de colaborador antes de inserir novo Usuário Interno.
+select nrusuario from sysadm.ACUSUARI where nrusuario = ?1
+
+// Inserir novo Usuário Interno.
+INSERT INTO SYSADM.acwebacesso (idweb, nrusuario, senhaweb, emailweb) VALUES ( SYSADM.ID_WEB.nextval, ?1, '?2', '?3'
+
+// Alterar senha de Usuário Interno.
+UPDATE SYSADM.acwebacesso set SENHAWEB = '?1' where NRUSUARIO = '?2' 
+
+
+// Paciente pelo Nome
+SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE UPPER(T1.NMPESSOA) LIKE UPPER('?1%') ORDER BY T1.CDPESSOA ASC 
+
+// Autenticação de Paciente Externo (Laudo On Line). Pesquisa Paciente pelo Código de matricula da Pessoa:
+SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE T1.CDPESSOA = 114863
+
+
+// Dados da pessoa e dados do usuário usando o código de usuario
+SELECT USU.CDPESSOA, USU.NMUSUARIO, USU.CDUSUARIO, USU.FLMEDICO, PES.NMPESSOA, PES.DSFORMTRAT, PES.DTNASC FROM SYSADM.ACPESSOA PES, SYSADM.ACUSUARI USU WHERE PES.CDPESSOA=USU.CDPESSOA AND USU.NRUSUARIO =
+
+
+
+// Medico solicitante:
+SELECT T2.DSFORMTRAT || ' ' || T2.NMPESSOA NOME 
+	FROM SYSADM.AARESULTADO T1, SYSADM.ACPESSOA T2 
+	WHERE T1.CDORIGEM = T2.CDPESSOA 
+	AND T1.NRSEQRESULTADO = ?1;
+
+
+// Medico responsável pela execução do Exame / Laudo.
+Select   T1.NRSEQMEDICO, T4.CDPESSOA, T1.NRUSUARIO, T1.FLREVISOR, T3.NMPESSOA, T2.DSORGCLAS,	 
+	         T3.DSFORMTRAT, T3.TPSEXO ,T2.IMAGEMBIN	 
+	From    SYSADM.ACREQUISICAOMEDICO T1, SYSADM.ACUSUARI T2,
+	        SYSADM.ACPESSOA T3, SYSADM.AARESULTADOPR T4	 
+	WHERE  T1.NRUSUARIO = T2.NRUSUARIO	
+	And    T2.CDPESSOA = T3.CDPESSOA	
+	And    T3.CDPESSOA = T4.CDPESSOA
+	AND T1.NRREQUISICAO = ?1
+	AND T4.NRSEQRESULTADO = ?2
+	ORDER BY NRSEQMEDICO	 
+
+
+
+// Dados da Clínica como pessoa Jurídica.
+Select CL.NMPESSOA, CL.DSENDERECO, CL.DSREFEREN, CL.DSTELEFONE, CL.DSFAX, CL.NRDDD, CL.DSBAIRRO,	 
+	        CL.SGESTADO, CL.CDCIDADE, CL.NRCEP, CL.SGPAIS, CD.NMCIDADE	 
+		from SYSADM.MBCLIENTE CL, SYSADM.MBCIDADE CD	 
+	where CL.CDPESSOA = 0	 
+		AND CL.CDCIDADE = CD.CDCIDADE	 
+		AND CL.SGPAIS = CL.SGPAIS	 
+		AND CL.SGESTADO= CL.SGESTADO	 
+
+
+
+// Email da Empresa
+SELECT DSEMAIL FROM SYSADM.ACPESSOA T1, SYSADM.ACPREFERENCES T2 WHERE T1.CDPESSOA = T2.CDINSTITUICAO
+
+
+
+//Dados da Agenda usando como parametros o nro do usuário (médico) e a data da agenda
+SELECT T1.DTCONSULTA,	
+	TO_CHAR(T1.HRAGENDA, 'HH24:MI') HRAGENDA,	
+	T1.NRUSUARIO,	
+	T1.CDPESSOA,	
+	TO_CHAR(T1.DSOBSAGENDA) DSOBSAGENDA,	
+	T1.TPVAGA,	
+	T1.FLCONFIRMADO,	
+	T2.NMUSUARIO,	
+	T3.NMPESSOA,      	
+	T5.DSCONVENIO	
+FROM    SYSADM.ACAGENDA T1,	
+        SYSADM.ACUSUARI T2,	
+        SYSADM.ACPESSOA T3,	
+        SYSADM.ACCONVENIO T5	
+WHERE T1.NRUSUARIO = 1
+	AND T1.DTCONSULTA = TO_DATE('01/01/2015') 
+	AND T1.NRUSUARIO = T2.NRUSUARIO 
+	AND T1.CDPESSOA = T3.CDPESSOA 
+	AND T1.CDCONVENIO = T5.CDCONVENIO	
+ORDER BY T1.HRAGENDA	
+
+
+
+//Telefone de usuário específico
+SELECT DISTINCT  (T4.NRDDD || ' ' || T4.DSTELEFONE) FONE 
+	FROM    SYSADM.ACAGENDA T1, SYSADM.ACTELEFONE T4 
+	WHERE T1.NRUSUARIO = ? 
+		AND T1.CDPESSOA = ?
+		AND T1.DTCONSULTA = TO_DATE( ? ) 
+		AND T1.CDPESSOA = T4.CDPESSOA(+) 
+
+
+
+
+//laudos
+
+SELECT T2.NRREQUISICAO, T1.NRSEQRESULTADO, T1.DTCONSULTA, T1.HRAGENDA,T1.NRUSUARIOAMB, 
+	T1.CDPESSOA, T2.CDPROCED, T2.DSEXAMECOMPL, T2.NRLAUDO, T2.NRUSUARIOINC, T2.DHINCLUSAO, 
+	T2.NRUSUARIOALT, T2.DHALTERACAO, T1.CDCONVENIO,T2.NRUSUSOLIC, T2.DSRTF 
+FROM SYSADM.AARESULTADO T1, SYSADM.ACREQUISICAO T2 
+ WHERE T1.NRSEQRESULTADO = T2.NRSEQRESULTADO 
+	 AND T1.TPPRESENCA = 5 
+	 AND T1.CDPESSOA = ? // paciente
+	 AND T2.TPLAUDO = 2 // 2=Laudo tipo RTF.
+	 AND T2.FLLIBERADO = 1 // laudo liberado
+	 AND T2.NRSEQRESULTADO IS NOT NULL 
+ORDER BY T1.DTCONSULTA DESC 
+
+
+//Imagens Por Laudos
+
+SELECT T1.IMAGEMBIN IMAGEM  	FROM SYSADM.ACREQUISIMAGEM T1 	WHERE T1.NRREQUISICAO = ? AND T1.CDPROCED = ? 
+
+
+
+
+
+
