@@ -1,4 +1,15 @@
 
+Tomcat instalado no windows e configurado para start automatico.
+
+==============================================================================================================================
+
+Local ambiente desenvolvimento na LazerView: C:\Program Files (x86)\laserViewWeb
+
+Codigo Usuario e data nascimento para testes web: 
+7689 - 01/01/1988
+11932 - 31/10/1990
+11934 - 30/11/1991
+
 ==============================================================================================================================
 
 	Descrição das Funcionalidades do Sistema de Laudos e Agenda On Line
