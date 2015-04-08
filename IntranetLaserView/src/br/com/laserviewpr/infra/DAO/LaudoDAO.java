@@ -101,7 +101,10 @@ final class LaudoDAO
 					str.append(" AND T2.NRREQUISICAO = ").append(nroRequisicao);
 				}
 				str.append(" ORDER BY T1.DTCONSULTA DESC ");
-				rs = stm.executeQuery(str.toString());
+				
+				//TODO: MIGRAR PARA BASE LAZERVIEW
+				//rs = stm.executeQuery(str.toString());
+				
 				lista = new ArrayList<LaudoVO>();
 				while ((rs != null) && rs.next())
 				{

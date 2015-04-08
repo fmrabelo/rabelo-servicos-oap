@@ -395,14 +395,16 @@ final class PessoaDAO
 			if ((DaoFactory.getInstance().getConection() != null) && (codPessoa != null))
 			{
 				stm = DaoFactory.getInstance().getConection().createStatement();
-				rs = stm.executeQuery("SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE T1.CDPESSOA = "
-				    + codPessoa);
+//				rs = stm.executeQuery("SELECT T1.CDPESSOA, T1.NMPESSOA, T1.DTNASC FROM SYSADM.ACPESSOA T1 WHERE T1.CDPESSOA = "
+//				    + codPessoa);
+				rs = stm.executeQuery("SELECT T1.tbCodigo, T1.tbNome, T1.tbDtNasc FROM clinic.dbo.clid060 T1 WHERE T1.tbCodigo = "
+					    + codPessoa);
 				p = new PessoaVO();
 				while ((rs != null) && rs.next())
 				{
-					p.setCdPessoa(rs.getLong("CDPESSOA"));
-					p.setNomePessoa(rs.getString("NMPESSOA"));
-					p.setDataNascimento(rs.getDate("DTNASC"));
+					p.setCdPessoa(rs.getLong("tbCodigo"));
+					p.setNomePessoa(rs.getString("tbNome"));
+					p.setDataNascimento(rs.getDate("tbDtNasc"));
 				}
 			}
 		}
