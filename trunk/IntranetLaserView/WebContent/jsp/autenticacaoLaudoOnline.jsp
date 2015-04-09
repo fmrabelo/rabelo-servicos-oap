@@ -18,14 +18,14 @@
 <div align="center">
 <s:form action="autenticarPaciente" method="post" validate="true">
 
-	<table align="center" cellpadding="1" cellspacing="1" border="0">
+	<table width="60%" height="30%" align="center" cellpadding="1" cellspacing="1" border="0">
 		<tr> 
 		  	<td>
 				<img src="images/logo/header.jpg" alt="Logomarca"  border="0" style="background-color:transparent;"/>
 			</td>
 		</tr>
 	</table>
-	<table style="border-collapse:collapse;background-color: #EAF4FF;" width="600px" height="300px" align="center" cellpadding="1" cellspacing="1" border="0px">
+	<table style="border-collapse:collapse;background-color: #EAF4FF;" width="70%" height="100%" align="center" cellpadding="1" cellspacing="1" border="0px">
 		    <tr> 
 		    	<td colspan="2" valign="top" align="center" bordercolor="#EAF4FF;">		    		
 					<span class="texto_Azul_Negrito_20px">

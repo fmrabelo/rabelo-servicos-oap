@@ -94,10 +94,12 @@ public class LaudoOnlineAction
 				// paciente.
 				this.getPessoaVo().setUrlSite("is_url_site");
 			}
-			// pesquisar laudos.
+			// pesquisar laudos na base de dados
 			// this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
 			// null, null));
-			this.lerArquivosImages();
+			
+			//imagens de laudos 
+			this.setListaLaudos(this.lerArquivosImages());
 			if (!Validator.notEmptyCollection(this.getListaLaudos()))
 			{
 				this.addFieldError("nroCadastroPaciente", "Nenhum Laudo localizado!!");
