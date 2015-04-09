@@ -6,6 +6,7 @@
   
    <include file="struts-default.xml"/>
    <include file="jasperreports-default.xml"/>   
+   <constant name="struts.action.excludePattern" value="/carregarArquivoLocal"/>
    <constant name="struts.action.excludePattern" value="/servletReport"/>
 	
    <package name="default" extends="jasperreports-default, struts-default">

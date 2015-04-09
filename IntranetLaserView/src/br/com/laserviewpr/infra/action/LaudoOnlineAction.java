@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 
 import br.com.laserviewpr.infra.DAO.DaoFactory;
+import br.com.laserviewpr.infra.action.servlet.CarregarArquivoLocal;
 import br.com.laserviewpr.infra.report.ReportParameters;
 import br.com.laserviewpr.infra.util.DateUtils;
 import br.com.laserviewpr.infra.util.GenericUtils;
@@ -276,7 +277,7 @@ public class LaudoOnlineAction
 
 		// String caminho = javax.swing.JOptionPane.showInputDialog("digite o
 		// diretorio a ser listado");
-		String caminho = "C:\\Documentos\\Sistemas\\Risc\\Images";
+		String caminho = CarregarArquivoLocal.DIRETORIO_IMAGENS;
 		List<LaudoVO> lista = null;
 		File raiz = new File(caminho);
 		if (raiz.exists())
