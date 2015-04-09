@@ -6,7 +6,12 @@ function openLaudo(nroCadastroPaciente, nrseqresultado, nrrequisicao)
 	window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
 }
 
-
+function openArquivoLocal(nomearquivo, codconvenio)
+{
+	var _action = '/IntranetLaserView/carregarArquivoLocal?Text1=local&nomearquivo='+nomearquivo+'&codconvenio='+codconvenio;
+	//console.log(_action);
+	window.open(_action,'laudoOnLine','resizable=yes,scrollbars=yes,menubar=no,width=600,height=700,toolbar=no').focus();
+}
 /*
   Função 
 	validarConteudo
