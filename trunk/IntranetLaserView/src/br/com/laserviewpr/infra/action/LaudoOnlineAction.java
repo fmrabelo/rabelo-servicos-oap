@@ -3,9 +3,12 @@
  */
 package br.com.laserviewpr.infra.action;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
@@ -13,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 import br.com.laserviewpr.infra.DAO.DaoFactory;
 import br.com.laserviewpr.infra.report.ReportParameters;
 import br.com.laserviewpr.infra.util.DateUtils;
+import br.com.laserviewpr.infra.util.GenericUtils;
 import br.com.laserviewpr.infra.util.Validator;
 import br.com.laserviewpr.intranet.vo.LaudoVO;
 import br.com.laserviewpr.intranet.vo.PessoaVO;
@@ -90,8 +94,9 @@ public class LaudoOnlineAction
 				this.getPessoaVo().setUrlSite("is_url_site");
 			}
 			// pesquisar laudos.
-			this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
-			    null, null));
+			// this.setListaLaudos(DaoFactory.getInstance().getLaudos(this.getNroCadastroPaciente(),
+			// null, null));
+			this.lerArquivosImages();
 			if (!Validator.notEmptyCollection(this.getListaLaudos()))
 			{
 				this.addFieldError("nroCadastroPaciente", "Nenhum Laudo localizado!!");
@@ -257,6 +262,55 @@ public class LaudoOnlineAction
 	public void setNroLaudo (Long nroLaudo)
 	{
 		this.nroLaudo = nroLaudo;
+	}
+
+	/**
+	 * Método responsavel por ler nomes dos arquivos de imagens para paciente
+	 * especifico.
+	 */
+	public List<LaudoVO> lerArquivosImages ()
+	{
+		// C:\Documentos\Sistemas\Risc\Images
+		// Há 3 arquivos nesse diretorio: 11932_080415_1.pdf,
+		// 11932_080415_2.JPG, 11932_080415_2.pdf
+
+		// String caminho = javax.swing.JOptionPane.showInputDialog("digite o
+		// diretorio a ser listado");
+		String caminho = "C:\\Documentos\\Sistemas\\Risc\\Images";
+		List<LaudoVO> lista = null;
+		File raiz = new File(caminho);
+		if (raiz.exists())
+		{
+			final StringBuilder sb = new StringBuilder();
+			Scanner scanner = null;
+			lista = new ArrayList<LaudoVO>();
+			LaudoVO p = null;
+			for (File f : raiz.listFiles())
+			{
+				if (f.isFile())
+				{
+					p = new LaudoVO();
+					// quebrar nome do arquivo usando expressao regular:
+					// 11932_080415_2.JPG
+					scanner = new Scanner(f.getName()).useDelimiter("_");
+					while (scanner.hasNext())
+					{
+						p.setCdconvenio(GenericUtils.toLong(scanner.next()));
+						p.setDsexamecompl(f.getName());
+						// p.setDtconsulta(GenericUtils.formatarString(scanner.next(),""));
+						scanner.next();// data
+						scanner.next();// sequencia + extensao
+					}
+					lista.add(p);
+					// log
+					sb.append(f.getName());
+					sb.append("\n");
+				}
+			}
+			System.out.println(sb.toString());
+		}
+		raiz = null;
+		return lista;
 	}
 
 }
