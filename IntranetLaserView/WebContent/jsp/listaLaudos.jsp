@@ -19,8 +19,8 @@
 	
 	<div class="widget titulo_branco_grande" align="center">
 		<p>
-			<img src="images/logo/logo1.jpg" alt="Logomarca" width="50" height="50" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
-			<s:text name="%{getText('business.title')}"/>
+			<img src="images/logo/logo1.jpg" alt="Logomarca" width="100" height="50" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
+			<!--s:text name="%{getText('business.title')}"/-->
 		</p>
 	</div>	
 
@@ -78,7 +78,6 @@
 		<br>
 		<s:if test="%{!pessoaVo.listaLaudos.isEmpty()}">
 			<div align="center" class="titulo_cinza_negrito_grande">
-				<img src="images/001_18.png" alt="Usuário" width="20" height="20" border="0" style="background-color:transparent;"/>&nbsp;&nbsp;
 				<s:property value="pessoaVo.listaLaudos.size"/>
 				<s:if test="%{pessoaVo.listaLaudos.size>1}">  <s:text name="%{getText('label.laudosLocalizados')}"/></s:if>
 				<s:else>  <s:text name="%{getText('label.laudoLocalizado')}"/></s:else>				 
