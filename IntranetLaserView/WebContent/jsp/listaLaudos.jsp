@@ -102,7 +102,7 @@
 					<s:iterator value="pessoaVo.listaLaudos" status="songStatus">
 						<tr align="left">
 							<td>
-							<a href="javascript:openLaudo('${pessoaVo.cdPessoa}','<s:property value="nrseqresultado"/>','<s:property value="nrrequisicao"/>');">
+							<a href="javascript:openArquivoLocal('${dsexamecompl}','${pessoaVo.cdPessoa}');">
 								<img src="images/printer1.jpg" border="0" class="list li img" style="width:1.4em; height:1.2em;" alt='Imprimir'/>
 								${dsexamecompl}
 							</a>			
