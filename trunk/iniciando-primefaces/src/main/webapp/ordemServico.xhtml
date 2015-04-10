@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta charset="UTF-8" />
+</h:head>
+<h:body>
+
+	<h:form>
+
+		<p:panel header="Cadastro de Ordem de Serviço">
+			<h:panelGrid columns="2">
+
+				<p:outputLabel value="Cliente:" />
+				<h:inputText value="#{ordemServicoMB.ordemServico.cliente}" required="true">
+					<f:validateLength minimum="5" maximum="60" />
+				</h:inputText>
+
+				<p:outputLabel value="Data Entrada:" />
+				<p:calendar pattern="dd/MM/yyyy" mask="99/99/9999"
+					value="#{ordemServicoMB.ordemServico.dataEntrada}" />
+
+				<p:outputLabel value="Preço:" />
+				<h:inputText value="#{ordemServicoMB.ordemServico.preco}" required="true" alt="Preço"  >
+					<f:convertNumber minFractionDigits="2" type="number"/>
+					<f:validateDoubleRange minimum="1" />
+				</h:inputText>
+
+				<p:outputLabel value="Descrição:" />
+				<h:inputText value="#{ordemServicoMB.ordemServico.descricao}" required="true"/>
+
+				<p:commandButton value="Salvar" action="#{ordemServicoMB.salvar}" />
+			</h:panelGrid>
+		</p:panel>
+
+	</h:form>
+
+</h:body>
+</html>
