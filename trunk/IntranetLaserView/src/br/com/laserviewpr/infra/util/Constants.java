@@ -22,6 +22,7 @@ public abstract class Constants
 		// Formato de Data
 		public static final String formatDateExtensoBR = "dd' de 'MMMM' de 'yyyy";
 		public static final String formatDate = "dd/MM/yyyy";
+		public static final String formatDateMin = "dd/MM/yy";
 		public static final String formatDateTime = "dd/MM/yyyy HH:mm:ss";
 		public static final String formatTimeHHMMSS = "HH:mm:ss";
 		public static final String formatTimeHHMM = "HH:mm";
