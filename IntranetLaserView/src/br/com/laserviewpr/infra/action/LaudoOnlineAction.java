@@ -30,8 +30,9 @@ import com.opensymphony.xwork2.ActionSupport;
  * 
  * @author Rabelo Serviços.
  */
-public class LaudoOnlineAction extends ActionSupport implements
-		ReportParameters {
+public class LaudoOnlineAction extends ActionSupport
+		implements
+			ReportParameters {
 	/**
 	 * 
 	 */
@@ -49,9 +50,9 @@ public class LaudoOnlineAction extends ActionSupport implements
 	 * 
 	 */
 	@Override
-	@Action(value = "autenticacaoLaudoOnline", results = { @Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "success") })
+	@Action(value = "autenticacaoLaudoOnline", results = {@Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "success")})
 	public String execute() {
-		this.setDataNascimento(Calendar.getInstance().getTime());
+		//this.setDataNascimento(Calendar.getInstance().getTime());
 		return SUCCESS;
 	}
 
@@ -72,7 +73,7 @@ public class LaudoOnlineAction extends ActionSupport implements
 	 */
 	@Action(value = "listarLaudos", results = {
 			@Result(location = "/jsp/listaLaudos.jsp", name = "success"),
-			@Result(location = "/jsp/listaLaudos.jsp", name = "error") })
+			@Result(location = "/jsp/listaLaudos.jsp", name = "error")})
 	public String listarLaudos() throws Exception {
 		// pesquisar laudos
 		try {
@@ -114,7 +115,7 @@ public class LaudoOnlineAction extends ActionSupport implements
 	 */
 	@Action(value = "autenticarPaciente", results = {
 			@Result(location = "/jsp/listaLaudos.jsp", name = "success"),
-			@Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "error") })
+			@Result(location = "/jsp/autenticacaoLaudoOnline.jsp", name = "error")})
 	public String autenticarPaciente() {
 		final Long cdPessoa = this.getNroCadastroPaciente();
 
@@ -138,7 +139,7 @@ public class LaudoOnlineAction extends ActionSupport implements
 			if ((this.getPessoaVo() == null)
 					|| (this.getPessoaVo().getDataNascimento() == null)) {
 				this.addFieldError("nroCadastroPaciente",
-						"* Este Nº de Matricula está Incorreto!!");
+						"* Nº de Matricula Incorreto!!");
 				return ERROR;
 			}
 			// pessoa localizada, validar a data nascimento. Adicionar +1h nas
@@ -180,7 +181,8 @@ public class LaudoOnlineAction extends ActionSupport implements
 	 * @return the listaLaudos
 	 */
 	public List<LaudoVO> getListaLaudos() {
-		return this.getPessoaVo() != null ? this.getPessoaVo().getListaLaudos()
+		return this.getPessoaVo() != null
+				? this.getPessoaVo().getListaLaudos()
 				: null;
 	}
 

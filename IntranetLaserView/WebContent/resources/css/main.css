@@ -123,6 +123,7 @@ th {
 }
 
 .tdLabel {
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 }
 
@@ -340,10 +341,10 @@ A:hover {
 }
 
 .inputText_16px {
+	font-family: Verdana, monospace, Helvetica, sans-serif;
 	vertical-align: middle; 
 	width: 7em;
 	height: 20px;
-	font-family: inherit;
 	padding: 2px;
 	font-size: 22px; 
 	border: 1px solid #b9b9b9;
