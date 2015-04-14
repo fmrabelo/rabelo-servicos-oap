@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
 	<s:head/>
-	<sx:head/>
 	<link href="<s:url value="/resources/css/main.css"/>" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="resources/js/intranet.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -37,8 +35,13 @@
 			<tr>				
 				<td colspan="2"><span class="titulo_azul_negrito_grande"/></td>
 			</tr>
+			
 			<s:textfield id="nroCadastroPacienteId" name="nroCadastroPaciente" title="Código do Paciente" label="Código do Paciente" cssClass="inputText_16px"/>
-			<sx:datetimepicker name="dataNascimento" title="Data de Nascimento" label="Data de Nascimento" displayFormat="dd/MM/yyyy" cssClass="inputText_16px"/>
+			
+			<s:textfield id="dataNascimentoId" name="dataNascimento" size="10" maxlength="10" title="Data de Nascimento" 
+			label="Data de Nascimento" cssClass="inputText_16px" value="%{getText('{0,date,dd/MM/yyyy}',{dataNascimento})}"
+			onkeyup="javascript:formatarData(this); javascript:CalendarioFormataDigito(this);" onkeypress="return(validarConteudo(event, 'numero'));"/>
+
 			<div align="center">
 				<s:submit value="Acessar" onclick="javascrit:validarAutenticacaoLaudoOnLine();" cssClass="button" cssStyle="width:200px" align="center"/>
 			</div>	
