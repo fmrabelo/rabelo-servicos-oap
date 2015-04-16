@@ -11,11 +11,9 @@
 <h:body>
 	<h:form>
 		<h1>Olá</h1>
-		Nome:<h:inputText value="#{nomesBean.nome}"
-			binding="#{nomesBean.inputNome}" />
+		Nome:<h:inputText value="#{nomesBean.nome}" binding="#{nomesBean.inputNome}" />
 		<br />
-		<h:commandButton value="Adicionar" action="#{nomesBean.adicionar}"
-			binding="#{nomesBean.botaoAdicionar}" />
+		<h:commandButton value="Adicionar" action="#{nomesBean.adicionar}" binding="#{nomesBean.botaoAdicionar}" />
 		<br />
 		<ol>
 			<ui:repeat var="nome" value="#{nomesBean.nomes}">
