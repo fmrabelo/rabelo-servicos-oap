@@ -325,6 +325,19 @@ public final class GenericUtils
 		return string;
 	}
 
+	public static final String replaceALL (String string, String orig, String dest)
+	{
+		if (string == null)
+		{
+			return "";
+		}
+		if (string.indexOf(orig) > 0)
+		{
+			string = string.replaceAll(orig, dest);
+		}
+		return string;
+	}
+
 	/**
 	 * Método responsável por converter em maiúsculo e retirar acentuações e
 	 * cedilha do conteúdo string a ser pesquisado na base de dados.
