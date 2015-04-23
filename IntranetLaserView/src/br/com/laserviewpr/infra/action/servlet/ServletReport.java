@@ -203,7 +203,7 @@ public final class ServletReport
 			// TODO: Lógica para tratar especificamente as imagens de
 			// Microscopia, que provavelmente serão distribuidas 6 por página
 			// A4.
-			final String nomeExame = laudo.getDsexamecompl();
+			final String nomeExame = GenericUtils.replaceValidUpperChar(laudo.getDsexamecompl());
 			// if ((nomeExame != null) &&
 			// nomeExame.trim().toUpperCase().startsWith("MICROSCOPIA"))
 			// {
@@ -238,8 +238,10 @@ public final class ServletReport
 			iniTime = System.currentTimeMillis();
 			System.out.print("> apresentar o pdf final com nome para o arquivo pdf....");
 			final StringBuilder pdfFileName = new StringBuilder("laudoOnline_");
-			pdfFileName.append(nomeExame != null ? nomeExame : "").append("_").append(
-			    laudo.getCdpessoa() != null ? laudo.getCdpessoa() : "");
+			pdfFileName.append(laudo.getCdpessoa() != null ? laudo.getCdpessoa() : "").append("_").append(
+			    nomeExame != null ? nomeExame.toUpperCase() : "").append("_").append(
+			    GenericUtils.replaceALL(DateUtils.formatDateDDMMYYYY(laudo.getDtconsulta()), "/",
+			        "_"));
 			final LaudoReport report = new LaudoReport();
 			report.showReport(res, pdfFileName.toString(), byteArrayMerged, GenericReport.PDF_TYPE);
 			print((System.currentTimeMillis() - iniTime));
