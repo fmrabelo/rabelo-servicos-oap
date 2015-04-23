@@ -1,5 +1,11 @@
 
-Tomcat instalado no windows e configurado para start automatico.
+Tomcat6 instalado no windows e configurado para start automatico.
+
+Descrição do Sistema na LaserView:
+	O sistema processa a Autenticação do usuário via codigo do paciente e sua data de nascimento.
+	Após autenticação o usuário poderá pesquisar os exames.
+	O Sistema fará busca numa determinada pasta do Windows e apresentará a lista de arquivos, imagens ou pdf.
+	O usuário selecionada o arquivo e o sistema apresenta o conteúdo no broser via Servlet java.
 
 ==============================================================================================================================
 
